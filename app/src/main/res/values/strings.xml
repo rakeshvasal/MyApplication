@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="server_client_id">485955961185-rbfu3301ikvnn7qjcaktr83fl85mnu1l.apps.googleusercontent.com</string>
+    <string name="loading">Please Wait....</string>
+    <string name="Dashboard">Dashboard</string>
+    <string name="Image_Capture">Image_Capture</string>
+</resources>
