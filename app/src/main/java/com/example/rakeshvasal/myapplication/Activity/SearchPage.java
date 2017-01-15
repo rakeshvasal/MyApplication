@@ -86,14 +86,14 @@ public class SearchPage extends ActionBarActivity {
         DatabaseHelper helper = new DatabaseHelper(SearchPage.this);
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        String[] Column = new String[]{DatabaseHelper.RESTAURANT_NAME,DatabaseHelper.RESTAURANT_ID,DatabaseHelper.LOCALITY};
+        String[] Column = new String[]{DatabaseHelper.RESTAURANT_NAME,DatabaseHelper.RESTAURANT_ID,DatabaseHelper.RESTAURANT_LOCALITY};
 
         Cursor cursor = db.query(DatabaseHelper.RESTAURANT_TABLE,Column,null,null,null,null,null,null);
         if(cursor!=null) {
             while (cursor.moveToNext()) {
                 Search_Row_Item search_row_item = new Search_Row_Item(cursor.getString(cursor.getColumnIndex(DatabaseHelper.RESTAURANT_NAME)),
                         cursor.getString(cursor.getColumnIndex(DatabaseHelper.RESTAURANT_ID)),
-                        cursor.getString(cursor.getColumnIndex(DatabaseHelper.LOCALITY)));
+                        cursor.getString(cursor.getColumnIndex(DatabaseHelper.RESTAURANT_LOCALITY)));
                 search_item.add(search_row_item);
             }
             cursor.close();

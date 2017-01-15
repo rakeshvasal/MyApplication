@@ -33,6 +33,6 @@ public class SplashScreen extends ActionBarActivity {
                 startActivity(i);
                 finish();
             }
-        },5000);
+        },1000);
     }
 }

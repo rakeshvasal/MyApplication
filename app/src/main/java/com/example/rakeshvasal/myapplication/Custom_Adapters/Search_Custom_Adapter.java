@@ -73,15 +73,15 @@ public class Search_Custom_Adapter extends ArrayAdapter<Search_Row_Item> {
             @Override
             public void onClick(View v) {
                 String lat="",longitude="";
-                String[] column = new String[]{DatabaseHelper.RESTAURANT_ID,DatabaseHelper.LATITUDE,DatabaseHelper.LONGITUDE};
+                String[] column = new String[]{DatabaseHelper.RESTAURANT_ID,DatabaseHelper.RESTAURANT_LATITUDE,DatabaseHelper.RESTAURANT_LONGITUDE};
 
                 DatabaseHelper helper = new DatabaseHelper(activity);
                 SQLiteDatabase db = helper.getWritableDatabase();
                 Cursor cursor = db.query(DatabaseHelper.RESTAURANT_TABLE, column, DatabaseHelper.RESTAURANT_ID + "='" + row_item.getRestaurant_id() + "'", null, null, null, null, null);
 
                 while (cursor.moveToNext()){
-                    lat = cursor.getString(cursor.getColumnIndex(DatabaseHelper.LATITUDE));
-                    longitude = cursor.getString(cursor.getColumnIndex(DatabaseHelper.LONGITUDE));
+                    lat = cursor.getString(cursor.getColumnIndex(DatabaseHelper.RESTAURANT_LATITUDE));
+                    longitude = cursor.getString(cursor.getColumnIndex(DatabaseHelper.RESTAURANT_LONGITUDE));
 
                 }
 

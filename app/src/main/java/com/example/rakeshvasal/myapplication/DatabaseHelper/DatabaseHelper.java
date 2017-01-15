@@ -62,34 +62,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static String RESTAURANT_TABLE = "restaurant_table";
     public static String RESTAURANT_ID_PK = "_id";
     public static String RESTAURANT_ID = "restaurant_id";
-    public static String LOCALITY = "locality";
-    public static String ADDRESS = "address";
-    public static String SITE_URL = "siteurl";
-    public static String LATITUDE = "latitude";
-    public static String LONGITUDE = "longitude";
+    public static String RESTAURANT_LOCALITY = "locality";
+    public static String RESTAURANT_ADDRESS = "address";
+    public static String RESTAURANT_SITE_URL = "siteurl";
+    public static String RESTAURANT_LATITUDE = "latitude";
+    public static String RESTAURANT_LONGITUDE = "longitude";
     public static String RESTAURANT_NAME = "restaurant_name";
-    public static String PINCODE ="pincode";
-    public static String COUNTRY_CODE ="country_code";
-    public static String THUMB_URL ="thumb_url";
-    public static String FEATURE_URL ="feature_url";
-    public static String CONTACT_NUMBERS ="contact_numbers";
-    public static String AVERAGE_RATING ="average_rating";
+    public static String RESTAURANT_PINCODE ="pincode";
+    public static String RESTAURANT_CITY ="city";
+    public static String RESTAURANT_COUNTRY_CODE ="country_code";
+    public static String RESTAURANT_THUMB_URL ="thumb_url";
+    public static String RESTAURANT_FEATURE_URL ="feature_url";
+    public static String RESTAURANT_CONTACT_NUMBERS ="contact_numbers";
+    public static String RESTAURANT_AVERAGE_RATING ="average_rating";
 
     public static String Create_Restaurant_Table = " CREATE TABLE " + RESTAURANT_TABLE + " ( "
             + RESTAURANT_ID_PK + " integer primary key autoincrement, "
             + RESTAURANT_ID + " text, "
             + RESTAURANT_NAME + " text, "
-            + LOCALITY + " text, "
-            + ADDRESS + " text, "
-            + SITE_URL + " text, "
-            + LATITUDE + " text, "
-            + PINCODE + " text, "
-            + COUNTRY_CODE + " text, "
-            + THUMB_URL + " text, "
-            + FEATURE_URL + " text, "
-            + CONTACT_NUMBERS + " text, "
-            + AVERAGE_RATING + " text, "
-            + LONGITUDE + " text " + " ) ";
+            + RESTAURANT_LOCALITY + " text, "
+            + RESTAURANT_ADDRESS + " text, "
+            + RESTAURANT_SITE_URL + " text, "
+            + RESTAURANT_LATITUDE + " text, "
+            + RESTAURANT_PINCODE + " text, "
+            + RESTAURANT_CITY + " text, "
+            + RESTAURANT_COUNTRY_CODE + " text, "
+            + RESTAURANT_THUMB_URL + " text, "
+            + RESTAURANT_FEATURE_URL + " text, "
+            + RESTAURANT_CONTACT_NUMBERS + " text, "
+            + RESTAURANT_AVERAGE_RATING + " text, "
+            + RESTAURANT_LONGITUDE + " text " + " ) ";
 
     public static String Drop_Restaurant_Table = " Drop Table IF EXISTS " + RESTAURANT_TABLE;
 

@@ -150,7 +150,7 @@ public class SelectSearchPopup extends Activity implements AdapterView.OnItemCli
                                 JSONArray jsonArray = jsonObject1.getJSONArray("restaurants");
 
 
-                                String res_name = "";
+                                String res_name = "",thumb_image_url="",feature_image_url="",contact_nos="",average_rating="";
                                 JSONObject jsonObject2 = jsonArray.getJSONObject(position);
                                 JSONObject jsonObject3 = jsonObject2.getJSONObject("restaurant");
                                 res_name = jsonObject3.getString("name");
@@ -162,21 +162,39 @@ public class SelectSearchPopup extends Activity implements AdapterView.OnItemCli
                                 String latitude = jsonObject4.getString("latitude");
                                 String longitude = jsonObject4.getString("longitude");
                                 String pincode = jsonObject4.getString("zipcode");
+                                String city = jsonObject4.getString("city");
                                 String country_id = jsonObject4.getString("country_id");
-                                String thumb_image_url = jsonObject3.getString("thumb");
-                                String feature_image_url = jsonObject3.getString("featured_image");
-                                String contact_nos = jsonObject3.getString("phone_numbers");
+                                if (jsonObject4.has("thumb")) {
+                                     thumb_image_url = jsonObject3.getString("thumb");
+                                }
+                                if (jsonObject3.has("featured_image")) {
+                                     feature_image_url = jsonObject3.getString("featured_image");
+                                }
+                                if (jsonObject3.has("phone_numbers")) {
+                                     contact_nos = jsonObject3.getString("phone_numbers");
+                                }
+
                                 JSONObject jsonObject5 = jsonObject3.getJSONObject("user_rating");
-                                String average_rating = jsonObject5.getString("aggregate_rating");
+                                if (jsonObject5.has("aggregate_rating")) {
+                                     average_rating = jsonObject5.getString("aggregate_rating");
+                                }
 
                                 ContentValues contentValues = new ContentValues();
                                 contentValues.put(DatabaseHelper.RESTAURANT_ID, res_id);
                                 contentValues.put(DatabaseHelper.RESTAURANT_NAME, res_name);
-                                contentValues.put(DatabaseHelper.SITE_URL, site_url);
-                                contentValues.put(DatabaseHelper.ADDRESS, address);
-                                contentValues.put(DatabaseHelper.LOCALITY, locality);
-                                contentValues.put(DatabaseHelper.LATITUDE, latitude);
-                                contentValues.put(DatabaseHelper.LONGITUDE, longitude);
+                                contentValues.put(DatabaseHelper.RESTAURANT_SITE_URL, site_url);
+                                contentValues.put(DatabaseHelper.RESTAURANT_ADDRESS, address);
+                                contentValues.put(DatabaseHelper.RESTAURANT_LOCALITY, locality);
+                                contentValues.put(DatabaseHelper.RESTAURANT_LATITUDE, latitude);
+                                contentValues.put(DatabaseHelper.RESTAURANT_LONGITUDE, longitude);
+                                contentValues.put(DatabaseHelper.RESTAURANT_PINCODE, pincode);
+                                contentValues.put(DatabaseHelper.RESTAURANT_CITY, city);
+                                contentValues.put(DatabaseHelper.RESTAURANT_COUNTRY_CODE, country_id);
+
+                                contentValues.put(DatabaseHelper.RESTAURANT_THUMB_URL, thumb_image_url);
+                                contentValues.put(DatabaseHelper.RESTAURANT_FEATURE_URL, feature_image_url);
+                                contentValues.put(DatabaseHelper.RESTAURANT_CONTACT_NUMBERS, contact_nos);
+                                contentValues.put(DatabaseHelper.RESTAURANT_AVERAGE_RATING, average_rating);
 
                                 final String[] res_data = new String[]{DatabaseHelper.RESTAURANT_ID, DatabaseHelper.RESTAURANT_NAME};
                                 Cursor cursor3 = db.query(DatabaseHelper.RESTAURANT_TABLE, res_data, DatabaseHelper.RESTAURANT_ID + "='" + res_id + "'", null, null, null, null);
@@ -184,7 +202,7 @@ public class SelectSearchPopup extends Activity implements AdapterView.OnItemCli
                                 if (i > 0) {
                                     db.delete(DatabaseHelper.RESTAURANT_TABLE, DatabaseHelper.RESTAURANT_ID + "='" + res_id + "'", null);
                                     insert_Status = db.insertOrThrow(DatabaseHelper.RESTAURANT_TABLE, null, contentValues) > 0;
-                                }else{
+                                } else {
                                     insert_Status = db.insertOrThrow(DatabaseHelper.RESTAURANT_TABLE, null, contentValues) > 0;
                                 }
                                 Log.d("insert", "" + insert_Status);
