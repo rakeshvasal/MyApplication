@@ -31,7 +31,8 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".Activity.MainActivity">
+        <activity
+            android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,10 +40,46 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activity.Dashboard" />
-        <activity android:name=".Activity.Image_Capture_Location">
+        <activity
+            android:name=".Activity.Image_Capture_Location">
 
         </activity>
-        <activity android:name=".Activity.Search_Place_Activity">
+        <activity
+            android:name=".Activity.Search_Place_Activity">
+
+        </activity>
+        <activity
+            android:name=".Activity.SelectSearchPopup"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog.NoActionBar"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity
+            android:name=".Activity.PopUp"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog.NoActionBar"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity
+            android:name=".Activity.Googlemap"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".Activity.SplashScreen"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".Activity.SearchPage"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".Activity.Comments"
+            android:screenOrientation="portrait">
 
         </activity>
     </application>

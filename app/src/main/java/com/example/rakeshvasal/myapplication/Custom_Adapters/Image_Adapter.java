@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.example.rakeshvasal.myapplication.GetterSetter.Image_Items;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -88,6 +90,7 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
         if (images_path.size() <= 0) {
 
 
+
         } else {
             /*int size=images_path.size();
             for (int i = 0 ; i < size; i++) {*/
@@ -102,8 +105,18 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
                 fs = new FileInputStream(new File(images_path.get(position).toString()));
 
                 if (fs != null) {
-                    bm = BitmapFactory.decodeFileDescriptor(fs.getFD(), null, bfOptions);
-                    holder.thumbnail.setImageBitmap(bm);
+                    try {
+                        bm = BitmapFactory.decodeFileDescriptor(fs.getFD(), null, bfOptions);
+                        ByteArrayOutputStream os = new ByteArrayOutputStream();
+                        bm.compress(Bitmap.CompressFormat.JPEG, 50, os);
+                        byte[] bytes = os.toByteArray();
+                        String image = Base64.encodeToString(bytes, Base64.DEFAULT);
+                        byte[] bytesImage = Base64.decode(image, Base64.DEFAULT);
+                        Glide.with(context).load(bytesImage).asBitmap().into(holder.thumbnail);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    //holder.thumbnail.setImageBitmap(bm);
                     //Glide.with(context).load(bm).into(holder.image.setImageBitmap(bitmap););
                 }
             } catch (IOException e) {

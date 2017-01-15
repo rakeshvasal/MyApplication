@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.rakeshvasal.myapplication.R;
+import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -80,9 +81,13 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void signIn() {
+        if(Utils.is_Connected_To_Internet(MainActivity.this)){
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         showProgressDialog();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        startActivityForResult(signInIntent, RC_SIGN_IN);}
+        else {
+Toast.makeText(MainActivity.this,getResources().getString(R.string.Check_Internet),LENGTH_SHORT).show();
+        }
     }
 
 
@@ -168,7 +173,9 @@ public class MainActivity extends AppCompatActivity implements
             finish();
             //findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
         } else {
-
+            Intent intent = new Intent(this,MainActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 

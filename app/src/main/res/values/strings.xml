@@ -4,4 +4,9 @@
     <string name="loading">Please Wait....</string>
     <string name="Dashboard">Dashboard</string>
     <string name="Image_Capture">Image_Capture</string>
+    <string name="Check_Internet">Please Check your Internet Connection....</string>
+
+    <string name="Api_Key">905eec17a259d75ba116b8467219d657</string>
+    <string name="Map_Api_Key">AIzaSyApRs5Lik-XzJgQkceIt1jkwf_k6hBZdDM</string>
+    <string name="no_internet_connection">Please check your Internet connection!</string>
 </resources>

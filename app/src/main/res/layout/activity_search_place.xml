@@ -1,13 +1,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/main"
+    android:weightSum="1">
 
     <LinearLayout
+        android:id="@+id/search_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="5dp"
-
+        android:layout_weight="0.05"
         android:orientation="horizontal">
 
         <EditText
@@ -15,15 +18,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="4"
+            android:background="#00ffffff"
             android:hint="Search Location Here" />
-
 
         <Button
             android:id="@+id/search_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-
             android:text="Search" />
 
     </LinearLayout>
@@ -33,7 +35,51 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.875"
         tools:context="com.example.rakeshvasal.myapplication.Activity.Search_Place_Activity" />
+
+    <LinearLayout
+        android:id="@+id/bottom_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.075"
+        android:layout_margin="5dp"
+        android:weightSum="4"
+        android:background="@color/bottom_list_color"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/show_search_items"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:tint="@color/white"
+            android:src="@drawable/ic_assignment_white_36dp" />
+
+        <ImageView
+            android:id="@+id/my_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:tint="@color/white"
+            android:src="@drawable/ic_location_on_white_36dp" />
+
+        <ImageView
+            android:id="@+id/get_directions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:tint="@color/white"
+            android:src="@drawable/ic_directions_white_36dp" />
+
+        <ImageView
+            android:id="@+id/add_to_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="@color/white"
+            android:layout_weight="1"
+            android:src="@drawable/ic_playlist_add_black_36dp" />
+    </LinearLayout>
 
 </LinearLayout>

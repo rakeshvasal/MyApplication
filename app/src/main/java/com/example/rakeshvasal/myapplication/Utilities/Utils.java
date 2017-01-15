@@ -127,7 +127,7 @@ public class Utils {
             for (int i = 1; i <= 100; i++) {
                 Long tsLong = System.currentTimeMillis() / 1000;
                 String ts = tsLong.toString();
-                File file = new File(directory + "/" + ts + "-" + "~Photo.jpg");
+                File file = new File(directory + "/" + ts + "-.jpg");
                 if (file.exists()) {
                     // do nothing
                     // as the image already exists and if we do anything it might override it
@@ -135,7 +135,7 @@ public class Utils {
                 } else {
                     // if the given file name is not found then pass the first name that is encountered and do not exists.
                     // and then break the loop as it useless to continue to do so.
-                    imageFileName = ts + "-" + "~Photo.jpg";
+                    imageFileName = ts + "-.jpg";
                     break;
                 }
             }
