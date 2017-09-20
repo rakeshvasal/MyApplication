@@ -1,0 +1,151 @@
+package com.example.rakeshvasal.myapplication.Activity;
+
+import android.net.wifi.WifiManager;
+import android.os.Build;
+import android.os.Environment;
+import android.os.StatFs;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.text.format.Formatter;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.rakeshvasal.myapplication.OpenSourceCode;
+import com.example.rakeshvasal.myapplication.R;
+import com.example.rakeshvasal.myapplication.Utilities.Utils;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+
+import java.util.Locale;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+import static android.widget.Toast.LENGTH_SHORT;
+
+public class Device_Info extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+
+    @BindView(R.id.tv_device_name)
+    TextView tv_device_name;
+    @BindView(R.id.brand_model)
+    TextView brand_model;
+    @BindView(R.id.os_version)
+    TextView os_version;
+    @BindView(R.id.available_storage)
+    TextView available_storage;
+    @BindView(R.id.available_ram)
+    TextView available_ram;
+    @BindView(R.id.heap_size)
+    TextView heap_size;
+    @BindView(R.id.ip_address)
+    TextView ip_address;
+    @BindView(R.id.mac_address)
+    TextView mac_address;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    private GoogleApiClient mGoogleApiClient;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_device__info);
+        ButterKnife.bind(this);
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+// [START build_client]
+        // Build a GoogleApiClient with access to the Google Sign-In API and the
+        // options specified by gso.
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        // [END build_client]
+        // Here, thisActivity is the current activity
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        get_setValues();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.code:
+                try {
+                    Utils.openSourceFile(Device_Info.this, "Device_Info", "java");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return true;
+            case R.id.logout:
+                signOut();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    private void get_setValues() {
+        String manufacturer = Build.MANUFACTURER;
+        String brand = Build.BRAND;
+        String model = Build.MODEL;
+        int androidSDK = Build.VERSION.SDK_INT;
+        String androidRelease = Build.VERSION.RELEASE;
+        //String osVersion = System.getProperty("os.version") + "(" + android.os.Build.VERSION.INCREMENTAL + ")";
+        StatFs statFs = new StatFs(Environment.getDataDirectory().getPath());
+        float avilbaleStorage = (statFs.getAvailableBlocks() * statFs.getBlockSize()) / 1048576f;
+        String availableStorage = avilbaleStorage + " MB.";
+        String availableRam = Utils.getMemoryAndCpuData(Device_Info.this);
+        String availableHeap = Runtime.getRuntime().maxMemory() + " bytes";
+        WifiManager wm = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
+        String ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
+
+        String ipaddv4 = Utils.getIPAddress(true);
+        String ipaddv6 = Utils.getIPAddress(false);
+
+        tv_device_name.setText(manufacturer);
+        brand_model.setText(model);
+        os_version.setText("" + androidSDK);
+        available_storage.setText(availableStorage);
+        available_ram.setText(availableRam);
+        heap_size.setText(availableHeap);
+        ip_address.setText(ipaddv4);
+        mac_address.setText(ipaddv6);
+    }
+
+    private void signOut() {
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(@NonNull Status status) {
+                        // [START_EXCLUDE]
+                        Utils.updateUI(Device_Info.this, false);
+                        // [END_EXCLUDE]
+                    }
+                });
+    }
+
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(Device_Info.this, "Sign Out Failed.", LENGTH_SHORT).show();
+    }
+}

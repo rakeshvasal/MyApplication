@@ -7,4 +7,5 @@
     <color name="bottom_list_color">#3949ab</color>
     <color name="red">#F44336</color>
     <color name="white">#FFFFFF</color>
+    <color name="login_button">#2196F3</color>
 </resources>

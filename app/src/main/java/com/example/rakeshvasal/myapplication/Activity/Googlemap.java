@@ -7,6 +7,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.example.rakeshvasal.myapplication.R;
@@ -24,7 +25,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 /**
  * Created by User on 9/18/2016.
  */
-public class Googlemap extends ActionBarActivity implements LocationListener, OnMapReadyCallback {
+public class Googlemap extends AppCompatActivity implements LocationListener, OnMapReadyCallback {
     private GoogleMap googlemap;
     String userlat, userlng, res_name;
     LatLng userloc;
@@ -91,10 +92,12 @@ public class Googlemap extends ActionBarActivity implements LocationListener, On
         //if the user location is not available try to obtain it once we get it update it using main ui thread
         if (!userlat.equalsIgnoreCase("0.0") && !userlng.equalsIgnoreCase("0.0")) {
             userloc = new LatLng(Double.parseDouble(userlat), Double.parseDouble(userlng));
+            googlemap.addMarker(new MarkerOptions().position(userloc).title(res_name));
             googlemap.animateCamera(CameraUpdateFactory.newLatLngZoom(userloc, 12));
+            /*googlemap.animateCamera(CameraUpdateFactory.newLatLngZoom(userloc, 12));
             googlemap.addMarker(new MarkerOptions()
                     .position(new LatLng(Double.parseDouble(userlat), Double.parseDouble(userlng)))
-                    .title(res_name));
+                    .title(res_name));*/
         }
     }
 
@@ -118,7 +121,7 @@ public class Googlemap extends ActionBarActivity implements LocationListener, On
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        googleMap.setMyLocationEnabled(true);
+        //googleMap.setMyLocationEnabled(true);
 
         getuserlocation();
 

@@ -1,6 +1,8 @@
 package com.example.rakeshvasal.myapplication.Activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -111,6 +113,14 @@ public class Dashboard extends AppCompatActivity implements GoogleApiClient.OnCo
             }
         });
 
+        ImageView college_fest = (ImageView) findViewById(R.id.college_fest);
+        college_fest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Dashboard.this,OddessyMain.class);
+                startActivity(intent);
+            }
+        });
         sign_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,4 +175,36 @@ public class Dashboard extends AppCompatActivity implements GoogleApiClient.OnCo
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
+    @Override
+    public void onBackPressed() {
+    final AlertDialog.Builder alertDialog = new AlertDialog.Builder(Dashboard.this);
+    alertDialog.setTitle("Exit Application");
+    alertDialog.setMessage("Do you want to exist the application ?");
+    alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            //if user inout is positive close the dialog box and close the application
+            dialog.dismiss();
+//
+
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+            System.exit(0);
+
+        }
+    });
+    alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            // if user input is negative close the dialog and do nothing
+            dialog.dismiss();
+        }
+    });
+    alertDialog.show();
 }
+}
+

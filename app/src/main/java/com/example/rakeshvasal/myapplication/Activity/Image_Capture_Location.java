@@ -56,7 +56,7 @@ public class Image_Capture_Location extends AppCompatActivity implements GoogleA
                 .requestEmail()
                 .build();
 
-// [START build_client]
+        // [START build_client]
         // Build a GoogleApiClient with access to the Google Sign-In API and the
         // options specified by gso.
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -72,7 +72,8 @@ public class Image_Capture_Location extends AppCompatActivity implements GoogleA
 
         recyclerView = (RecyclerView) findViewById(R.id.image_list);
         listOfImagesPath = new Utils().RetriveCapturedImagePath(ImagePath);
-        albumList = new ArrayList<>();
+
+        //albumList = new ArrayList<>();
         adapter = new Image_Adapter(this, listOfImagesPath);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
@@ -111,10 +112,10 @@ public class Image_Capture_Location extends AppCompatActivity implements GoogleA
                                     Uri.fromFile(photoFile));
                             startActivityForResult(takePictureIntent, CAMERA_CAPTURE);
                         } else {
-                            Toast.makeText(Image_Capture_Location.this, "No Directry", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Image_Capture_Location.this, "No Directory", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(Image_Capture_Location.this, "Take pic intent null", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Image_Capture_Location.this, "Take picture intent null", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Utils.showSettingsAlert(Image_Capture_Location.this);
@@ -240,6 +241,12 @@ public class Image_Capture_Location extends AppCompatActivity implements GoogleA
                 }
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent =new Intent(Image_Capture_Location.this,Dashboard.class);
+        startActivity(intent);
     }
 }
 

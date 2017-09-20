@@ -190,7 +190,6 @@ public class SelectSearchPopup extends Activity implements AdapterView.OnItemCli
                                 contentValues.put(DatabaseHelper.RESTAURANT_PINCODE, pincode);
                                 contentValues.put(DatabaseHelper.RESTAURANT_CITY, city);
                                 contentValues.put(DatabaseHelper.RESTAURANT_COUNTRY_CODE, country_id);
-
                                 contentValues.put(DatabaseHelper.RESTAURANT_THUMB_URL, thumb_image_url);
                                 contentValues.put(DatabaseHelper.RESTAURANT_FEATURE_URL, feature_image_url);
                                 contentValues.put(DatabaseHelper.RESTAURANT_CONTACT_NUMBERS, contact_nos);

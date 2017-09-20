@@ -5,8 +5,12 @@
     <string name="Dashboard">Dashboard</string>
     <string name="Image_Capture">Image_Capture</string>
     <string name="Check_Internet">Please Check your Internet Connection....</string>
-
+    <string name="Full_Contact_API">7bf6dc06cd2a1c4e</string>
     <string name="Api_Key">905eec17a259d75ba116b8467219d657</string>
     <string name="Map_Api_Key">AIzaSyApRs5Lik-XzJgQkceIt1jkwf_k6hBZdDM</string>
+    <string name="username">USERNAME</string>
+    <string name="password">PASSWORD</string>
+    <string name="register">Register Here</string>
+    <string name="Sign_in">Sign In</string>
     <string name="no_internet_connection">Please check your Internet connection!</string>
 </resources>

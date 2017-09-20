@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,7 +18,7 @@ import com.example.rakeshvasal.myapplication.Utilities.Utils;
 /**
  * Created by User on 9/18/2016.
  */
-public class PopUp extends Activity {
+public class RestaurantInfo extends Activity {
     ImageView comments, Location;
     TextView rest_name,res_address,res_locality,res_pincode,res_city,res_contact_nos;
     String lat, longitude, res_id,res_name;
@@ -71,8 +70,8 @@ public class PopUp extends Activity {
             Location.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Utils.is_Connected_To_Internet(PopUp.this)) {
-                        Intent i = new Intent(PopUp.this, Googlemap.class);
+                    if (Utils.is_Connected_To_Internet(RestaurantInfo.this)) {
+                        Intent i = new Intent(RestaurantInfo.this, Googlemap.class);
                         i.putExtra("lat",lat);
                         i.putExtra("long",longitude);
                         i.putExtra("res_name",res_name);
@@ -88,7 +87,7 @@ public class PopUp extends Activity {
             comments.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(PopUp.this, Comments.class);
+                    Intent i = new Intent(RestaurantInfo.this, Comments.class);
                     i.putExtra("res_id",res_id);
                     startActivity(i);
                 }

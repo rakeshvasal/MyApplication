@@ -23,6 +23,7 @@
             android:padding="25dp"
             android:orientation="horizontal"
             android:weightSum="1">
+
             <ImageView
                 android:id="@+id/photo_location"
                 android:layout_width="0dp"
@@ -46,20 +47,21 @@
             android:padding="25dp"
             android:orientation="horizontal"
             android:weightSum="1">
+
             <ImageView
                 android:id="@+id/zomato"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:layout_gravity="center"
-                android:src="@drawable/photo_camera"/>
+                android:src="@drawable/restaurant"/>
 
-            <!--<ImageView
-                android:id="@+id/location_search"
+            <ImageView
+                android:id="@+id/college_fest"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
-                android:src="@drawable/placeholder"/>-->
+                android:src="@drawable/rock"/>
 
         </LinearLayout>
 

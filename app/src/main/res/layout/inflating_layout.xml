@@ -17,31 +17,37 @@
         <TextView
             android:id="@+id/res_name"
             android:layout_width="match_parent"
+            android:textColor="@color/white"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/res_address"
             android:layout_width="match_parent"
+            android:textColor="@color/white"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/res_locality"
             android:layout_width="match_parent"
+            android:textColor="@color/white"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/res_city"
             android:layout_width="match_parent"
+            android:textColor="@color/white"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/res_pincode"
             android:layout_width="match_parent"
+            android:textColor="@color/white"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/res_contact_nos"
             android:layout_width="match_parent"
+            android:textColor="@color/white"
             android:layout_height="wrap_content" />
     </LinearLayout>
 

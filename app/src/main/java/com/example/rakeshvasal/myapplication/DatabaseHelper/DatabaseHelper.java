@@ -39,8 +39,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static String DROP_IMAGE_TABLE = "Drop Table IF EXISTS " + IMAGE_TABLE;
 
     public static String LOCATION_NAME = "location_name";
-    //public static String IMAGE_PATH = "image_path";
     public static String LOCATION_LAT = "location_lat";
+    public static String LOCATION_LATLNG = "location_lat";
+    public static String LOCATION_COUNTRY_NAME = "location_lat";
     public static String LOCATION_LONG = "location_long";
     public static String LOCATION_TABLE = "location_table";
     public static String LOCATION_ID = "location_id";
@@ -48,7 +49,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static String Create_Location_Table = " CREATE TABLE " + LOCATION_TABLE + " ( " +
             LOCATION_ID + " integer primary key autoincrement, " +
             LOCATION_NAME + " text not null, " +
-            //IMAGE_PATH + " text not null, " +
+            LOCATION_LATLNG + " text not null, " +
+            LOCATION_COUNTRY_NAME + " text, " +
             LOCATION_LAT + " text, " +
             LOCATION_LONG + " text " + " ) ";
 

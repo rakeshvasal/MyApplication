@@ -1,8 +1,12 @@
 package com.example.rakeshvasal.myapplication.Activity;
 
 import android.Manifest;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -13,12 +17,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.rakeshvasal.myapplication.DatabaseHelper.DatabaseHelper;
 import com.example.rakeshvasal.myapplication.Services.UserLocation;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -40,8 +47,10 @@ public class Search_Place_Activity extends AppCompatActivity implements OnMapRea
     EditText et_place_name;
     Button search_button;
     GoogleMap map;
-    ImageView location,directions,add_location,show_list;
+    ImageView location, directions, add_location, show_list;
     Address address;
+    public static int SHOWLIST =1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +62,7 @@ public class Search_Place_Activity extends AppCompatActivity implements OnMapRea
         search_button = (Button) findViewById(R.id.search_button);
         et_place_name = (EditText) findViewById(R.id.et_place_name);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(main.getWindowToken(), 0);
         search_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +107,7 @@ public class Search_Place_Activity extends AppCompatActivity implements OnMapRea
         directions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(address!=null){
+                if (address != null) {
                     //getDirections();
                 }
             }
@@ -107,7 +116,23 @@ public class Search_Place_Activity extends AppCompatActivity implements OnMapRea
         show_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Add Cursor from location table and add it to base adapter
+              /*  String[] name;
+                ArrayAdapter adapter;
+                DatabaseHelper helper = DatabaseHelper.getInstance(Search_Place_Activity.this);
+                SQLiteDatabase db = helper.getWritableDatabase();
+                String[] column = new String[]{DatabaseHelper.LOCATION_NAME};
+                Cursor cursor = db.query(DatabaseHelper.LOCATION_TABLE, column, null, null, null, null, null, null);
+                name = new String[cursor.getCount()];
+                int i = 0;
+                if (cursor != null) {
+                    while (cursor.moveToNext()) {
+                        name[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.LOCATION_NAME));
+                    }
+                }
+                adapter = new ArrayAdapter(Search_Place_Activity.this,R.layout.support_simple_spinner_dropdown_item,name);*/
+                Intent intent = new Intent(Search_Place_Activity.this,ShowLocationList.class);
+              //  startActivityForResult(intent,SHOWLIST);
+                startActivity(intent);
             }
         });
     }
@@ -132,7 +157,7 @@ public class Search_Place_Activity extends AppCompatActivity implements OnMapRea
                 Double latitude = address.getLatitude();
                 Double longitude = address.getLongitude();
                 map.addMarker(new MarkerOptions().position(latLng).title(place_name));
-                map.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12));
             }
         }
 
@@ -160,15 +185,39 @@ public class Search_Place_Activity extends AppCompatActivity implements OnMapRea
 
     }
 
-    private void addtolist(Address address){
+    private void addtolist(Address address) {
 
-        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-        Double latitude = address.getLatitude();
-        Double longitude = address.getLongitude();
-        String countryName = address.getCountryName();
-        String placeName = address.getFeatureName();
+        if (address != null) {
+            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+            Double latitude = address.getLatitude();
+            Double longitude = address.getLongitude();
+            String countryName = address.getCountryName();
+            String placeName = address.getFeatureName();
 
-        // Add the values into the location table and create alist view using dialog box
+            DatabaseHelper helper = DatabaseHelper.getInstance(Search_Place_Activity.this);
+            SQLiteDatabase db = helper.getWritableDatabase();
+
+            String[] column = new String[]{DatabaseHelper.LOCATION_NAME};
+            Cursor cursor = db.query(DatabaseHelper.LOCATION_TABLE, column, DatabaseHelper.LOCATION_NAME + " ='" + placeName + "'", null, null, null, null, null);
+            if (cursor.getCount() <= 0) {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(DatabaseHelper.LOCATION_NAME, placeName);
+                contentValues.put(DatabaseHelper.LOCATION_LATLNG, "" + latLng);
+                contentValues.put(DatabaseHelper.LOCATION_LAT, latitude);
+                contentValues.put(DatabaseHelper.LOCATION_LONG, longitude);
+                contentValues.put(DatabaseHelper.LOCATION_COUNTRY_NAME, countryName);
+
+                boolean insert = db.insert(DatabaseHelper.LOCATION_TABLE, null, contentValues) > 0;
+                if (insert) {
+                    db.close();
+                    Toast.makeText(Search_Place_Activity.this, "Location Insert Success", Toast.LENGTH_SHORT).show();
+                } else {
+                    db.close();
+                    Toast.makeText(Search_Place_Activity.this, "Location Insert Fail", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+        // Add the values into the location table and create a list view using dialog box
     }
 
     @Override

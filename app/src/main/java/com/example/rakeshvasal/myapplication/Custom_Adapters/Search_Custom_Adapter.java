@@ -11,7 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.rakeshvasal.myapplication.Activity.PopUp;
+import com.example.rakeshvasal.myapplication.Activity.RestaurantInfo;
 import com.example.rakeshvasal.myapplication.DatabaseHelper.DatabaseHelper;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.RowItems.Search_Row_Item;
@@ -85,7 +85,7 @@ public class Search_Custom_Adapter extends ArrayAdapter<Search_Row_Item> {
 
                 }
 
-                Intent intent = new Intent(activity, PopUp.class);
+                Intent intent = new Intent(activity, RestaurantInfo.class);
                 intent.putExtra("Restaurant_id", row_item.getRestaurant_id());
                 intent.putExtra("Restaurant_name", row_item.getRestaurant_name());
                 intent.putExtra("lat",lat);

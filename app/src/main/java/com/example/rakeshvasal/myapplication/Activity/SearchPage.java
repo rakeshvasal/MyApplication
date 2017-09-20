@@ -35,7 +35,8 @@ public class SearchPage extends ActionBarActivity {
     ListView lv;
     String search;
     List<Search_Row_Item> search_item = new ArrayList<>();
-     Search_Custom_Adapter custom_adapter;
+    Search_Custom_Adapter custom_adapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +45,7 @@ public class SearchPage extends ActionBarActivity {
         setDataInList();
     }
 
-    private void init(){
+    private void init() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
@@ -56,7 +57,7 @@ public class SearchPage extends ActionBarActivity {
         img_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!et_search_text.getText().toString().equalsIgnoreCase("")) {
+                if (!et_search_text.getText().toString().equalsIgnoreCase("")) {
                     if (Utils.is_Connected_To_Internet(SearchPage.this)) {
                         search = et_search_text.getText().toString();
                         et_search_text.setText("");
@@ -69,7 +70,7 @@ public class SearchPage extends ActionBarActivity {
                     } else {
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
                     }
-                }else {
+                } else {
                     Toast.makeText(getApplicationContext(), "Please Enter Keyword or Name.", Toast.LENGTH_SHORT).show();
 
                 }
@@ -79,17 +80,17 @@ public class SearchPage extends ActionBarActivity {
 
     }
 
-    private void setDataInList(){
+    private void setDataInList() {
         List<Search_Row_Item> search_item = new ArrayList<>();
-        String name="",id="",locality="";
+        String name = "", id = "", locality = "";
 
         DatabaseHelper helper = new DatabaseHelper(SearchPage.this);
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        String[] Column = new String[]{DatabaseHelper.RESTAURANT_NAME,DatabaseHelper.RESTAURANT_ID,DatabaseHelper.RESTAURANT_LOCALITY};
+        String[] Column = new String[]{DatabaseHelper.RESTAURANT_NAME, DatabaseHelper.RESTAURANT_ID, DatabaseHelper.RESTAURANT_LOCALITY};
 
-        Cursor cursor = db.query(DatabaseHelper.RESTAURANT_TABLE,Column,null,null,null,null,null,null);
-        if(cursor!=null) {
+        Cursor cursor = db.query(DatabaseHelper.RESTAURANT_TABLE, Column, null, null, null, null, null, null);
+        if (cursor != null) {
             while (cursor.moveToNext()) {
                 Search_Row_Item search_row_item = new Search_Row_Item(cursor.getString(cursor.getColumnIndex(DatabaseHelper.RESTAURANT_NAME)),
                         cursor.getString(cursor.getColumnIndex(DatabaseHelper.RESTAURANT_ID)),
@@ -114,36 +115,11 @@ public class SearchPage extends ActionBarActivity {
 
     }
 
+    @Override
     public void onBackPressed() {
+        Intent intent = new Intent(SearchPage.this, Dashboard.class);
+        startActivity(intent);
 
-
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(SearchPage.this);
-        alertDialog.setTitle("Exit Application");
-        alertDialog.setMessage("Do you want to exist the application ?");
-        alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //if user inout is positive close the dialog box and close the application
-                dialog.dismiss();
-//
-
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.addCategory(Intent.CATEGORY_HOME);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
-                System.exit(0);
-
-            }
-        });
-        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // if user input is negative close the dialog and do nothing
-                dialog.dismiss();
-            }
-        });
-        alertDialog.show();
 
     }
 
