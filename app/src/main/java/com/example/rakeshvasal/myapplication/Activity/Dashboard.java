@@ -107,7 +107,7 @@ public class Dashboard extends AppCompatActivity implements GoogleApiClient.OnCo
         zomato.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Dashboard.this,SplashScreen.class);
+                Intent intent = new Intent(Dashboard.this, SplashScreen.class);
                 startActivity(intent);
                 finish();
             }
@@ -117,7 +117,15 @@ public class Dashboard extends AppCompatActivity implements GoogleApiClient.OnCo
         college_fest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Dashboard.this,OddessyMain.class);
+                Intent intent = new Intent(Dashboard.this, OddessyMain.class);
+                startActivity(intent);
+            }
+        });
+        ImageView Device_Info = (ImageView) findViewById(R.id.Device_Info);
+        college_fest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Dashboard.this, Device_Info.class);
                 startActivity(intent);
             }
         });
@@ -178,33 +186,33 @@ public class Dashboard extends AppCompatActivity implements GoogleApiClient.OnCo
 
     @Override
     public void onBackPressed() {
-    final AlertDialog.Builder alertDialog = new AlertDialog.Builder(Dashboard.this);
-    alertDialog.setTitle("Exit Application");
-    alertDialog.setMessage("Do you want to exist the application ?");
-    alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            //if user inout is positive close the dialog box and close the application
-            dialog.dismiss();
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(Dashboard.this);
+        alertDialog.setTitle("Exit Application");
+        alertDialog.setMessage("Do you want to exist the application ?");
+        alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //if user inout is positive close the dialog box and close the application
+                dialog.dismiss();
 //
 
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
-            System.exit(0);
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+                System.exit(0);
 
-        }
-    });
-    alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            // if user input is negative close the dialog and do nothing
-            dialog.dismiss();
-        }
-    });
-    alertDialog.show();
-}
+            }
+        });
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // if user input is negative close the dialog and do nothing
+                dialog.dismiss();
+            }
+        });
+        alertDialog.show();
+    }
 }
 

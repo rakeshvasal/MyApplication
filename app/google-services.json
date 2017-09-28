@@ -1,35 +1,39 @@
 {
   "project_info": {
-    "project_number": "303504939794",
-    "firebase_url": "https://myskills-448ce.firebaseio.com",
-    "project_id": "myskills-448ce",
-    "storage_bucket": "myskills-448ce.appspot.com"
+    "project_number": "485955961185",
+    "firebase_url": "https://industrious-eye-154118.firebaseio.com",
+    "project_id": "industrious-eye-154118",
+    "storage_bucket": "industrious-eye-154118.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:303504939794:android:cbdd9312c5c986ae",
+        "mobilesdk_app_id": "1:485955961185:android:cbdd9312c5c986ae",
         "android_client_info": {
           "package_name": "com.example.rakeshvasal.myapplication"
         }
       },
       "oauth_client": [
         {
-          "client_id": "303504939794-lulshj1ci0b36sg60q9vl5csjbchbhl5.apps.googleusercontent.com",
+          "client_id": "485955961185-t26c1r89g5im3450476n02o3v3ml751c.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.rakeshvasal.myapplication",
-            "certificate_hash": "F3B41BF9C91B94024251EE272B54A954E5BDD612"
+            "certificate_hash": "f3b41bf9c91b94024251ee272b54a954e5bdd612"
           }
         },
         {
-          "client_id": "303504939794-tmun2ff6eetpsjic0a46tpov3ccnb87b.apps.googleusercontent.com",
+          "client_id": "485955961185-sgltucqea7qu9ndf4btes0ecnvkalpda.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "485955961185-rbfu3301ikvnn7qjcaktr83fl85mnu1l.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC9QF9YBxMffs6BnDDZJfKVr5L7ZBEeGKo"
+          "current_key": "AIzaSyAqTu-VeCgqdbcT3OKsfXtNpvnQ9F9PujY"
         }
       ],
       "services": {
@@ -40,7 +44,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "303504939794-tmun2ff6eetpsjic0a46tpov3ccnb87b.apps.googleusercontent.com",
+              "client_id": "485955961185-sgltucqea7qu9ndf4btes0ecnvkalpda.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
