@@ -78,7 +78,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:layout_gravity="center"
-                android:src="@drawable/restaurant"/>
+                android:src="@drawable/smartphone"/>
 
 
         </LinearLayout>

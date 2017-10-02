@@ -125,7 +125,7 @@ public class Dashboard extends AppCompatActivity implements GoogleApiClient.OnCo
         college_fest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Dashboard.this, Device_Info.class);
+                Intent intent = new Intent(Dashboard.this, OddessyMain.class);
                 startActivity(intent);
             }
         });

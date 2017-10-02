@@ -3,6 +3,7 @@ package com.example.rakeshvasal.myapplication.Utilities;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -63,7 +64,7 @@ public class Utils {
     public static ArrayList<String> json_model_id = new ArrayList<>();
     public static ArrayList<String> chk_value_lead_id = new ArrayList<>();
     public static ArrayList<String> positionOfDeletion = new ArrayList<>();
-
+    private static ProgressDialog progressDialog;
 
     public static boolean isLoggedIn(Context context) {
         pref = context.getSharedPreferences("LoginStatus", Context.MODE_PRIVATE);
@@ -535,6 +536,19 @@ public class Utils {
             }
         } catch (Exception ex) { } // for now eat exceptions
         return "";
+    }
+
+    public static void showProgressDialog(Activity activity,String msg) {
+        progressDialog = ProgressDialog.show(activity, "Please wait", msg,
+                true, true);
+        progressDialog.setCanceledOnTouchOutside(false);
+    }
+
+    public static void closeProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
     }
 
 }

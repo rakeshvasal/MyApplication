@@ -28,7 +28,7 @@ public class FragmentActivity extends AppCompatActivity {
             }
 
             HomeFragment homeFragment = new HomeFragment();
-            getFragmentManager().beginTransaction().add(R.id.fragment_container,homeFragment).commit();
+            //getFragmentManager().beginTransaction().add(R.id.fragment_container,homeFragment).commit();
 
         }
     }

@@ -8,11 +8,16 @@
 
     tools:context="com.example.rakeshvasal.myapplication.Activity.OddessyMain">
 
-    <include
+   <!-- <include
         android:id="@+id/toolbar"
-        layout="@layout/header_layout"/>
+        layout="@layout/header_layout"/>-->
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent" />
+   <!-- <LinearLayout
         android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -68,5 +73,5 @@
                 android:text="@string/register"/>
 
 
-    </LinearLayout>
+    </LinearLayout>-->
 </RelativeLayout>

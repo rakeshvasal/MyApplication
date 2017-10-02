@@ -34,13 +34,19 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".Activity.MainActivity">
+            <!--<intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
+        </activity>
+        <activity android:name=".Activity.Dashboard" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.Dashboard" />
         <activity android:name=".Activity.Image_Capture_Location" />
         <activity android:name=".Activity.Search_Place_Activity" />
         <activity
@@ -75,6 +81,11 @@
 
         </activity>
         <activity android:name=".Activity.Add_Event"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity android:name=".Activity.Device_Info"
             android:screenOrientation="portrait">
 
         </activity>
