@@ -41,11 +41,14 @@ public class SearchPage extends ActionBarActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_page);
-        init();
+
+            init();
+
         setDataInList();
     }
 
     private void init() {
+        try {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
@@ -76,7 +79,9 @@ public class SearchPage extends ActionBarActivity {
                 }
             }
         });
+    }catch (Exception e){
 
+    }
 
     }
 

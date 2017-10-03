@@ -40,8 +40,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static String LOCATION_NAME = "location_name";
     public static String LOCATION_LAT = "location_lat";
-    public static String LOCATION_LATLNG = "location_lat";
-    public static String LOCATION_COUNTRY_NAME = "location_lat";
+    public static String LOCATION_LATLNG = "location_latlng";
+    public static String LOCATION_COUNTRY_NAME = "location_country_name";
     public static String LOCATION_LONG = "location_long";
     public static String LOCATION_TABLE = "location_table";
     public static String LOCATION_ID = "location_id";

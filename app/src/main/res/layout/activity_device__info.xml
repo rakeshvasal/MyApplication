@@ -4,6 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/header_layout" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,6 +17,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5" />
+
         <TextView
             android:id="@+id/tv_device_name"
             android:layout_width="0dp"
@@ -29,6 +34,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5" />
+
         <TextView
             android:id="@+id/brand_model"
             android:layout_width="0dp"
@@ -45,12 +51,14 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5" />
+
         <TextView
             android:id="@+id/os_version"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,12 +68,14 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5" />
+
         <TextView
             android:id="@+id/available_storage"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -75,12 +85,14 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5" />
+
         <TextView
             android:id="@+id/available_ram"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -90,6 +102,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5" />
+
         <TextView
             android:id="@+id/heap_size"
             android:layout_width="0dp"
@@ -106,6 +119,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5" />
+
         <TextView
             android:id="@+id/ip_address"
             android:layout_width="0dp"
@@ -122,6 +136,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5" />
+
         <TextView
             android:id="@+id/mac_address"
             android:layout_width="0dp"

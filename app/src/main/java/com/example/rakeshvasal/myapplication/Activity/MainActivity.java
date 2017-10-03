@@ -2,6 +2,8 @@ package com.example.rakeshvasal.myapplication.Activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.google.android.gms.auth.api.Auth;
@@ -23,12 +26,13 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import org.json.JSONObject;
+
 import static android.widget.Toast.LENGTH_SHORT;
 
-public class MainActivity extends AppCompatActivity implements
+public class MainActivity extends BaseActivity implements
         GoogleApiClient.OnConnectionFailedListener,
-        View.OnClickListener
-{
+        View.OnClickListener {
 
     private GoogleApiClient mGoogleApiClient;
     private static final String TAG = "SignInActivity";
@@ -41,12 +45,11 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
 
         // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+// profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
-
-// [START build_client]
+        // [START build_client]
         // Build a GoogleApiClient with access to the Google Sign-In API and the
         // options specified by gso.
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -81,12 +84,12 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void signIn() {
-        if(Utils.is_Connected_To_Internet(MainActivity.this)){
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        showProgressDialog();
-        startActivityForResult(signInIntent, RC_SIGN_IN);}
-        else {
-Toast.makeText(MainActivity.this,getResources().getString(R.string.Check_Internet),LENGTH_SHORT).show();
+        if (Utils.is_Connected_To_Internet(MainActivity.this)) {
+            Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+            showProgressDialog();
+            startActivityForResult(signInIntent, RC_SIGN_IN);
+        } else {
+            Toast.makeText(MainActivity.this, getResources().getString(R.string.Check_Internet), LENGTH_SHORT).show();
         }
     }
 
@@ -94,7 +97,7 @@ Toast.makeText(MainActivity.this,getResources().getString(R.string.Check_Interne
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-            hideProgressDialog();
+        closeProgressDialog();
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
@@ -106,16 +109,36 @@ Toast.makeText(MainActivity.this,getResources().getString(R.string.Check_Interne
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount acct = result.getSignInAccount();
-            Toast.makeText(this,"Welcome " + acct.getDisplayName(),Toast.LENGTH_SHORT).show();
+            try {
+                GoogleSignInAccount acct = result.getSignInAccount();
+                Toast.makeText(this, "Welcome " + acct.getDisplayName(), Toast.LENGTH_SHORT).show();
+                String personName = acct.getDisplayName();
+                String personGivenName = acct.getGivenName();
+                String personFamilyName = acct.getFamilyName();
+                String personEmail = acct.getEmail();
+                String personId = acct.getId();
+                Uri personPhoto = acct.getPhotoUrl();
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("personName", personName);
+                jsonObject.put("personGivenName", personGivenName);
+                jsonObject.put("personFamilyName", personFamilyName);
+                jsonObject.put("personEmail", personEmail);
+                jsonObject.put("personId", personId);
+                jsonObject.put("personPhoto", personPhoto);
+                SharedPreferences preferences = getSharedPreferences("GoogleAccountDetails",MODE_PRIVATE);
+                preferences.edit().putString("GoogleAccountDetails",""+jsonObject).apply();
 
-            //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            updateUI(true);
+                //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
+                updateUI(true);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         } else {
             // Signed out, show unauthenticated UI.
             //updateUI(false);
         }
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -135,7 +158,7 @@ Toast.makeText(MainActivity.this,getResources().getString(R.string.Check_Interne
             opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                 @Override
                 public void onResult(GoogleSignInResult googleSignInResult) {
-                    hideProgressDialog();
+                    closeProgressDialog();
                     handleSignInResult(googleSignInResult);
                 }
             });
@@ -149,31 +172,19 @@ Toast.makeText(MainActivity.this,getResources().getString(R.string.Check_Interne
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
     }
 
-    private void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage(getString(R.string.loading));
-            mProgressDialog.setIndeterminate(true);
-        }
 
-        mProgressDialog.show();
-    }
 
-    private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
-        }
-    }
+
 
     private void updateUI(boolean signedIn) {
         if (signedIn) {
             //findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-            Intent intent = new Intent(this,Dashboard.class);
+            Intent intent = new Intent(this, Dashboard.class);
             startActivity(intent);
             finish();
             //findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
         } else {
-            Intent intent = new Intent(this,MainActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
         }
@@ -186,6 +197,8 @@ Toast.makeText(MainActivity.this,getResources().getString(R.string.Check_Interne
                     @Override
                     public void onResult(Status status) {
                         // [START_EXCLUDE]
+                        SharedPreferences preferences = getSharedPreferences("GoogleAccountDetails",MODE_PRIVATE);
+                        preferences.edit().putString("GoogleAccountDetails","").apply();
                         updateUI(false);
                         // [END_EXCLUDE]
                     }

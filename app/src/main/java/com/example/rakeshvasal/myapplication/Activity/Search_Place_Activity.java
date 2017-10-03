@@ -222,6 +222,7 @@ public class Search_Place_Activity extends AppCompatActivity implements OnMapRea
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        Intent intent =new Intent(Search_Place_Activity.this,Dashboard.class);
+        startActivity(intent);
     }
 }

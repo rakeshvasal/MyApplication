@@ -122,10 +122,10 @@ public class Dashboard extends AppCompatActivity implements GoogleApiClient.OnCo
             }
         });
         ImageView Device_Info = (ImageView) findViewById(R.id.Device_Info);
-        college_fest.setOnClickListener(new View.OnClickListener() {
+        Device_Info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Dashboard.this, OddessyMain.class);
+                Intent intent = new Intent(Dashboard.this, Device_Info.class);
                 startActivity(intent);
             }
         });

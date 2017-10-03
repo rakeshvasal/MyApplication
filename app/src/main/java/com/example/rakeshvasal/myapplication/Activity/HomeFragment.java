@@ -8,10 +8,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.rakeshvasal.myapplication.Fragments.FestAdminDashboard;
 import com.example.rakeshvasal.myapplication.Fragments.FestRegisterFragment;
+import com.example.rakeshvasal.myapplication.Fragments.FestUserDashboard;
 import com.example.rakeshvasal.myapplication.R;
 
 import butterknife.BindView;
@@ -30,7 +33,7 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.et_password)
     EditText et_password;
     @BindView(R.id.btn_login)
-    EditText btn_login;
+    Button btn_login;
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
@@ -60,13 +63,27 @@ public class HomeFragment extends Fragment {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                Fragment fragment = new FestRegisterFragment();
-                transaction.replace(R.id.fragment_container, fragment);
-                transaction.commit();
+                validateUser();
+
             }
         });
     }
 
+    private void validateUser(){
+
+        String role="";
+        if(role.equalsIgnoreCase("Admin")) {
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            Fragment fragment = new FestAdminDashboard();
+            transaction.replace(R.id.fragment_container, fragment);
+            transaction.commit();
+        }else {
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            Fragment fragment = new FestUserDashboard();
+            transaction.replace(R.id.fragment_container, fragment);
+            transaction.commit();
+        }
+
+    }
 
 }

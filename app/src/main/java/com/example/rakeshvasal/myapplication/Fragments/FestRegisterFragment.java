@@ -20,14 +20,19 @@ public class FestRegisterFragment extends BaseFragment {
         View view;
 
         // Inflate the layout for this fragment
-
         view = inflater.inflate(R.layout.fragment_fest_register, container, false);
+
+        operations();
 
         return view;
 
 
     }
 
+    private void operations(){
+
+
+    }
 
     public FestRegisterFragment() {
         // Required empty public constructor
