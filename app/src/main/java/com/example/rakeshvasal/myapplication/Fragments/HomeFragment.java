@@ -1,4 +1,4 @@
-package com.example.rakeshvasal.myapplication.Activity;
+package com.example.rakeshvasal.myapplication.Fragments;
 
 
 import android.os.Bundle;
@@ -12,9 +12,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.Fragments.FestAdminDashboard;
 import com.example.rakeshvasal.myapplication.Fragments.FestRegisterFragment;
-import com.example.rakeshvasal.myapplication.Fragments.FestUserDashboard;
+
 import com.example.rakeshvasal.myapplication.R;
 
 import butterknife.BindView;
@@ -24,7 +25,7 @@ import butterknife.ButterKnife;
  * Created by Axisvation on 9/8/2017.
  */
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends BaseFragment {
 
     @BindView(R.id.register)
     TextView register;
@@ -79,7 +80,7 @@ public class HomeFragment extends Fragment {
             transaction.commit();
         }else {
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            Fragment fragment = new FestUserDashboard();
+            Fragment fragment = new FestAdminDashboard();
             transaction.replace(R.id.fragment_container, fragment);
             transaction.commit();
         }
