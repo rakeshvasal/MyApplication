@@ -71,7 +71,7 @@
             android:name=".Activity.SearchPage"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.Register"
+            android:name=".Activity.FragmentActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.Comments"

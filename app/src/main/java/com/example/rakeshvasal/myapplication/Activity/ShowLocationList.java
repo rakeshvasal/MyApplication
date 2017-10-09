@@ -20,7 +20,7 @@ import org.w3c.dom.ls.LSInput;
 
 public class ShowLocationList extends Activity {
 
-    ListView listView;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +29,8 @@ public class ShowLocationList extends Activity {
     }
 
     private void init(){
-        listView = (ListView) findViewById(R.id.location_list);
+
+        ListView listView = (ListView) findViewById(R.id.location_list);
         String[] name;
         ArrayAdapter adapter;
         DatabaseHelper helper = DatabaseHelper.getInstance(ShowLocationList.this);

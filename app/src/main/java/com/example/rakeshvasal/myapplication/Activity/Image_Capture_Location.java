@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.Image_Adapter;
 import com.example.rakeshvasal.myapplication.GetterSetter.Image_Items;
 import com.example.rakeshvasal.myapplication.R;
@@ -36,7 +37,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Image_Capture_Location extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class Image_Capture_Location extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener {
     private GoogleApiClient mGoogleApiClient;
     double latitude, longitude;
     final int CAMERA_CAPTURE = 1;

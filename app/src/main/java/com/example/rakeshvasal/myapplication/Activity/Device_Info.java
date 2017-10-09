@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.google.android.gms.auth.api.Auth;
@@ -31,7 +32,7 @@ import butterknife.ButterKnife;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
-public class Device_Info extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class Device_Info extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     @BindView(R.id.tv_device_name)
     TextView tv_device_name;

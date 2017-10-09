@@ -5,11 +5,14 @@ import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.rakeshvasal.myapplication.BaseFragment;
@@ -35,6 +38,10 @@ public class HomeFragment extends BaseFragment {
     EditText et_password;
     @BindView(R.id.btn_login)
     Button btn_login;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private CharSequence mDrawerTitle;
+    private CharSequence mTitle;
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
@@ -42,9 +49,11 @@ public class HomeFragment extends BaseFragment {
         View root = inflater.inflate(R.layout.fragment_home,container,false);
 
         ButterKnife.bind(this, root);
+        mTitle = mDrawerTitle = getActivity().getTitle();
+        mDrawerLayout = (DrawerLayout) root.findViewById(R.id.drawer_layout);
 
-
-
+        // set a custom shadow that overlays the main content when the drawer opens
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
         return root;
     }
