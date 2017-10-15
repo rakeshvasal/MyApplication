@@ -364,7 +364,7 @@ public class Utils {
             });
         }
 
-        //If a layout container, iterate over children and seed recursion.
+        //If a activity_facebook container, iterate over children and seed recursion.
         if (view instanceof ViewGroup) {
 
             for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {

@@ -129,7 +129,7 @@ public class Search_Place_Activity extends AppCompatActivity implements OnMapRea
                         name[i] = cursor.getString(cursor.getColumnIndex(DatabaseHelper.LOCATION_NAME));
                     }
                 }
-                adapter = new ArrayAdapter(Search_Place_Activity.this,R.layout.support_simple_spinner_dropdown_item,name);*/
+                adapter = new ArrayAdapter(Search_Place_Activity.this,R.activity_facebook.support_simple_spinner_dropdown_item,name);*/
                 Intent intent = new Intent(Search_Place_Activity.this,ShowLocationList.class);
               //  startActivityForResult(intent,SHOWLIST);
                 startActivity(intent);

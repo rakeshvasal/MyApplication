@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.rakeshvasal.myapplication.Fragments.FestUserDashboard">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- TODO: Update blank fragment activity_facebook -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -19,7 +19,7 @@ public class FestRegisterFragment extends BaseFragment {
 
         View view;
 
-        // Inflate the layout for this fragment
+        // Inflate the activity_facebook for this fragment
         view = inflater.inflate(R.layout.fragment_fest_register, container, false);
 
         operations();

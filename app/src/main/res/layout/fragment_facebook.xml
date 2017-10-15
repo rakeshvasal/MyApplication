@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:facebook="http://schemas.android.com/tools"
+    android:orientation="vertical">
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp" />
+    <ImageView
+
+        android:id="@+id/profilePicture"
+
+        android:layout_height="100dp"
+
+        android:layout_width="100dp"
+
+        android:gravity="center_horizontal"
+
+        android:layout_marginBottom="10dp"
+
+
+
+        />
+    <TextView
+
+        android:id="@+id/greeting"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:layout_marginLeft="10dp"
+
+        android:layout_gravity="center"
+
+        android:textColor="#333"
+
+        android:textSize="18sp"/>
+
+    <Button
+
+        android:id="@+id/postStatusUpdateButton"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:visibility="gone"
+
+        android:text="Post Status Update"
+
+        />
+    <Button
+
+        android:id="@+id/postPhotoButton"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:visibility="gone"
+
+        android:text="Post Photo"
+
+        />
+    <Button
+
+        android:id="@+id/getInterestsButton"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        facebook:com_facebook_confirm_logout="true"
+
+        android:text="Get Interests !!"
+
+        />
+</LinearLayout>

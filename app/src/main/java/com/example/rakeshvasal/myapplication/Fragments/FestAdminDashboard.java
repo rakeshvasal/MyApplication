@@ -29,15 +29,15 @@ public class FestAdminDashboard extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the activity_facebook for this fragment
         View root = inflater.inflate(R.layout.fragment_fest_admin_dashboard, container, false);
         mRecyclerView = (RecyclerView) root.findViewById(R.id.my_recycler_view);
 
         // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
+        // in content do not change the activity_facebook size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
 
-        // use a linear layout manager
+        // use a linear activity_facebook manager
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         initalizeList();

@@ -130,6 +130,14 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
                 startActivity(intent);
             }
         });
+        ImageView Facebook = (ImageView) findViewById(R.id.Facebook);
+        Facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Dashboard.this, FacebookActivity.class);
+                startActivity(intent);
+            }
+        });
         sign_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
