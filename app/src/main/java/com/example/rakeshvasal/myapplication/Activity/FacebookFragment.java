@@ -269,7 +269,7 @@ public class FacebookFragment extends BaseFragment{
                 SharePhotoContent.class);
 
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        /*loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -308,7 +308,7 @@ public class FacebookFragment extends BaseFragment{
 //                request.setParameters(parameters);
 //                request.executeAsync();
             }
-        });
+        });*/
 
 
 //        loginButton.setOnClickListener(new View.OnClickListener() {

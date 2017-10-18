@@ -30,6 +30,16 @@
     <string name="app_id">355198514515820</string>
     <string name="exception">Exception: %1$s</string>
     <string name="no_internet_connection">Please check your Internet connection!</string>
+    <string name="dummy_text">The Internet of Things (IoT) is growing at an unbelievable rate. In fact, some estimates have IoT devices outnumbering humans by the end of 2017. We generally experience the internet in human-to-device connections like visiting your favorite Android site on your phone or opening up your laptop and watching a video. But, the Internet of Things goes far beyond that. It’s the network that lets your car connect to the manufacturer to transmit sensor data or the temperature sensor that communicates with your smart thermostat.
+
+See also: What is the Internet of Things?
+
+Today, Samsung announced that it is simplifying its Internet of Things platform, and it’s doing so by combining its three existing IoT services into one central platform. Currently, Samsung supports SmartThings, Samsung Connect, and ARTIK platforms to help devices communicate. Those standards will all combine into the new platform called SmartThings Cloud.
+
+SmartThings Cloud, which will provide a single, powerful cloud-based hub that can seamlessly connect and control IoT-enabled products and services from a unified touchpoint. SmartThings Cloud will build one of the world’s largest IoT ecosystems, and will provide the infrastructure for a connected consumer experience that is innovative, versatile and holistic.
+SmartThings Cloud will give developers access to one cloud API across all SmartThings-compatible products. This should allow developers to build products and programs quicker and cheaper since it only has to account for one platform instead of three for Samsung devices. Samsung also says that SmartThings Cloud will provide “secure interoperability and services for business developing commercial and industrial IoT solutions.”
+
+Samsung is also looking to leverage its IoT platform to push its Bixby assistant. Bixby launched earlier this year on Samsung Galaxy S phones to a bit of a tepid response. But, Samsung hasn’t been deterred. It has continued to roll out new features and functionality for the assistant and will now launch Bixby 2.0. You can read more about it here.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
