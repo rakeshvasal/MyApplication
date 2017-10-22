@@ -13,4 +13,15 @@
         <item name="colorPrimary">@android:color/background_light</item>
     </style>
 
+    <style name="MyLinearayoutStyle" parent="MyAppTheme">
+        <item name="android:background">@color/blur_background</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:layout_margin">8dp</item>
+
+    </style>
+
+    <style name="MyTextViewStyle" parent="MyAppTheme">
+    <item name="android:textColor">@color/colorPrimary</item>
+    <item name="android:textSize">15sp</item>
+</style>
 </resources>

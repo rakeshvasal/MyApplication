@@ -11,11 +11,13 @@
         android:id="@+id/toolbar"
         layout="@layout/header_layout"/>
 
-    <LinearLayout
+   <!-- <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -91,6 +93,87 @@
 
         </LinearLayout>
 
+
+    </LinearLayout>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/image_capture"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Image Capture"
+                    android:textSize="@dimen/activity_text_size"
+                    style="@style/MyLinearayoutStyle"
+                    />
+                <TextView
+                    android:id="@+id/location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Location Search"
+                    android:textSize="@dimen/activity_text_size"
+                    style="@style/MyLinearayoutStyle"
+                    />
+                <TextView
+                    android:id="@+id/zomato"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Zomato"
+                    android:textSize="@dimen/activity_text_size"
+                    style="@style/MyLinearayoutStyle"
+                    />
+                <TextView
+                    android:id="@+id/fest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Oddessey"
+                    android:textSize="@dimen/activity_text_size"
+                    style="@style/MyLinearayoutStyle"
+                    />
+                <TextView
+                    android:id="@+id/phone_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Device Info"
+                    android:textSize="@dimen/activity_text_size"
+                    style="@style/MyLinearayoutStyle"
+                    />
+                <TextView
+                    android:id="@+id/facebook"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Facebook"
+                    android:textSize="@dimen/activity_text_size"
+                    style="@style/MyLinearayoutStyle"
+                    />
+                <TextView
+                    android:id="@+id/nested_scroll_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nested Scroll View"
+                    android:textSize="@dimen/activity_text_size"
+                    style="@style/MyLinearayoutStyle"
+                    />
+
+            </LinearLayout>
+
+        </ScrollView>
 
     </LinearLayout>
 

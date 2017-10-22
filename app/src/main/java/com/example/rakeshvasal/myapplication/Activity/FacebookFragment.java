@@ -268,59 +268,6 @@ public class FacebookFragment extends BaseFragment{
         canPresentShareDialogWithPhotos = ShareDialog.canShow(
                 SharePhotoContent.class);
 
-
-        /*loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                LoginManager.getInstance().logInWithReadPermissions(getActivity(), Arrays.asList("public_profile"));
-                if(!postingEnabled) {
-
-                    postingEnabled = true;
-                    postPhotoButton.setVisibility(View.VISIBLE);
-                    postStatusUpdateButton.setVisibility(View.VISIBLE);
-                    getUserInterests.setVisibility(View.VISIBLE);
-                }else{
-
-                    postingEnabled = false;
-                    postPhotoButton.setVisibility(View.GONE);
-                    postStatusUpdateButton.setVisibility(View.GONE);
-                    getUserInterests.setVisibility(View.GONE);
-
-                }
-
-//                GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(),
-//                        new GraphRequest.GraphJSONObjectCallback() {
-//                            @Override
-//                            public void onCompleted(
-//                                    JSONObject object,
-//                                    GraphResponse response) {
-//                                if (object != null) {
-//                                    Log.d("Me Request",object.toString());
-//                                    Toast t = Toast.makeText(getActivity(), object.toString(), Toast.LENGTH_SHORT);
-//                                    t.show();
-//                                }
-//
-//                            }
-//                        });
-//                Bundle parameters = new Bundle();
-//                parameters.putString("fields", "id,name,link,email");
-//                request.setParameters(parameters);
-//                request.executeAsync();
-            }
-        });*/
-
-
-//        loginButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                LoginManager.getInstance().logInWithReadPermissions(getActivity(), Arrays.asList("public_profile", "user_friends"));
-//
-//
-//
-//            }
-//        });
         return v;
     }
 
