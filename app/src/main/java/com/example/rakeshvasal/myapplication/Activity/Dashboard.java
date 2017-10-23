@@ -87,9 +87,11 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
         location = loc.getLocation();
 
         TextView page_title = (TextView) findViewById(R.id.page_title);
+        TextView nested_scroll_view = (TextView) findViewById(R.id.nested_scroll_view);
+
         page_title.setText(R.string.Dashboard);
         ImageView sign_out = (ImageView) findViewById(R.id.sign_out);
-       TextView photo_location = (TextView) findViewById(R.id.image_capture);
+        TextView photo_location = (TextView) findViewById(R.id.image_capture);
         photo_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,6 +147,16 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
                 startActivity(intent);
             }
         });
+
+        nested_scroll_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Dashboard.this, GalleryActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         sign_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

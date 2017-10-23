@@ -1,5 +1,7 @@
 package com.example.rakeshvasal.myapplication.GetterSetter;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by Rakeshvasal on 23-Oct-17.
  */
@@ -7,7 +9,7 @@ package com.example.rakeshvasal.myapplication.GetterSetter;
 public class Album {
     private String name;
     private int numOfSongs;
-    private int thumbnail;
+    private String thumbnail;
 
     public Album() {
     }
@@ -18,7 +20,7 @@ public class Album {
         this.thumbnail = thumbnail;
     }*/
 
-    public Album(String name,int thumbnail) {
+    public Album(String name,String thumbnail) {
         this.name = name;
 
         this.thumbnail = thumbnail;
@@ -40,11 +42,11 @@ public class Album {
         this.numOfSongs = numOfSongs;
     }
 
-    public int getThumbnail() {
+    public String getThumbnail() {
         return thumbnail;
     }
 
-    public void setThumbnail(int thumbnail) {
+    public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
     }
 }

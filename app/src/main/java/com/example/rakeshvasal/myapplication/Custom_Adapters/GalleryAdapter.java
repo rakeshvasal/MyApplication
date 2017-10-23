@@ -1,6 +1,8 @@
 package com.example.rakeshvasal.myapplication.Custom_Adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,11 +10,15 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.rakeshvasal.myapplication.GetterSetter.Album;
 import com.example.rakeshvasal.myapplication.R;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
 
 /**
@@ -23,7 +29,10 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
 
     private Context mContext;
     private List<Album> albumList;
-
+    FileInputStream fs = null;
+    Bitmap bm;
+    BitmapFactory.Options bfOptions;
+    int i=0;
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
 
@@ -43,6 +52,9 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
     public GalleryAdapter(Context mContext, List<Album> albumList) {
         this.mContext = mContext;
         this.albumList = albumList;
+        bfOptions = new BitmapFactory.Options();
+        bfOptions.inJustDecodeBounds=false;
+        bfOptions.inSampleSize = 32;
     }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -61,8 +73,26 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
        // holder.count.setText(album.getNumOfSongs() + " songs");
 
         // loading album cover using Glide library
-        Glide.with(mContext).load(album.getThumbnail()).into(holder.thumbnail);
-
+        String photopath = (String) album.getThumbnail();
+        try {
+            fs = new FileInputStream(new File(photopath));
+            if (fs != null) {
+                bm = BitmapFactory.decodeFileDescriptor(fs.getFD(), null, bfOptions);
+            }
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.PNG, 10, stream);
+            Glide.with(mContext)
+                    .load(stream.toByteArray())
+                    .asBitmap()
+                    .error(R.drawable.album1)
+                    .into(holder.thumbnail);
+            if(i%10==0){
+                //Toast.makeText(mContext,""+i,Toast.LENGTH_SHORT).show();
+            }
+            i++;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
        /* holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
