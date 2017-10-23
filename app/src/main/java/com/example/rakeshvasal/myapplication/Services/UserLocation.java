@@ -16,6 +16,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.location.Location;
+
+import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
@@ -100,20 +102,22 @@ public class UserLocation extends Service implements LocationListener {
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-
+        Log.d("onStatusChanged","called"+status+provider);
     }
 
 
 
     @Override
     public void onProviderEnabled(String provider) {
-
+        Log.d("onProviderEnabled","called"+provider);
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-        startActivity(intent);
+        //Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        //startActivity(intent);
+        Utils.showSettingsAlert(mContext);
+        Log.d("onProviderDisabled","called"+provider);
     }
 
 

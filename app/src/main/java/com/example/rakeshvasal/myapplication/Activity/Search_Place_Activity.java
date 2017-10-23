@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.DatabaseHelper.DatabaseHelper;
 import com.example.rakeshvasal.myapplication.Services.UserLocation;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
@@ -41,7 +42,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.IOException;
 import java.util.List;
 
-public class Search_Place_Activity extends AppCompatActivity implements OnMapReadyCallback {
+public class Search_Place_Activity extends BaseActivity implements OnMapReadyCallback {
 
     LinearLayout main;
     EditText et_place_name;
@@ -49,7 +50,8 @@ public class Search_Place_Activity extends AppCompatActivity implements OnMapRea
     GoogleMap map;
     ImageView location, directions, add_location, show_list;
     Address address;
-    public static int SHOWLIST =1;
+    boolean isplaceavailable = false;
+    public static int SHOWLIST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +70,17 @@ public class Search_Place_Activity extends AppCompatActivity implements OnMapRea
             @Override
             public void onClick(View v) {
                 if (Utils.is_Connected_To_Internet(Search_Place_Activity.this)) {
+
                     String place_name = et_place_name.getText().toString();
-                    findLocation(place_name);
+                    if (!place_name.equalsIgnoreCase("")) {
+                        findLocation(place_name);
+                    } else {
+                        //Toast.makeText(Search_Place_Activity.this, "Enter Place", Toast.LENGTH_SHORT).show();
+                        shortToast("Enter Place");
+                    }
                 } else {
-                    Toast.makeText(Search_Place_Activity.this, getResources().getString(R.string.Check_Internet), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(Search_Place_Activity.this, getResources().getString(R.string.Check_Internet), Toast.LENGTH_SHORT).show();
+                    shortToast(getResources().getString(R.string.Check_Internet));
                 }
             }
         });
@@ -87,9 +96,7 @@ public class Search_Place_Activity extends AppCompatActivity implements OnMapRea
             @Override
             public void onClick(View v) {
                 UserLocation userLoc = new UserLocation(Search_Place_Activity.this);
-                LatLng latLng = new LatLng(userLoc.getLatitude(), userLoc.getLongitude());
-                map.addMarker(new MarkerOptions().position(latLng).title("You are here"));
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12));
+
                 if (ActivityCompat.checkSelfPermission(Search_Place_Activity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(Search_Place_Activity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
@@ -101,6 +108,9 @@ public class Search_Place_Activity extends AppCompatActivity implements OnMapRea
                     return;
                 }
                 map.setMyLocationEnabled(true);
+                LatLng latLng = new LatLng(userLoc.getLatitude(), userLoc.getLongitude());
+                map.addMarker(new MarkerOptions().position(latLng).title("You are here"));
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12));
             }
         });
         directions = (ImageView) findViewById(R.id.get_directions);
@@ -108,7 +118,9 @@ public class Search_Place_Activity extends AppCompatActivity implements OnMapRea
             @Override
             public void onClick(View v) {
                 if (address != null) {
-                    //getDirections();
+                    if (isplaceavailable) {
+
+                    }
                 }
             }
         });
@@ -130,8 +142,8 @@ public class Search_Place_Activity extends AppCompatActivity implements OnMapRea
                     }
                 }
                 adapter = new ArrayAdapter(Search_Place_Activity.this,R.activity_facebook.support_simple_spinner_dropdown_item,name);*/
-                Intent intent = new Intent(Search_Place_Activity.this,ShowLocationList.class);
-              //  startActivityForResult(intent,SHOWLIST);
+                Intent intent = new Intent(Search_Place_Activity.this, ShowLocationList.class);
+                //  startActivityForResult(intent,SHOWLIST);
                 startActivity(intent);
             }
         });
@@ -153,11 +165,19 @@ public class Search_Place_Activity extends AppCompatActivity implements OnMapRea
 
                 Address address = addressList.get(0);
                 this.address = address;
-                LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                Double latitude = address.getLatitude();
-                Double longitude = address.getLongitude();
-                map.addMarker(new MarkerOptions().position(latLng).title(place_name));
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12));
+                if (address != null && !address.equals("")) {
+                    isplaceavailable = true;
+                    LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                    Double latitude = address.getLatitude();
+                    Double longitude = address.getLongitude();
+                    map.addMarker(new MarkerOptions().position(latLng).title(place_name));
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12));
+                } else {
+                    isplaceavailable = false;
+                }
+
+            } else {
+                isplaceavailable = false;
             }
         }
 
@@ -167,10 +187,7 @@ public class Search_Place_Activity extends AppCompatActivity implements OnMapRea
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-        UserLocation userLoc = new UserLocation(Search_Place_Activity.this);
-        LatLng latLng = new LatLng(userLoc.getLatitude(), userLoc.getLongitude());
-        map.addMarker(new MarkerOptions().position(latLng).title("You are here"));
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12));
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -182,6 +199,10 @@ public class Search_Place_Activity extends AppCompatActivity implements OnMapRea
             return;
         }
         map.setMyLocationEnabled(true);
+        UserLocation userLoc = new UserLocation(Search_Place_Activity.this);
+        LatLng latLng = new LatLng(userLoc.getLatitude(), userLoc.getLongitude());
+        map.addMarker(new MarkerOptions().position(latLng).title("You are here"));
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12));
 
     }
 
@@ -222,7 +243,7 @@ public class Search_Place_Activity extends AppCompatActivity implements OnMapRea
 
     @Override
     public void onBackPressed() {
-        Intent intent =new Intent(Search_Place_Activity.this,Dashboard.class);
+        Intent intent = new Intent(Search_Place_Activity.this, Dashboard.class);
         startActivity(intent);
     }
 }

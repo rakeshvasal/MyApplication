@@ -89,7 +89,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
         TextView page_title = (TextView) findViewById(R.id.page_title);
         page_title.setText(R.string.Dashboard);
         ImageView sign_out = (ImageView) findViewById(R.id.sign_out);
-        ImageView photo_location = (ImageView) findViewById(R.id.photo_location);
+       TextView photo_location = (TextView) findViewById(R.id.image_capture);
         photo_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,7 +98,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
                 finish();
             }
         });
-        ImageView location_search = (ImageView) findViewById(R.id.location_search);
+        TextView location_search = (TextView) findViewById(R.id.location);
         location_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,7 +111,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
                 }
             }
         });
-        ImageView zomato = (ImageView) findViewById(R.id.zomato);
+        TextView zomato = (TextView) findViewById(R.id.zomato);
         zomato.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,7 +121,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
             }
         });
 
-        ImageView college_fest = (ImageView) findViewById(R.id.college_fest);
+        TextView college_fest = (TextView) findViewById(R.id.fest);
         college_fest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,7 +129,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
                 startActivity(intent);
             }
         });
-        ImageView Device_Info = (ImageView) findViewById(R.id.Device_Info);
+        TextView Device_Info = (TextView) findViewById(R.id.phone_info);
         Device_Info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,7 +137,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
                 startActivity(intent);
             }
         });
-        ImageView Facebook = (ImageView) findViewById(R.id.Facebook);
+        TextView Facebook = (TextView) findViewById(R.id.facebook);
         Facebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

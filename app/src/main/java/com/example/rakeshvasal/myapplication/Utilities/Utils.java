@@ -187,7 +187,7 @@ public class Utils {
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
-    public static void showSettingsAlert(final Activity activity) {
+    public static void showSettingsAlert(final Context activity) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
 
         // Setting Dialog Title
@@ -212,7 +212,7 @@ public class Utils {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
                 Toast.makeText(activity, "Need GPS to work properly!", Toast.LENGTH_LONG).show();
-                activity.finish();
+
             }
         });
 

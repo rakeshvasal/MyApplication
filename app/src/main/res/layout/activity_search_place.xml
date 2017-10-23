@@ -3,12 +3,13 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:id="@+id/main"
+    android:background="@color/blur_background"
     android:weightSum="1">
 
     <LinearLayout
         android:id="@+id/search_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:layout_weight="0.05"
         android:orientation="horizontal">
@@ -16,16 +17,20 @@
         <EditText
             android:id="@+id/et_place_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="4"
-            android:background="#00ffffff"
-            android:hint="Search Location Here" />
+            android:gravity="bottom|center_vertical"
+            android:layout_margin="4dp"
+            android:background="@drawable/bg_edittext"
+            android:hint="Enter Location Here" />
 
         <Button
             android:id="@+id/search_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
+            android:textColor="@color/white"
+            android:background="@color/bottom_list_color"
             android:text="Search" />
 
     </LinearLayout>
@@ -35,7 +40,7 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="0.875"
         tools:context="com.example.rakeshvasal.myapplication.Activity.Search_Place_Activity" />
 
@@ -43,8 +48,9 @@
         android:id="@+id/bottom_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.075"
+        android:layout_weight="0.09"
         android:layout_margin="5dp"
+        android:padding="5dp"
         android:weightSum="4"
         android:background="@color/bottom_list_color"
         android:orientation="horizontal">
@@ -55,6 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:tint="@color/white"
+
             android:src="@drawable/ic_assignment_white_36dp" />
 
         <ImageView
