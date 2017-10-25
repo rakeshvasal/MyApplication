@@ -64,7 +64,7 @@ public class Search_Custom_Adapter extends ArrayAdapter<Search_Row_Item> {
         final Search_Row_Item row_item = getItem(position);
 
         //viewholder.restaurant_id.setText(row_item.getRestaurant_id());
-        viewholder.restaurant_id.setText(row_item.getRestaurant_name());
+        viewholder.restaurant_name.setText(row_item.getRestaurant_name());
         viewholder.locality.setText(row_item.getLocality());
 
         //final Search_Row_Item.viewholder finalViewholder = viewholder;

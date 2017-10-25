@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/black_red"
     android:orientation="horizontal"
     android:padding="16dp"
     android:weightSum="1">
@@ -17,37 +16,49 @@
         <TextView
             android:id="@+id/res_name"
             android:layout_width="match_parent"
-            android:textColor="@color/white"
+            android:textColor="@color/red"
+            android:textSize="@dimen/activity_text_size"
+            android:layout_margin="@dimen/activity_vertical_margin"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/res_address"
             android:layout_width="match_parent"
-            android:textColor="@color/white"
+            android:textColor="@color/login_button"
+            android:textSize="@dimen/activity_text_size"
+            android:layout_margin="@dimen/activity_vertical_margin"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/res_locality"
             android:layout_width="match_parent"
-            android:textColor="@color/white"
+            android:textColor="@color/pink"
+            android:textSize="@dimen/activity_text_size"
+            android:layout_margin="@dimen/activity_vertical_margin"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/res_city"
             android:layout_width="match_parent"
-            android:textColor="@color/white"
+            android:textColor="@color/indigo"
+            android:textSize="@dimen/activity_text_size"
+            android:layout_margin="@dimen/activity_vertical_margin"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/res_pincode"
             android:layout_width="match_parent"
-            android:textColor="@color/white"
+            android:textColor="@color/green"
+            android:textSize="@dimen/activity_text_size"
+            android:layout_margin="@dimen/activity_vertical_margin"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/res_contact_nos"
             android:layout_width="match_parent"
-            android:textColor="@color/white"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/activity_text_size"
+            android:layout_margin="@dimen/activity_vertical_margin"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
@@ -68,6 +79,7 @@
                 android:id="@+id/Location"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:tint="@color/black"
                 android:src="@drawable/ic_location_on_white_36dp" />
 
             <TextView

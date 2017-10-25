@@ -51,7 +51,7 @@ public class SearchPage extends ActionBarActivity {
         try {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.black));
         getSupportActionBar().setHomeAsUpIndicator(getResources().getDrawable(R.drawable.backbtn));
         getSupportActionBar().setTitle("Search Restaurant");
         et_search_text = (EditText) findViewById(R.id.et_search);

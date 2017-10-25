@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/download"
+    android:background="@color/white"
     >
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -18,21 +18,25 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:paddingBottom="8dp"
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/et_commemts"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:textSize="16sp"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:layout_height="match_parent"
+            android:background="@drawable/bg_edittext"
             android:layout_weight="0.85" />
 
         <ImageView
             android:id="@+id/add_comment"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:padding="@dimen/activity_vertical_margin"
             android:layout_weight="0.15"
             android:src="@drawable/add_comment" />
 
