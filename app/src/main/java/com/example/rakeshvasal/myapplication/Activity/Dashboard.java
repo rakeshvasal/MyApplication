@@ -11,7 +11,6 @@ import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -144,6 +143,15 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Dashboard.this, FacebookActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        TextView cricketAPI = (TextView) findViewById(R.id.cricketAPI);
+        cricketAPI.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Dashboard.this, CricInfoAPI.class);
                 startActivity(intent);
             }
         });

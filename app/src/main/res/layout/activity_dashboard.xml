@@ -171,6 +171,15 @@
                     style="@style/MyLinearayoutStyle"
                     />
 
+                <TextView
+                    android:id="@+id/cricketAPI"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Cricket API"
+                    android:textSize="@dimen/activity_text_size"
+                    style="@style/MyLinearayoutStyle"
+                    />
+
             </LinearLayout>
 
         </ScrollView>
