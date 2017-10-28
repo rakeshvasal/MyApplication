@@ -1,7 +1,10 @@
 package com.example.rakeshvasal.myapplication.Activity;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+
+import android.app.Fragment;
+
+
+import android.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +31,7 @@ public class OddessyMain extends BaseActivity {
 
 
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
         Fragment fragment = new HomeFragment();
         transaction.add(R.id.fragment_container, fragment);
         transaction.addToBackStack(null);

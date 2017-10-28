@@ -3,6 +3,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="match_parent"
@@ -14,66 +15,90 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
             android:background="@color/blur_background"
-            android:orientation="horizontal">
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_weight="0.7"
-                android:layout_height="match_parent"
-                >
-                <TextView
-                    android:id="@+id/match_type"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/activity_text_size"/>
-                <TextView
-                    android:id="@+id/team_1"
-                    android:layout_below="@+id/match_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/activity_text_size"/>
-                <TextView
-                    android:id="@+id/vs"
-                    android:layout_below="@+id/team_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin">
 
-                    android:text="VS"
-                    android:textSize="@dimen/activity_text_size"/>
-                <TextView
-                    android:id="@+id/team_2"
-                    android:layout_below="@+id/vs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/activity_text_size"/>
-                <TextView
-                    android:id="@+id/match_started"
-                    android:layout_below="@+id/team_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/activity_text_size"/>
-                <TextView
-                    android:id="@+id/date"
-                    android:layout_below="@+id/match_started"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/activity_text_size"/>
-                <TextView
-                    android:id="@+id/winnerteam"
-                    android:layout_below="@+id/date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/activity_text_size"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
 
-            </RelativeLayout>
-            <ImageView
-                android:id="@+id/card_imageview"
-                android:layout_width="0dp"
-                android:layout_weight="0.3"
-                android:layout_height="match_parent" />
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.7"
+                    >
+
+                    <TextView
+                        android:id="@+id/match_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/activity_text_size" />
+
+                    <TextView
+                        android:id="@+id/team_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/match_type"
+                        android:textSize="@dimen/activity_text_size" />
+
+                    <TextView
+                        android:id="@+id/vs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/team_1"
+
+                        android:text="VS"
+                        android:textSize="@dimen/activity_text_size" />
+
+                    <TextView
+                        android:id="@+id/team_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/vs"
+                        android:textSize="@dimen/activity_text_size" />
+
+                    <TextView
+                        android:id="@+id/match_started"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/team_2"
+                        android:textSize="@dimen/activity_text_size" />
+
+                    <TextView
+                        android:id="@+id/date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/match_started"
+                        android:textSize="@dimen/activity_text_size" />
+
+                    <TextView
+                        android:id="@+id/winnerteam"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/date"
+                        android:textSize="@dimen/activity_text_size" />
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/card_imageview"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3" />
+            </LinearLayout>
+
+            <TextView
+                android:padding="@dimen/activity_horizontal_margin"
+                android:id="@+id/moreInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/activity_text_size"
+                android:text="More Info"/>
         </LinearLayout>
-
 
     </android.support.v7.widget.CardView>
 </LinearLayout>

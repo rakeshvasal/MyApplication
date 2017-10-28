@@ -1,10 +1,11 @@
 package com.example.rakeshvasal.myapplication.Fragments;
 
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
@@ -63,7 +64,7 @@ public class HomeFragment extends BaseFragment {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
                 Fragment fragment = new FestRegisterFragment();
                 transaction.replace(R.id.fragment_container, fragment);
                 transaction.commit();
@@ -83,12 +84,12 @@ public class HomeFragment extends BaseFragment {
 
         String role="";
         if(role.equalsIgnoreCase("Admin")) {
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
             Fragment fragment = new FestAdminDashboard();
             transaction.replace(R.id.fragment_container, fragment);
             transaction.commit();
         }else {
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
             Fragment fragment = new FestAdminDashboard();
             transaction.replace(R.id.fragment_container, fragment);
             transaction.commit();

@@ -1,5 +1,6 @@
 package com.example.rakeshvasal.myapplication.Activity;
 
+import android.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -10,7 +11,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -136,9 +137,6 @@ public class FacebookFragment extends BaseFragment{
         loginButton = (LoginButton) v.findViewById(R.id.login_button);
         //Create a reference to loginButton in the onCreateView() method of FacebookFragment and also set the fragment for loginButton as this.
 
-        // If using in a fragment
-        loginButton.setFragment(this);
-
         //Next create a callbackManager and register a call back on the Facebook Login Button.
         //This callback manages the result of Facebook Login and handles conditions such as onSuccess, onCancel and onError.
         callbackManager = CallbackManager.Factory.create();
@@ -192,7 +190,7 @@ public class FacebookFragment extends BaseFragment{
 
         //Next We use the share call back we defined earlier on shareDialog used to share on facebook.
 
-        shareDialog = new ShareDialog(this);
+        shareDialog = new ShareDialog(getActivity());
         shareDialog.registerCallback(
                 callbackManager,
                 shareCallback);
@@ -312,8 +310,8 @@ public class FacebookFragment extends BaseFragment{
             new LoadProfileImage(profilePicImageView).execute(profile.getProfilePictureUri(200, 200).toString());
             greeting.setText(getString(R.string.hello_user, profile.getFirstName()));
         } else {
-            Bitmap icon = BitmapFactory.decodeResource(getContext().getResources(),R.drawable.smartphone);
-            profilePicImageView.setImageBitmap(ImageHelper.getRoundedCornerBitmap(getContext(), icon, 200, 200, 200, false, false, false, false));
+            Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(),R.drawable.smartphone);
+            profilePicImageView.setImageBitmap(ImageHelper.getRoundedCornerBitmap(getActivity(), icon, 200, 200, 200, false, false, false, false));
 
             greeting.setText(null);
         }
@@ -388,7 +386,7 @@ public class FacebookFragment extends BaseFragment{
             pendingAction = PendingAction.POST_PHOTO;
             // We need to get new permissions, then complete the action when we get called back.
             LoginManager.getInstance().logInWithPublishPermissions(
-                    this,
+                    getActivity(),
                     Arrays.asList(PERMISSION));
         }
     }

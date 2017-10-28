@@ -31,6 +31,7 @@
     <string name="exception">Exception: %1$s</string>
     <string name="no_internet_connection">Please check your Internet connection!</string>
     <string name="cricapikey">DfAS5xV7u3RgITe5A2IdA0IXm582 </string>
+    <string name="football_json">https://raw.githubusercontent.com/opendatajson/football.json/master/2015-16/en.1.clubs.json</string>
     <string name="dummy_text">The Internet of Things (IoT) is growing at an unbelievable rate. In fact, some estimates have IoT devices outnumbering humans by the end of 2017. We generally experience the internet in human-to-device connections like visiting your favorite Android site on your phone or opening up your laptop and watching a video. But, the Internet of Things goes far beyond that. It’s the network that lets your car connect to the manufacturer to transmit sensor data or the temperature sensor that communicates with your smart thermostat.
 
 See also: What is the Internet of Things?

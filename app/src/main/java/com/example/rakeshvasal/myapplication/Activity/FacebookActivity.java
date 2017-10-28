@@ -1,8 +1,10 @@
 package com.example.rakeshvasal.myapplication.Activity;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+
 import android.support.v4.app.FragmentTransaction;
 
 import com.example.rakeshvasal.myapplication.BaseActivity;
@@ -20,7 +22,7 @@ public class FacebookActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facebook);
-        FragmentManager fm = getSupportFragmentManager();
+        FragmentManager fm = getFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
 
         if (fragment == null) {
@@ -30,5 +32,15 @@ public class FacebookActivity extends BaseActivity {
                     .commit();
         }
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        final FacebookFragment fragment = (FacebookFragment) getFragmentManager().findFragmentById(R.id.container);
+        if (fragment != null) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
 }
 
