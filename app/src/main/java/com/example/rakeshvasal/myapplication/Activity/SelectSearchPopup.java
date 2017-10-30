@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.Select_restaurant_name_popup_custom_adapter;
 import com.example.rakeshvasal.myapplication.DatabaseHelper.DatabaseHelper;
 import com.example.rakeshvasal.myapplication.R;
-import com.example.rakeshvasal.myapplication.RowItems.Select_restaurant_name_popup_RowItem;
+import com.example.rakeshvasal.myapplication.GetterSetter.Select_restaurant_name_popup_RowItem;
 import com.example.rakeshvasal.myapplication.ServiceCalls.MakeServiceCall;
 
 import org.json.JSONArray;

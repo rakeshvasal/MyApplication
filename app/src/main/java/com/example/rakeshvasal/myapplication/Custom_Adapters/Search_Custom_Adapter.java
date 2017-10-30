@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.example.rakeshvasal.myapplication.Activity.RestaurantInfo;
 import com.example.rakeshvasal.myapplication.DatabaseHelper.DatabaseHelper;
 import com.example.rakeshvasal.myapplication.R;
-import com.example.rakeshvasal.myapplication.RowItems.Search_Row_Item;
+import com.example.rakeshvasal.myapplication.GetterSetter.Search_Row_Item;
 
 import java.util.List;
 

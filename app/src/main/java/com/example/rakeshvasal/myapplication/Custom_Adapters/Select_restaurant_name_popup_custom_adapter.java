@@ -10,7 +10,7 @@ import android.widget.Filter;
 import android.widget.TextView;
 
 import com.example.rakeshvasal.myapplication.R;
-import com.example.rakeshvasal.myapplication.RowItems.Select_restaurant_name_popup_RowItem;
+import com.example.rakeshvasal.myapplication.GetterSetter.Select_restaurant_name_popup_RowItem;
 
 import java.util.ArrayList;
 import java.util.List;

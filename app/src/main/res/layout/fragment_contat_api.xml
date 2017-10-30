@@ -6,15 +6,13 @@
     tools:context="com.example.rakeshvasal.myapplication.Activity.CricInfoAPI">
 
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/match_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
     </android.support.v7.widget.RecyclerView>
+
+
+
 </RelativeLayout>
