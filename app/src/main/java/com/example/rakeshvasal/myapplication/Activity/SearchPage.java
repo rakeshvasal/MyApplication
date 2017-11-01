@@ -1,7 +1,5 @@
 package com.example.rakeshvasal.myapplication.Activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -18,7 +16,7 @@ import android.widget.Toast;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.Search_Custom_Adapter;
 import com.example.rakeshvasal.myapplication.DatabaseHelper.DatabaseHelper;
 import com.example.rakeshvasal.myapplication.R;
-import com.example.rakeshvasal.myapplication.RowItems.Search_Row_Item;
+import com.example.rakeshvasal.myapplication.GetterSetter.Search_Row_Item;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
 
 import java.util.ArrayList;

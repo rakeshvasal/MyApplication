@@ -36,13 +36,13 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MyViewHo
 
     List<CricketMatch> matchesList;
     Context mContext;
-    FragmentManager fragmentManager;
+
     OnShareClickedListener mCallback;
 
-    public MatchesAdapter(Context mContext, List<CricketMatch> matchesList, FragmentManager fm) {
+    public MatchesAdapter(Context mContext, List<CricketMatch> matchesList) {
         this.mContext = mContext;
         this.matchesList = matchesList;
-        fragmentManager = fm;
+
     }
     public interface OnShareClickedListener {
         public void ShareClicked(int match_id);
@@ -91,7 +91,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MyViewHo
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        holder.winnerteam.setText("Winner Team : " + cricketMatch.getWinnerteam());
+        holder.winnerteam.setText("Winner Team : " + cricketMatch.getWinnerteam() +" "+cricketMatch.getUniqueId());
         holder.date.setText("Match Date : " + date);
         holder.team1.setText("Team 1 : " + cricketMatch.getTeam1());
         holder.team2.setText("Team 2 : " + cricketMatch.getTeam2());

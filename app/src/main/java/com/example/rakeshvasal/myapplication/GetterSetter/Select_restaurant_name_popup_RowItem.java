@@ -1,4 +1,4 @@
-package com.example.rakeshvasal.myapplication.RowItems;
+package com.example.rakeshvasal.myapplication.GetterSetter;
 
 /**
  * Created by User on 9/18/2016.
