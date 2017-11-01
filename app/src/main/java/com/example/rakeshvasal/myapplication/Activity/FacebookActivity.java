@@ -5,11 +5,9 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 
-import android.support.v4.app.FragmentTransaction;
-
 import com.example.rakeshvasal.myapplication.BaseActivity;
+import com.example.rakeshvasal.myapplication.Fragments.FacebookFragment;
 import com.example.rakeshvasal.myapplication.R;
-import com.facebook.FacebookSdk;
 
 /**
  * Created by Rakeshvasal on 02-Apr-17.

@@ -1,4 +1,4 @@
-package com.example.rakeshvasal.myapplication.Activity;
+package com.example.rakeshvasal.myapplication.Fragments;
 
 import android.app.Fragment;
 import android.support.v7.app.AppCompatActivity;

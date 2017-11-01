@@ -45,9 +45,9 @@ public class HomeFragment extends BaseFragment {
     private CharSequence mTitle;
 
     @Override
-    public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_home,container,false);
+        View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         ButterKnife.bind(this, root);
         mTitle = mDrawerTitle = getActivity().getTitle();
@@ -55,11 +55,11 @@ public class HomeFragment extends BaseFragment {
 
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-
+        operations();
         return root;
     }
 
-    private void operations(){
+    private void operations() {
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,20 +80,21 @@ public class HomeFragment extends BaseFragment {
         });
     }
 
-    private void validateUser(){
+    private void validateUser() {
 
-        String role="";
-        if(role.equalsIgnoreCase("Admin")) {
+     /*   String role="";
+        if(role.equalsIgnoreCase("Admin")) {*/
+        FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
+        Fragment fragment = new FestAdminDashboard();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+       /* }else {
             FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
             Fragment fragment = new FestAdminDashboard();
             transaction.replace(R.id.fragment_container, fragment);
             transaction.commit();
-        }else {
-            FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
-            Fragment fragment = new FestAdminDashboard();
-            transaction.replace(R.id.fragment_container, fragment);
-            transaction.commit();
-        }
+        }*/
 
     }
 
