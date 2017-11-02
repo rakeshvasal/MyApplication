@@ -12,7 +12,8 @@
         <TextView
             android:layout_width="0dp"
             android:layout_weight="0.5"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:text="Event Name"/>
 
         <EditText
             android:id="@+id/eventname"
@@ -29,7 +30,8 @@
         <TextView
             android:layout_width="0dp"
             android:layout_weight="0.5"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:text="Event Location"/>
 
         <EditText
             android:id="@+id/eventlocation"
@@ -46,7 +48,8 @@
         <TextView
             android:layout_width="0dp"
             android:layout_weight="0.5"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:text="Entry Fees"/>
 
         <EditText
             android:id="@+id/entry_fees"
@@ -63,7 +66,8 @@
         <TextView
             android:layout_width="0dp"
             android:layout_weight="0.5"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:text="Conatact Person"/>
 
         <EditText
             android:id="@+id/contact_person"
