@@ -9,6 +9,10 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="8dp"
         android:background="@color/white">
 
         <LinearLayout
@@ -23,11 +27,14 @@
                     android:layout_width="0dp"
                     android:layout_weight="0.5"
                     android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:text="Name"/>
                 <EditText
+                    android:id="@+id/et_name"
                     android:layout_width="0dp"
                     android:layout_weight="0.5"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:maxLines="1"/>
             </LinearLayout>
 
             <LinearLayout
@@ -37,25 +44,33 @@
                     android:layout_width="0dp"
                     android:layout_weight="0.5"
                     android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:text="Contact No."/>
                 <EditText
+                    android:id="@+id/et_contact_no"
                     android:layout_width="0dp"
                     android:layout_weight="0.5"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:maxLines="1"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="0.5"
                     android:layout_height="match_parent"
-                    android:text="Email Id"/>
+                    android:gravity="center_vertical"
+                    android:layout_weight="0.5"
+                    android:text="Email Id" />
                 <EditText
+                    android:id="@+id/email_id"
                     android:layout_width="0dp"
                     android:layout_weight="0.5"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"/>
             </LinearLayout>
 
             <LinearLayout
@@ -65,11 +80,14 @@
                     android:layout_width="0dp"
                     android:layout_weight="0.5"
                     android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:text="Branch"/>
                 <EditText
+                    android:id="@+id/et_branch"
                     android:layout_width="0dp"
                     android:layout_weight="0.5"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:maxLines="1"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -78,11 +96,14 @@
                     android:layout_width="0dp"
                     android:layout_weight="0.5"
                     android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:text="Course Year"/>
                 <EditText
+                    android:id="@+id/course_year"
                     android:layout_width="0dp"
                     android:layout_weight="0.5"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:maxLines="1"/>
             </LinearLayout>
 
             <LinearLayout
@@ -92,14 +113,37 @@
                     android:layout_width="0dp"
                     android:layout_weight="0.5"
                     android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="Password"
                     />
                 <EditText
+                    android:id="@+id/et_password"
                     android:layout_width="0dp"
                     android:layout_weight="0.5"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:inputType="textPassword"
+                    android:maxLines="1"/>
             </LinearLayout>
 
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="Confirm Password"
+                    />
+                <EditText
+                    android:id="@+id/et_conf_password"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="match_parent"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    />
+            </LinearLayout>
 
         </LinearLayout>
 

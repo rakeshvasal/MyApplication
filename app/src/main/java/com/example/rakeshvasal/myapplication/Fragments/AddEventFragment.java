@@ -47,7 +47,7 @@ public class AddEventFragment extends Fragment {
                     String strcontact = contact.getText().toString();
                     String strentryfees = entryfees.getText().toString();
 
-                    addUpdateUser(strname, strlocation, strcontact, strentryfees);
+                    addUpdateEvent(strname, strlocation, strcontact, strentryfees);
 
                 }
             });
@@ -57,13 +57,14 @@ public class AddEventFragment extends Fragment {
         return rootview;
     }
 
-    private void addUpdateUser(String strname, String strlocation, String strcontact, String strentryfees) {
+    private void addUpdateEvent(String strname, String strlocation, String strcontact, String strentryfees) {
         try {
             Events events = new Events(strname, strlocation, strcontact, strentryfees);
 
             String userId = mDatabase.push().getKey();
 
             mDatabase.child(userId).setValue(events);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

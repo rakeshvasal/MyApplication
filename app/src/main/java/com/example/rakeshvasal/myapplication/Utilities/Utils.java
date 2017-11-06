@@ -65,6 +65,7 @@ public class Utils {
     public static ArrayList<String> chk_value_lead_id = new ArrayList<>();
     public static ArrayList<String> positionOfDeletion = new ArrayList<>();
     private static ProgressDialog progressDialog;
+    public static String GOOGLE_LOGIN_DATA = "GoogleAccountDetails";
 
     public static boolean isLoggedIn(Context context) {
         pref = context.getSharedPreferences("LoginStatus", Context.MODE_PRIVATE);

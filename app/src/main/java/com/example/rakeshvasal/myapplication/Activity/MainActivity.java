@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -188,7 +189,8 @@ public class MainActivity extends BaseActivity implements
                 jsonObject.put("personEmail", personEmail);
                 jsonObject.put("personId", personId);
                 jsonObject.put("personPhoto", personPhoto);
-                SharedPreferences preferences = getSharedPreferences("GoogleAccountDetails",MODE_PRIVATE);
+
+                SharedPreferences preferences = getSharedPreferences(Utils.GOOGLE_LOGIN_DATA,MODE_PRIVATE);
                 preferences.edit().putString("GoogleAccountDetails",""+jsonObject).apply();
 
                 //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
