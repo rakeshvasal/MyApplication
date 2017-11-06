@@ -5,6 +5,8 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.rakeshvasal.myapplication.Activity.GalleryActivity;
+import com.example.rakeshvasal.myapplication.Custom_Adapters.EventsMasterAdapter;
 import com.example.rakeshvasal.myapplication.GetterSetter.Events;
 import com.example.rakeshvasal.myapplication.R;
 import com.google.firebase.database.DataSnapshot;
@@ -48,8 +52,13 @@ public class EventsMasterFragment extends Fragment {
         add_event = (Button) rootview.findViewById(R.id.addevent);
         search_event = (Button) rootview.findViewById(R.id.searchevent);
         mFirebaseInstance = FirebaseDatabase.getInstance();
-        mEventsDatabase = mFirebaseInstance.getReference("events");
+        mEventsDatabase = mFirebaseInstance.getReference();
+        recyclerView = (RecyclerView) rootview.findViewById(R.id.recycler_view);
         fetchallevents();
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 1);
+        recyclerView.setLayoutManager(mLayoutManager);
+        //recyclerView.addItemDecoration(new GalleryActivity.GridSpacingItemDecoration(2, dpToPx(10), true));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
 
         add_event.setOnClickListener(new View.OnClickListener() {
@@ -67,15 +76,21 @@ public class EventsMasterFragment extends Fragment {
     }
 
     private void fetchallevents() {
+        DatabaseReference ref = mEventsDatabase.child("events");
+
         final List<Events> mEventsEntries = new ArrayList<>();
         try {
-            mEventsDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot eventsnapshot : dataSnapshot.getChildren()) {
                         Events events = eventsnapshot.getValue(Events.class);
                         mEventsEntries.add(events);
+
                     }
+                    EventsMasterAdapter adapter = new EventsMasterAdapter(getActivity(),mEventsEntries);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -83,9 +98,13 @@ public class EventsMasterFragment extends Fragment {
                     Log.d("eventsdatabaseerror", databaseError.getMessage());
                 }
             });
+
+
         }catch (Exception e){
             e.printStackTrace();
         }
+
+
     }
 
 

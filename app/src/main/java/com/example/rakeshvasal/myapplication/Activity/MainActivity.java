@@ -29,9 +29,12 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONObject;
+
+import java.io.FileInputStream;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
@@ -49,6 +52,21 @@ public class MainActivity extends BaseActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FirebaseApp.initializeApp(this);
+
+      /*  try {
+            FileInputStream serviceAccount =
+                    new FileInputStream("file:///android_asset/myapplication-8f68b-firebase-adminsdk-n2u52-59c1d39cd6.json");
+
+            FirebaseOptions options = new FirebaseOptions.Builder()
+                    .setCredential(FirebaseCredentials.fromCertificate(serviceAccount))
+                    .setDatabaseUrl("https://myapplication-8f68b.firebaseio.com")
+                    .build();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        FirebaseApp.initializeApp(options);*/
+
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

@@ -37,6 +37,7 @@ public class AddEventFragment extends Fragment {
             contact = (EditText) rootview.findViewById(R.id.entry_fees);
             entryfees = (EditText) rootview.findViewById(R.id.contact_person);
             add = (Button) rootview.findViewById(R.id.add);
+
             add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

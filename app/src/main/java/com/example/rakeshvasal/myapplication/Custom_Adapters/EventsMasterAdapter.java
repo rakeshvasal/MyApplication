@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,18 +39,22 @@ public class EventsMasterAdapter extends RecyclerView.Adapter<EventsMasterAdapte
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(EventsMasterAdapter.MyViewHolder holder, int position) {
 
         if(events.size()>0){
-            Events eventelement = events.get(position);
 
-                holder.name.setText(eventelement.getEventName());
+            Events eventelement = events.get(position);
+            //Log.d("eventname",eventelement.getEventName());
+            holder.name.setText(eventelement.getEventName());
+            holder.venue.setText(eventelement.getLocation());
+            holder.contact.setText(eventelement.getContactPerson());
+            holder.entryfees.setText(eventelement.getEntryFees());
         }
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return events.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
