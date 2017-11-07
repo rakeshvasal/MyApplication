@@ -1,10 +1,8 @@
 package com.example.rakeshvasal.myapplication.Fragments;
 
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
-
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,8 +13,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.EventsMasterAdapter;
+import com.example.rakeshvasal.myapplication.Custom_Adapters.UserMasterAdapter;
 import com.example.rakeshvasal.myapplication.GetterSetter.Events;
+import com.example.rakeshvasal.myapplication.GetterSetter.User;
 import com.example.rakeshvasal.myapplication.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,16 +31,15 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EventsMasterFragment extends Fragment {
+public class UserMasterFragment extends BaseFragment {
 
-    Button add_event,search_event;
-    EditText search_text;
-    RecyclerView recyclerView;
-    private DatabaseReference mEventsDatabase;
+    private DatabaseReference mUserDatabase,ref;
     FirebaseDatabase mFirebaseInstance;
-    DatabaseReference ref;
-    public EventsMasterFragment() {
-
+    RecyclerView recyclerView;
+    EditText search_text;
+    Button btn_search,btn_add;
+    public UserMasterFragment() {
+        // Required empty public constructor
     }
 
 
@@ -47,56 +47,48 @@ public class EventsMasterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootview = inflater.inflate(R.layout.fragment_events, container, false);
+        View rootview = inflater.inflate(R.layout.fragment_user_master, container, false);
 
-        add_event = (Button) rootview.findViewById(R.id.addevent);
-        search_event = (Button) rootview.findViewById(R.id.searchevent);
-        mFirebaseInstance = FirebaseDatabase.getInstance();
-        mEventsDatabase = mFirebaseInstance.getReference();
-        ref = mEventsDatabase.child("events");
+        search_text = (EditText) rootview.findViewById(R.id.searchtext);
+        btn_add = (Button) rootview.findViewById(R.id.adduser);
+        btn_search = (Button) rootview.findViewById(R.id.searchuser);
         recyclerView = (RecyclerView) rootview.findViewById(R.id.recycler_view);
-        fetchallevents();
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
-        //recyclerView.addItemDecoration(new GalleryActivity.GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        try {
+            mFirebaseInstance = FirebaseDatabase.getInstance();
+            mUserDatabase = mFirebaseInstance.getReference();
+            ref = mUserDatabase.child("users");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-
-        add_event.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
-                Fragment fragment = new AddUpdateEventFragment();
-                transaction.replace(R.id.fragment_container, fragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
-            }
-        });
+        fetchallusers();
 
         return rootview;
     }
 
-    private void fetchallevents() {
+    private void fetchallusers(){
 
-
-        final List<Events> mEventsEntries = new ArrayList<>();
+        final List<User> mUserEntries = new ArrayList<>();
         try {
             ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot eventsnapshot : dataSnapshot.getChildren()) {
-                        Events events = eventsnapshot.getValue(Events.class);
-                        mEventsEntries.add(events);
+                        User user = eventsnapshot.getValue(User.class);
+                        mUserEntries.add(user);
 
                     }
-                    EventsMasterAdapter adapter = new EventsMasterAdapter(getActivity(),mEventsEntries);
+                    UserMasterAdapter adapter = new UserMasterAdapter(getActivity(),mUserEntries);
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    Log.d("eventsdatabaseerror", databaseError.getMessage());
+                    Log.d("usermasterdatabaseerror", databaseError.getMessage());
                 }
             });
 
@@ -104,9 +96,5 @@ public class EventsMasterFragment extends Fragment {
         }catch (Exception e){
             e.printStackTrace();
         }
-
-
     }
-
-
 }

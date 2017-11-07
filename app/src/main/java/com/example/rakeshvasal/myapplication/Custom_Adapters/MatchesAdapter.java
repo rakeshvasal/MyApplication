@@ -1,27 +1,14 @@
 package com.example.rakeshvasal.myapplication.Custom_Adapters;
 
-import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Loader;
-import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.rakeshvasal.myapplication.Fragments.FestRegisterFragment;
-import com.example.rakeshvasal.myapplication.Fragments.MatchDetailsFragment;
-import com.example.rakeshvasal.myapplication.GetterSetter.Album;
 import com.example.rakeshvasal.myapplication.GetterSetter.CricketMatch;
-import com.example.rakeshvasal.myapplication.GetterSetter.Matches;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.DateFormattingClass;
 

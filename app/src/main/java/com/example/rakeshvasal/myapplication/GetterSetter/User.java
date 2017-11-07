@@ -6,10 +6,15 @@ package com.example.rakeshvasal.myapplication.GetterSetter;
 
 public class User {
 
-    String user_name,user_email,user_id,photourl,contact_no,branch,course_year,password;
+    String user_name,user_email,user_id,photourl,contact_no,branch,course_year,password,googleid;
+
+    public User(){
+
+    }
 
 
-    public User(String user_name, String user_email, String user_id, String photourl, String contact_no, String branch, String course_year,String password) {
+
+    public User(String user_name, String user_email, String user_id, String photourl, String contact_no, String branch, String course_year, String password, String googleid) {
 
         this.user_name = user_name;
         this.user_email = user_email;
@@ -19,6 +24,8 @@ public class User {
         this.branch = branch;
         this.course_year = course_year;
         this.password = password;
+        this.googleid=googleid;
+
     }
 
     public void setUser_name(String user_name) {
@@ -85,5 +92,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setGoogleid(String googleid) {
+        this.googleid = googleid;
+    }
+
+    public String getGoogleid() {
+
+        return googleid;
     }
 }

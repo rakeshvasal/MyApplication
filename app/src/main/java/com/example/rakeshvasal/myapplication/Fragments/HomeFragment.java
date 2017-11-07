@@ -17,8 +17,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.rakeshvasal.myapplication.BaseFragment;
-import com.example.rakeshvasal.myapplication.Fragments.FestAdminDashboard;
-import com.example.rakeshvasal.myapplication.Fragments.FestRegisterFragment;
 
 import com.example.rakeshvasal.myapplication.R;
 
@@ -65,7 +63,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
-                Fragment fragment = new FestRegisterFragment();
+                Fragment fragment = new AddUpdateUserFragment();
                 transaction.replace(R.id.fragment_container, fragment);
                 transaction.commit();
             }

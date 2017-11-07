@@ -56,3 +56,7 @@ function writeNewPost(uid, username, picture, title, body) {
 
   return firebase.database().ref().update(updates);
 }
+
+compile 'com.android.support:multidex:1.0.1'
+
+  multiDexEnabled true

@@ -15,7 +15,7 @@ import com.example.rakeshvasal.myapplication.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class AddEventFragment extends Fragment {
+public class AddUpdateEventFragment extends Fragment {
 
     EditText name, location, contact, entryfees;
     Button add;

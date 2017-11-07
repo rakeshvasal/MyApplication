@@ -191,6 +191,7 @@ public class MainActivity extends BaseActivity implements
                 jsonObject.put("personPhoto", personPhoto);
 
                 SharedPreferences preferences = getSharedPreferences(Utils.GOOGLE_LOGIN_DATA,MODE_PRIVATE);
+                preferences.edit().putString("isGoogleSignedIn","true").apply();
                 preferences.edit().putString("GoogleAccountDetails",""+jsonObject).apply();
 
                 //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
