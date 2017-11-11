@@ -3,6 +3,7 @@ package com.example.rakeshvasal.myapplication.Fragments;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,7 +31,7 @@ public class AddUpdateUserFragment extends BaseFragment {
 
     EditText et_name, et_contact_no, email_id, et_branch, course_year, et_password, et_conf_password;
     Button submit;
-    String photourl,googleid;
+    String photourl, googleid;
     SharedPreferences sharedPreferences;
     private DatabaseReference mDatabase;
     FirebaseDatabase mFirebaseInstance;
@@ -79,19 +80,31 @@ public class AddUpdateUserFragment extends BaseFragment {
                 String courseyear = course_year.getText().toString();
                 String password = et_password.getText().toString();
 
-                User user = new User(name, email, contact, photourl, contact, branch, courseyear, password,googleid);
+                if (googleid == null || googleid.equalsIgnoreCase("")) {
+                    int id = (int) System.currentTimeMillis();
+                    if (id < 0) {
+                        int intgoogleid = id * -1;
+                        googleid = "" + intgoogleid;
+                    }
+                }
+                if (photourl == null) {
+                    photourl = "";
+                }
+
+
+                User user = new User(name, email, contact, photourl, contact, branch, courseyear, password, googleid);
                 AddUpdateUser(user);
             }
         });
 
     }
 
-    private void  AddUpdateUser(User user){
+    private void AddUpdateUser(User user) {
         try {
             String userid = mDatabase.push().getKey();
 
             mDatabase.child(userid).setValue(user);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             shortToast("Error while inserting/updating user" + e.getMessage());
         }
@@ -106,7 +119,7 @@ public class AddUpdateUserFragment extends BaseFragment {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
         alertDialog.setTitle("Alert");
         alertDialog.setMessage("Do you wish to use Details Available on Google..?");
-        alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String accountdetailsjson = sharedPreferences.getString("GoogleAccountDetails", "");
@@ -117,17 +130,16 @@ public class AddUpdateUserFragment extends BaseFragment {
                     email_id.setText(accountdetails.getString("personEmail"));
                     photourl = accountdetails.getString("personPhoto");
                     googleid = accountdetails.getString("personId");
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
-                    shortToast("Error while fetching data from Google : \n"+e.getMessage());
+                    shortToast("Error while fetching data from Google : \n" + e.getMessage());
                 }
-
             }
         });
-        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-              shortToast("Please Enter All the Details..!!!!");
+                shortToast("Please Enter All the Details..!!!!");
             }
         });
 

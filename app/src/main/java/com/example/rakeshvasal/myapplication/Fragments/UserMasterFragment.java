@@ -35,11 +35,12 @@ import java.util.List;
  */
 public class UserMasterFragment extends BaseFragment {
 
-    private DatabaseReference mUserDatabase,ref;
+    private DatabaseReference mUserDatabase, ref;
     FirebaseDatabase mFirebaseInstance;
     RecyclerView recyclerView;
     EditText search_text;
-    Button btn_search,btn_add;
+    Button btn_search, btn_add;
+
     public UserMasterFragment() {
         // Required empty public constructor
     }
@@ -79,78 +80,89 @@ public class UserMasterFragment extends BaseFragment {
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showProgressDialog();
+                if (search_text.getText().toString().equalsIgnoreCase("")) {
+                    fetchallusers();
+                } else {
+                    readData("user_name",search_text.getText().toString());
+                }
             }
         });
 
-        fetchallusers();
-        readData();
+
         return rootview;
     }
 
-    private void fetchallusers(){
-
+    private void fetchallusers() {
+        showProgressDialog();
         final List<User> mUserEntries = new ArrayList<>();
         try {
             ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot eventsnapshot : dataSnapshot.getChildren()) {
+
                         User user = eventsnapshot.getValue(User.class);
                         mUserEntries.add(user);
 
                     }
-                    UserMasterAdapter adapter = new UserMasterAdapter(getActivity(),mUserEntries);
+                    closeProgressDialog();
+                    UserMasterAdapter adapter = new UserMasterAdapter(getActivity(), mUserEntries);
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
+                    closeProgressDialog();
                     Log.d("usermasterdatabaseerror", databaseError.getMessage());
                 }
             });
 
 
-        }catch (Exception e){
+        } catch (Exception e) {
+            closeProgressDialog();
             e.printStackTrace();
         }
     }
 
-    private void readData(){
+    private void readData(String parameter,String searchtext) {
         DatabaseReference childref = ref.child("").getRef();
-        ref.orderByChild("user_name").equalTo("Rakesh Vasal").addChildEventListener(new ChildEventListener() {
+        final List<User> mUserEntries = new ArrayList<>();
+        ref.orderByChild(parameter).equalTo(searchtext).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                User user_name = dataSnapshot.getValue(User.class);
-                //System.out.println(dataSnapshot.getKey() + " was " + dinosaur.height + " meters tall.");
+                User user = dataSnapshot.getValue(User.class);
+                mUserEntries.add(user);
+                closeProgressDialog();
+                UserMasterAdapter adapter = new UserMasterAdapter(getActivity(), mUserEntries);
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+                closeProgressDialog();
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                closeProgressDialog();
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+                closeProgressDialog();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                closeProgressDialog();
             }
-
-
         });
 
 
-        childref.addValueEventListener(new ValueEventListener() {
+        /*childref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot eventsnapshot : dataSnapshot.getChildren()) {
@@ -159,16 +171,16 @@ public class UserMasterFragment extends BaseFragment {
                     //mUserEntries.add(user);
 
                 }
-                /*UserMasterAdapter adapter = new UserMasterAdapter(getActivity(),mUserEntries);
+                *//*UserMasterAdapter adapter = new UserMasterAdapter(getActivity(),mUserEntries);
                 recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();*/
+                adapter.notifyDataSetChanged();*//*
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.d("usermasterdatabaseerror", databaseError.getMessage());
             }
-        });
+        });*/
     }
 }
 

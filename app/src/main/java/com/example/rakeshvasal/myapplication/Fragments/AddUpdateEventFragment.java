@@ -4,16 +4,25 @@ package com.example.rakeshvasal.myapplication.Fragments;
 import android.app.Fragment;
 import android.os.Bundle;
 
+import android.os.SystemClock;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.rakeshvasal.myapplication.Custom_Adapters.EventsMasterAdapter;
 import com.example.rakeshvasal.myapplication.GetterSetter.Events;
 import com.example.rakeshvasal.myapplication.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddUpdateEventFragment extends Fragment {
 
@@ -21,6 +30,7 @@ public class AddUpdateEventFragment extends Fragment {
     Button add;
     private DatabaseReference mDatabase;
     FirebaseDatabase mFirebaseInstance;
+    int size;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,7 +47,7 @@ public class AddUpdateEventFragment extends Fragment {
             contact = (EditText) rootview.findViewById(R.id.entry_fees);
             entryfees = (EditText) rootview.findViewById(R.id.contact_person);
             add = (Button) rootview.findViewById(R.id.add);
-
+            fetchallevents();
             add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -46,8 +56,11 @@ public class AddUpdateEventFragment extends Fragment {
                     String strlocation = location.getText().toString();
                     String strcontact = contact.getText().toString();
                     String strentryfees = entryfees.getText().toString();
-
-                    addUpdateEvent(strname, strlocation, strcontact, strentryfees);
+                    int id = (int)System.currentTimeMillis();
+                    if (id<0){
+                        id = id * - 1;
+                    }
+                    addUpdateEvent(strname, strlocation, strcontact, strentryfees, id);
 
                 }
             });
@@ -57,9 +70,9 @@ public class AddUpdateEventFragment extends Fragment {
         return rootview;
     }
 
-    private void addUpdateEvent(String strname, String strlocation, String strcontact, String strentryfees) {
+    private void addUpdateEvent(String strname, String strlocation, String strcontact, String strentryfees, int id) {
         try {
-            Events events = new Events(strname, strlocation, strcontact, strentryfees);
+            Events events = new Events(strname, strlocation, strcontact, strentryfees, id);
 
             String userId = mDatabase.push().getKey();
 
@@ -70,5 +83,35 @@ public class AddUpdateEventFragment extends Fragment {
         }
     }
 
+    private void fetchallevents() {
+
+
+        final List<Events> mEventsEntries = new ArrayList<>();
+        try {
+            mDatabase.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot eventsnapshot : dataSnapshot.getChildren()) {
+                        Events events = eventsnapshot.getValue(Events.class);
+                        mEventsEntries.add(events);
+                        size = mEventsEntries.size();
+
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.d("eventsdatabaseerror", databaseError.getMessage());
+                }
+            });
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
 }

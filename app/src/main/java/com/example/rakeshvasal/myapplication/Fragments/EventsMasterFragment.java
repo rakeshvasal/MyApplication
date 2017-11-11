@@ -15,9 +15,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.EventsMasterAdapter;
+import com.example.rakeshvasal.myapplication.Custom_Adapters.UserMasterAdapter;
 import com.example.rakeshvasal.myapplication.GetterSetter.Events;
+import com.example.rakeshvasal.myapplication.GetterSetter.User;
 import com.example.rakeshvasal.myapplication.R;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,7 +34,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EventsMasterFragment extends Fragment {
+public class EventsMasterFragment extends BaseFragment {
 
     Button add_event,search_event;
     EditText search_text;
@@ -51,6 +55,7 @@ public class EventsMasterFragment extends Fragment {
 
         add_event = (Button) rootview.findViewById(R.id.addevent);
         search_event = (Button) rootview.findViewById(R.id.searchevent);
+        search_text = (EditText) rootview.findViewById(R.id.searchtext);
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mEventsDatabase = mFirebaseInstance.getReference();
         ref = mEventsDatabase.child("events");
@@ -58,7 +63,6 @@ public class EventsMasterFragment extends Fragment {
         fetchallevents();
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
-        //recyclerView.addItemDecoration(new GalleryActivity.GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
 
@@ -70,6 +74,18 @@ public class EventsMasterFragment extends Fragment {
                 transaction.replace(R.id.fragment_container, fragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
+            }
+        });
+
+        search_event.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showProgressDialog();
+                if (search_text.getText().toString().equalsIgnoreCase("")) {
+                    fetchallevents();
+                } else {
+                    readData("eventName",search_text.getText().toString());
+                }
             }
         });
 
@@ -108,5 +124,41 @@ public class EventsMasterFragment extends Fragment {
 
     }
 
+    private void readData(String parameter,String searchtext) {
+
+        final List<Events> mEventsEntries = new ArrayList<>();
+        ref.orderByChild(parameter).equalTo(searchtext).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                Events events = dataSnapshot.getValue(Events.class);
+                mEventsEntries.add(events);
+                closeProgressDialog();
+                EventsMasterAdapter adapter = new EventsMasterAdapter(getActivity(), mEventsEntries);
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                closeProgressDialog();
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                closeProgressDialog();
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                closeProgressDialog();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                closeProgressDialog();
+            }
+        });
+
+    }
 
 }

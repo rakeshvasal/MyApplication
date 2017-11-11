@@ -43,5 +43,8 @@ SmartThings Cloud will give developers access to one cloud API across all SmartT
 
 Samsung is also looking to leverage its IoT platform to push its Bixby assistant. Bixby launched earlier this year on Samsung Galaxy S phones to a bit of a tepid response. But, Samsung hasn’t been deterred. It has continued to roll out new features and functionality for the assistant and will now launch Bixby 2.0. You can read more about it here.</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

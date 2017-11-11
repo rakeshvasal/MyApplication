@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/blur_background"
     tools:context="com.example.rakeshvasal.myapplication.Fragments.EventsMasterFragment">
 
     <EditText
@@ -15,23 +14,23 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal">
-    <Button
-        android:id="@+id/addevent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ADD"/>
-    <Button
-        android:id="@+id/searchevent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SEARCH"/>
+        <Button
+            android:id="@+id/add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ADD"/>
+        <Button
+            android:id="@+id/search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SEARCH"/>
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
+        android:padding="@dimen/activity_horizontal_margin">
 
     </android.support.v7.widget.RecyclerView>
 </LinearLayout>

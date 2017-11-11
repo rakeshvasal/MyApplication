@@ -8,11 +8,32 @@ package com.example.rakeshvasal.myapplication.GetterSetter;
 public class Events {
 
     public String eventName,location,entryFees,contactPerson;
+    int id;
+
+    public Events(String eventName, String location, String entryFees, String contactPerson, int id) {
+        this.eventName = eventName;
+        this.location = location;
+        this.entryFees = entryFees;
+        this.contactPerson = contactPerson;
+        this.id = id;
+    }
+
     public Events() {
     }
-    public Events(String eventName,String location,String entryFees,String contactPerson) {
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+
+        return id;
+    }
+
+    public Events(String eventName, String location, String entryFees, String contactPerson) {
         this.eventName = eventName;
         this.location=location;
+
         this.entryFees=entryFees;
         this.contactPerson=contactPerson;
     }
