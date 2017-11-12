@@ -60,3 +60,6 @@ function writeNewPost(uid, username, picture, title, body) {
 compile 'com.android.support:multidex:1.0.1'
 
   multiDexEnabled true
+
+
+  https://api.foursquare.com/v2/venues/search?v=20161016&ll=19.19,73.16&query=coffee&intent=checkin&client_id=AKH1LCYZLPEQLKNMRS5R2G2ZS45MQUNP21WB2PIHMO0RAP0M&client_secret=MMQKQFZB20QHM4L2I0SZY11U5IGXDLSVW3A31IAPKEAIMKFB

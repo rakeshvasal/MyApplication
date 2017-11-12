@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.FirebaseCloudMessaging.Config;
 import com.example.rakeshvasal.myapplication.R;
+import com.example.rakeshvasal.myapplication.Services.FusedLocationService;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -114,6 +115,11 @@ public class MainActivity extends BaseActivity implements
                 }
             }
         };
+
+        if (!Utils.isServiceRunning(MainActivity.this, "FusedLocationService")) {
+            Intent intent = new Intent(MainActivity.this, FusedLocationService.class);
+            startService(intent);
+        }
 
         //displayFirebaseRegId();
     }

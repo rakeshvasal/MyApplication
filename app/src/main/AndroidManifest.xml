@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name="android.support.multidex.MultiDexApplication"
@@ -104,6 +105,17 @@
         <activity
             android:name=".Activity.CricInfoAPI"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".Activity.CameraActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".Activity.ViewImageFragment"
+            android:screenOrientation="portrait"/>
+
+        <service
+            android:name=".Services.FusedLocationService"
+            android:enabled="true"
+            android:exported="true" />
 
         <service
             android:name=".FirebaseCloudMessaging.MyFirebaseMessagingService"

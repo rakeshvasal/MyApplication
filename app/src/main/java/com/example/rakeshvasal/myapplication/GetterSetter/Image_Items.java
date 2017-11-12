@@ -5,19 +5,36 @@ package com.example.rakeshvasal.myapplication.GetterSetter;
  */
 
 public class Image_Items {
-    private String name;
+    private String name,time;
     private double latitude,longitude;
     private int numOfImages;
     private int thumbnail;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public Image_Items(String name, String time, double latitude, double longitude) {
+
+        this.name = name;
+        this.time = time;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     public Image_Items(){
 
     }
-    public Image_Items (String name/*,double latitude,double longitude, int numOfImages, int thumbnail*/) {
+    public Image_Items (String name,double latitude,double longitude/*, int numOfImages*/) {
         this.name = name;
         this.latitude=latitude;
         this.longitude = longitude;
         this.numOfImages = numOfImages;
-        this.thumbnail = thumbnail;
+
     }
 
 
@@ -29,13 +46,13 @@ public class Image_Items {
         this.name=name;
     }
 
-    public int getNumOfImages(){
+   /* public int getNumOfImages(){
         return numOfImages;
     }
 
     public void  setNumOfImages(int numOfImages){
         this.numOfImages=numOfImages;
-    }
+    }*/
 
     public double getLatitude(){
         return latitude;
@@ -53,12 +70,6 @@ public class Image_Items {
         this.longitude=longitude;
     }
 
-    public int getThumbnail() {
-        return thumbnail;
-    }
 
-    public void setThumbnail(int thumbnail) {
-        this.thumbnail = thumbnail;
-    }
 
 }

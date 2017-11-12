@@ -1,6 +1,8 @@
 package com.example.rakeshvasal.myapplication.Activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.Image_Adapter;
+import com.example.rakeshvasal.myapplication.GetterSetter.Events;
 import com.example.rakeshvasal.myapplication.GetterSetter.Image_Items;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Services.UserLocation;
@@ -31,10 +34,14 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Image_Capture_Location extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener {
@@ -45,7 +52,13 @@ public class Image_Capture_Location extends BaseActivity implements GoogleApiCli
     private RecyclerView recyclerView;
     private Image_Adapter adapter;
     private List<Image_Items> albumList;
-    String ImagePath = Environment.getExternalStorageDirectory() + "/MyApplication/Image_Capture_Location/Pictures/";
+    //String ImagePath = Environment.getExternalStorageDirectory() + "/MyApplication/Image_Capture_Location/Pictures/";
+    String ImagePath = Environment.getExternalStorageDirectory() + "/ImageFolder/";
+    private static final int CAMERA_CUSTOM_CAPTURE = 1;
+    SharedPreferences preferences;
+
+    private DatabaseReference mDatabase;
+    FirebaseDatabase mFirebaseInstance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +81,10 @@ public class Image_Capture_Location extends BaseActivity implements GoogleApiCli
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        preferences = getSharedPreferences("userLocation", Context.MODE_PRIVATE);
 
-
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mDatabase = mFirebaseInstance.getReference("ImageList");
 
         recyclerView = (RecyclerView) findViewById(R.id.image_list);
         listOfImagesPath = new Utils().RetriveCapturedImagePath(ImagePath);
@@ -83,53 +98,25 @@ public class Image_Capture_Location extends BaseActivity implements GoogleApiCli
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
-
-
         TextView page_title = (TextView) findViewById(R.id.page_title);
         page_title.setText(R.string.Dashboard);
         ImageView sign_out = (ImageView) findViewById(R.id.sign_out);
         ImageView click = (ImageView) findViewById(R.id.click);
+
         click.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if (Utils.isConnectedToGps(Image_Capture_Location.this)) {
-
-                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    // Ensure that there's a camera activity to handle the intent
-                    if (takePictureIntent.resolveActivity(Image_Capture_Location.this.getPackageManager()) != null) {
-                        // Create the File where the photo should go
-                        File photoFile = null;
-                        try {
-                            photoFile = Utils.createImageFile(Image_Capture_Location.this, "Image_Capture_Location");
-                            // GridViewDemo_ImagePath=photoFile.getPath();
-                        } catch (IOException ex) {
-                            // Error occurred while creating the File
-                            Toast.makeText(Image_Capture_Location.this, "Catched No Directory", Toast.LENGTH_SHORT).show();
-
-                        }
-                        // Continue only if the File was successfully created
-                        if (photoFile != null) {
-                            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                                    Uri.fromFile(photoFile));
-                            startActivityForResult(takePictureIntent, CAMERA_CAPTURE);
-                        } else {
-                            Toast.makeText(Image_Capture_Location.this, "No Directory", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Toast.makeText(Image_Capture_Location.this, "Take picture intent null", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Utils.showSettingsAlert(Image_Capture_Location.this);
-                }
+            public void onClick(View view) {
+                Intent intent = new Intent(Image_Capture_Location.this, CameraActivity.class);
+                startActivityForResult(intent, CAMERA_CUSTOM_CAPTURE);
             }
         });
+
         sign_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signOut();
             }
         });
-
 
     }
 
@@ -170,45 +157,62 @@ public class Image_Capture_Location extends BaseActivity implements GoogleApiCli
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == Image_Capture_Location.this.RESULT_OK) {
-            //user is returning from capturing an image using the camera
-            if (requestCode == CAMERA_CAPTURE) {
-                long HeapSize = Runtime.getRuntime().maxMemory();
+        if (requestCode == CAMERA_CUSTOM_CAPTURE) {
+
+            if (resultCode == RESULT_OK) {
+
+                latitude  = Float.parseFloat(preferences.getString("userlat", "0.0"));
+                longitude = Float.parseFloat(preferences.getString("userlng", "0.0"));
+                String image_name,image_path,timeStamp1="";
+                if (data != null) {
+                    image_name = data.getStringExtra("imagename");
+                    image_path = data.getStringExtra("image_path");
+                }else{
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
+                            .format(new Date());
+                    timeStamp1 = new SimpleDateFormat("dd/MM/yyy HH:mm:ss")
+                            .format(new Date());
+                   image_name = timeStamp + ".jpg";
+                }
+
+                Utils.Images_latitude_Array_List.add(latitude);
+                Utils.Images_longitude_Array_List.add(longitude);
+                Utils.Images_name_Array_List.add(image_name);
+                Utils.images_time_arraylist.add(timeStamp1);
+                AddtoFirebase(latitude,longitude,image_name,timeStamp1);
 
                 listOfImagesPath = null;
                 listOfImagesPath = new Utils().RetriveCapturedImagePath(ImagePath);
-                int size = listOfImagesPath.size();
-                /*for (int i=0;i<=size;i++){
-                    Utils.images_path_arraylist.add(listOfImagesPath.get(i));
-                }*/
                 if (listOfImagesPath != null) {
-                    try {
-                        UserLocation loc = new UserLocation(Image_Capture_Location.this);
-                        latitude = loc.getLatitude();
-                        longitude = loc.getLongitude();
-
-                        Utils.Images_latitude_Array_List.add(latitude);
-                        Utils.Images_longitude_Array_List.add(longitude);
-                        String name =(listOfImagesPath.get(listOfImagesPath.size() - 1)).toString();
-                        String image_name = name.replace(ImagePath,"");
-                        Utils.Images_name_Array_List.add(image_name);
-                        adapter = new Image_Adapter(this,listOfImagesPath);
-                        recyclerView.setAdapter(adapter);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                adapter = new Image_Adapter(this,listOfImagesPath);
+                recyclerView.setAdapter(adapter);
                 }
-
+            }
+            else {
+                shortToast("Error while Image Capture See Logs");
             }
         }
+    }
 
+    private void AddtoFirebase(Double lat,Double longt,String name,String time){
+
+        try {
+            Image_Items events = new Image_Items(name, time, lat, longt);
+
+            String userId = mDatabase.push().getKey();
+
+            mDatabase.child(userId).setValue(events);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private int dpToPx(int dp) {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
+
     public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
         private int spanCount;

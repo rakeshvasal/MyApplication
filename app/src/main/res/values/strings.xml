@@ -1,19 +1,16 @@
 <resources>
     <string name="app_name">My Application</string>
-    <string name="server_client_id">485955961185-rbfu3301ikvnn7qjcaktr83fl85mnu1l.apps.googleusercontent.com</string>
+
     <string name="loading">Please Wait....</string>
     <string name="Dashboard">Dashboard</string>
     <string name="Image_Capture">Image_Capture</string>
     <string name="Check_Internet">Please Check your Internet Connection....</string>
-    <string name="Full_Contact_API">7bf6dc06cd2a1c4e</string>
-    <string name="Api_Key">905eec17a259d75ba116b8467219d657</string>
-    <string name="Map_Api_Key">AIzaSyApRs5Lik-XzJgQkceIt1jkwf_k6hBZdDM</string>
+
     <string name="username">USERNAME</string>
     <string name="password">PASSWORD</string>
     <string name="register">Register Here</string>
     <string name="Sign_in">Sign In</string>
-    <string name="facebook_app_id">365753337213671</string>
-    <string name="fb_login_protocol_scheme">fb365753337213671</string>
+
     <string name="cancelled">Cancelled</string>
     <string name="permission_not_granted">Unable to perform selected action because permissions were not granted.</string>
     <string name="ok">OK</string>
@@ -27,10 +24,10 @@
     <string name="no_friends_selected">No friends selected</string>
     <string name="no_place_selected">No place selected</string>
     <string name="pick_seattle_place">Pick a Seattle Place</string>
-    <string name="app_id">355198514515820</string>
+
     <string name="exception">Exception: %1$s</string>
     <string name="no_internet_connection">Please check your Internet connection!</string>
-    <string name="cricapikey">DfAS5xV7u3RgITe5A2IdA0IXm582 </string>
+
     <string name="football_json">https://raw.githubusercontent.com/opendatajson/football.json/master/2015-16/en.1.clubs.json</string>
     <string name="dummy_text">The Internet of Things (IoT) is growing at an unbelievable rate. In fact, some estimates have IoT devices outnumbering humans by the end of 2017. We generally experience the internet in human-to-device connections like visiting your favorite Android site on your phone or opening up your laptop and watching a video. But, the Internet of Things goes far beyond that. It’s the network that lets your car connect to the manufacturer to transmit sensor data or the temperature sensor that communicates with your smart thermostat.
 
@@ -47,4 +44,21 @@ Samsung is also looking to leverage its IoT platform to push its Bixby assistant
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
+    <string name="cricapikey">DfAS5xV7u3RgITe5A2IdA0IXm582 </string>
+    <string name="censusapikey">21d52e288f02c871563b4fa19b98622f717e508b</string>
+    <string name="facebook_app_id">365753337213671</string>
+    <string name="fb_login_protocol_scheme">fb365753337213671</string>
+    <string name="Full_Contact_API">7bf6dc06cd2a1c4e</string>
+    <string name="Api_Key">905eec17a259d75ba116b8467219d657</string>
+    <string name="Map_Api_Key">AIzaSyApRs5Lik-XzJgQkceIt1jkwf_k6hBZdDM</string>
+    <string name="app_id">355198514515820</string>
+    <string name="server_client_id">485955961185-rbfu3301ikvnn7qjcaktr83fl85mnu1l.apps.googleusercontent.com</string>
+    <string name="Dropbox_token">2P6TBcTlxDYAAAAAAAAQ61b7d_z-DrSVt8HH-MoxXFdjYAThvBn3lOazMn9y50vP</string>
+    <string name="Dropbox_appkey">jydfm2j3zhke2bi</string>
+    <string name="Dropbox_secret_key">qciowsgfixpgkwl</string>
+    <string name="Europeana_api_key">uVUNByYe7</string>
+    <string name="Europeana_secret_key">UETpDxUA2</string>
+    <string name="Railway_api_key">43544a7fah</string>
+    <string name="FourSquare_client_id">AKH1LCYZLPEQLKNMRS5R2G2ZS45MQUNP21WB2PIHMO0RAP0M</string>
+    <string name="FourSquare_client_secret">MMQKQFZB20QHM4L2I0SZY11U5IGXDLSVW3A31IAPKEAIMKFB</string>
 </resources>

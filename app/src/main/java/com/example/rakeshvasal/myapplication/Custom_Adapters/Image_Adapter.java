@@ -1,26 +1,24 @@
 package com.example.rakeshvasal.myapplication.Custom_Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.rakeshvasal.myapplication.Activity.Image_Capture_Location;
 import com.example.rakeshvasal.myapplication.GetterSetter.Image_Items;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
+import com.example.rakeshvasal.myapplication.Activity.ViewImageFragment;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -28,8 +26,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.jar.Attributes;
 
 /**
  * Created by Rakeshvasal on 31-Dec-16.
@@ -85,7 +81,7 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
 
 
     @Override
-    public void onBindViewHolder(Image_Adapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(Image_Adapter.MyViewHolder holder, final int position) {
 
         if (images_path.size() <= 0) {
 
@@ -108,7 +104,9 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
                     try {
                         bm = BitmapFactory.decodeFileDescriptor(fs.getFD(), null, bfOptions);
                         ByteArrayOutputStream os = new ByteArrayOutputStream();
-                        bm.compress(Bitmap.CompressFormat.JPEG, 50, os);
+                        //Bitmap resized = Bitmap.createScaledBitmap(bm,(int)(bm.getWidth()*0.7), (int)(bm.getHeight()*0.7), true);
+                        //imageView.setImageBitmap(resized);
+                        bm.compress(Bitmap.CompressFormat.JPEG, 90, os);
                         byte[] bytes = os.toByteArray();
                         String image = Base64.encodeToString(bytes, Base64.DEFAULT);
                         byte[] bytesImage = Base64.decode(image, Base64.DEFAULT);
@@ -132,6 +130,15 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
             }
 
         }
+
+        holder.thumbnail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, ViewImageFragment.class);
+                intent.putExtra("image_path",images_path.get(position).toString());
+                context.startActivity(intent);
+            }
+        });
         /*}*/
     }
 
