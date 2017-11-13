@@ -54,6 +54,9 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    public Image_Adapter(Context context) {
+        this.context = context;
+    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, longitude, latitude;
@@ -83,11 +86,11 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
     @Override
     public void onBindViewHolder(Image_Adapter.MyViewHolder holder, final int position) {
 
-        if (images_path.size() <= 0) {
+        /*if (images_path.size() <= 0) {
 
 
 
-        } else {
+        } else {*/
             /*int size=images_path.size();
             for (int i = 0 ; i < size; i++) {*/
             try {
@@ -97,7 +100,7 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            try {
+            /*try {
                 fs = new FileInputStream(new File(images_path.get(position).toString()));
 
                 if (fs != null) {
@@ -127,9 +130,9 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
                         e.printStackTrace();
                     }
                 }
-            }
+            }*/
 
-        }
+        //}
 
         holder.thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,7 +153,8 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
     @Override
     public int getItemCount() {
 
-        return images_path.size();
+        return Utils.Images_latitude_Array_List.size();
+        //return images_path.size();
     }
 
 

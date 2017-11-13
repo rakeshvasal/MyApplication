@@ -10,8 +10,7 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/header_layout">
-    </include>
+        layout="@layout/header_layout"></include>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,24 +19,27 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/image_list"
-            android:layout_above="@+id/click"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_above="@+id/ll_main">
 
         </android.support.v7.widget.RecyclerView>
+
         <LinearLayout
+            android:id="@id/ll_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-
             android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
             android:weightSum="1">
-        <ImageView
-            android:id="@+id/click"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
 
-            android:src="@drawable/photo_camera"/>
+            <ImageView
+                android:id="@+id/click"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:src="@drawable/photo_camera" />
+
             <ImageView
                 android:id="@+id/upload"
                 android:layout_width="wrap_content"

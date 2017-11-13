@@ -61,4 +61,8 @@ Samsung is also looking to leverage its IoT platform to push its Bixby assistant
     <string name="Railway_api_key">43544a7fah</string>
     <string name="FourSquare_client_id">AKH1LCYZLPEQLKNMRS5R2G2ZS45MQUNP21WB2PIHMO0RAP0M</string>
     <string name="FourSquare_client_secret">MMQKQFZB20QHM4L2I0SZY11U5IGXDLSVW3A31IAPKEAIMKFB</string>
+    <string name="Imagga_api_key">acc_e9504bce140252b</string>
+    <string name="Imagga_client_secret">9d8f5cda418ea0188dee655ae563e827</string>
+    <string name="Imagga_Authorization">YWNjX2U5NTA0YmNlMTQwMjUyYjo5ZDhmNWNkYTQxOGVhMDE4OGRlZTY1NWFlNTYzZTgyNw==</string>
+    <string name="Clairify_API_KEY">e7bacabd17b640e0a0d4b263b936fe4f</string>
 </resources>

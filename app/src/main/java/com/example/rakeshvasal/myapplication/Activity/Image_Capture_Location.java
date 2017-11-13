@@ -24,8 +24,10 @@ import android.widget.Toast;
 
 import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.Image_Adapter;
+import com.example.rakeshvasal.myapplication.Custom_Adapters.UserMasterAdapter;
 import com.example.rakeshvasal.myapplication.GetterSetter.Events;
 import com.example.rakeshvasal.myapplication.GetterSetter.Image_Items;
+import com.example.rakeshvasal.myapplication.GetterSetter.User;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Services.UserLocation;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
@@ -37,8 +39,11 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -105,7 +110,7 @@ public class Image_Capture_Location extends BaseActivity implements GoogleApiCli
         //albumList = new ArrayList<>();
         adapter = new Image_Adapter(this, listOfImagesPath);
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -116,7 +121,7 @@ public class Image_Capture_Location extends BaseActivity implements GoogleApiCli
         ImageView sign_out = (ImageView) findViewById(R.id.sign_out);
         ImageView click = (ImageView) findViewById(R.id.click);
         ImageView upload = (ImageView) findViewById(R.id.upload);
-
+        FetchAllImageDetails();
         click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -192,6 +197,8 @@ public class Image_Capture_Location extends BaseActivity implements GoogleApiCli
                 if (data != null) {
                     image_name = data.getStringExtra("imagename");
                     image_path = data.getStringExtra("image_path");
+                    timeStamp1 = new SimpleDateFormat("dd/MM/yyy HH:mm:ss")
+                            .format(new Date());
                 } else {
                     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
                             .format(new Date());
@@ -208,10 +215,10 @@ public class Image_Capture_Location extends BaseActivity implements GoogleApiCli
 
                 listOfImagesPath = null;
                 listOfImagesPath = new Utils().RetriveCapturedImagePath(ImagePath);
-                if (listOfImagesPath != null) {
+                /*if (listOfImagesPath != null) {
                     adapter = new Image_Adapter(this, listOfImagesPath);
                     recyclerView.setAdapter(adapter);
-                }
+                }*/
             } else {
                 shortToast("Error while Image Capture See Logs");
             }
@@ -224,13 +231,13 @@ public class Image_Capture_Location extends BaseActivity implements GoogleApiCli
         //used to store in the parent/root directory
         StorageReference images = storageRef.child("mountains.jpg");
         //used to store in the folder that u define directory
-        StorageReference mountainImagesRef = storageRef.child("images/mountains.jpg");
+        StorageReference ImagesRef = storageRef.child("images/" + name);
 
         String path = listOfImagesPath.get(0);
 
         try {
             InputStream stream = new FileInputStream(new File(path));
-            UploadTask uploadTask = mountainImagesRef.putStream(stream);
+            UploadTask uploadTask = ImagesRef.putStream(stream);
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
@@ -241,8 +248,9 @@ public class Image_Capture_Location extends BaseActivity implements GoogleApiCli
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                     Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                    String downloadlink = downloadUrl.toString();
                     try {
-                        Image_Items image_items = new Image_Items(name, time,downloadUrl.toString(), lat, longt);
+                        Image_Items image_items = new Image_Items(name, time, downloadlink, lat, longt);
 
                         String userId = mDatabase.push().getKey();
 
@@ -256,6 +264,44 @@ public class Image_Capture_Location extends BaseActivity implements GoogleApiCli
             });
         } catch (Exception e) {
             shortToast("File not Found " + e.getMessage());
+        }
+    }
+
+    private void FetchAllImageDetails() {
+        showProgressDialog();
+        final List<Image_Items> mImageEntries = new ArrayList<>();
+        try {
+            mDatabase.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot eventsnapshot : dataSnapshot.getChildren()) {
+
+                        Image_Items image_items = eventsnapshot.getValue(Image_Items.class);
+                        Utils.Images_name_Array_List.add(image_items.getName());
+                        Utils.Images_latitude_Array_List.add(image_items.getLatitude());
+                        Utils.Images_longitude_Array_List.add(image_items.getLongitude());
+                        Utils.images_time_arraylist.add(image_items.getTime());
+                        mImageEntries.add(image_items);
+
+                    }
+                    closeProgressDialog();
+                    Image_Adapter adapter = new Image_Adapter(Image_Capture_Location.this);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    closeProgressDialog();
+                    Log.d("usermasterdatabaseerror", databaseError.getMessage());
+                    shortToast("Exception");
+                }
+            });
+
+
+        } catch (Exception e) {
+            closeProgressDialog();
+            e.printStackTrace();
         }
     }
 

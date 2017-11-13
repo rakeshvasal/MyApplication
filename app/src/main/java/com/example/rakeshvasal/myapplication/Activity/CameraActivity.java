@@ -242,8 +242,8 @@ public class CameraActivity extends BaseActivity {
                 Intent intent = new Intent();
                 String image_name = pictureFile.getName();
                 String image_path = pictureFile.getPath();
-                intent.putExtra("imagename","" );
-                intent.putExtra("image_path", "");
+                intent.putExtra("imagename",image_name );
+                intent.putExtra("image_path", image_path);
                 setResult(-1, intent);
                 releaseCameraAndPreview();
                 finish();
