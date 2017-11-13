@@ -11,11 +11,15 @@
     <include
         android:id="@+id/toolbar"
         layout="@layout/header_layout"></include>
-
+    <TextView
+        android:id="@+id/image_count"
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar">
+        android:layout_below="@+id/image_count">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/image_list"

@@ -47,6 +47,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -69,7 +73,7 @@ public class Image_Capture_Location extends BaseActivity implements GoogleApiCli
     String ImagePath = Environment.getExternalStorageDirectory() + "/ImageFolder/";
     private static final int CAMERA_CUSTOM_CAPTURE = 1;
     SharedPreferences preferences;
-
+    TextView count;
     private DatabaseReference mDatabase;
     FirebaseDatabase mFirebaseInstance;
     FirebaseStorage storage;
@@ -118,15 +122,25 @@ public class Image_Capture_Location extends BaseActivity implements GoogleApiCli
 
         TextView page_title = (TextView) findViewById(R.id.page_title);
         page_title.setText(R.string.Dashboard);
+        count = (TextView) findViewById(R.id.image_count);
         ImageView sign_out = (ImageView) findViewById(R.id.sign_out);
         ImageView click = (ImageView) findViewById(R.id.click);
         ImageView upload = (ImageView) findViewById(R.id.upload);
+        Utils.Images_name_Array_List.clear();
+        Utils.Images_latitude_Array_List.clear();
+        Utils.Images_longitude_Array_List.clear();
+        Utils.images_time_arraylist.clear();
+
         FetchAllImageDetails();
         click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Image_Capture_Location.this, CameraActivity.class);
-                startActivityForResult(intent, CAMERA_CUSTOM_CAPTURE);
+                if (Utils.isConnectedToGps(Image_Capture_Location.this)) {
+                    Intent intent = new Intent(Image_Capture_Location.this, CameraActivity.class);
+                    startActivityForResult(intent, CAMERA_CUSTOM_CAPTURE);
+                }else {
+                    Utils.showSettingsAlert(Image_Capture_Location.this);
+                }
             }
         });
 
@@ -140,10 +154,11 @@ public class Image_Capture_Location extends BaseActivity implements GoogleApiCli
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String time = Utils.images_time_arraylist.get(0);
-                Double latitude = Utils.Images_latitude_Array_List.get(0);
-                Double longitude = Utils.Images_longitude_Array_List.get(0);
-                String name = Utils.Images_name_Array_List.get(0);
+                int index = Utils.images_time_arraylist.size()-1;
+                String time = Utils.images_time_arraylist.get(index);
+                Double latitude = Utils.Images_latitude_Array_List.get(index);
+                Double longitude = Utils.Images_longitude_Array_List.get(index);
+                String name = Utils.Images_name_Array_List.get(index);
                 AddtoFirebase(latitude, longitude, name, time);
             }
         });
@@ -227,7 +242,7 @@ public class Image_Capture_Location extends BaseActivity implements GoogleApiCli
 
     private void AddtoFirebase(final Double lat, final Double longt, final String name, final String time) {
 
-
+        showProgressDialog("Uploading Image Please Wait");
         //used to store in the parent/root directory
         StorageReference images = storageRef.child("mountains.jpg");
         //used to store in the folder that u define directory
@@ -258,25 +273,31 @@ public class Image_Capture_Location extends BaseActivity implements GoogleApiCli
 
                     } catch (Exception e) {
                         e.printStackTrace();
+                        shortToast("Exception while Uploading");
+                        closeProgressDialog();
                     }
                     Log.d("url", downloadUrl.toString());
+                    closeProgressDialog();
                 }
             });
         } catch (Exception e) {
             shortToast("File not Found " + e.getMessage());
+            closeProgressDialog();
         }
     }
 
     private void FetchAllImageDetails() {
         showProgressDialog();
         final List<Image_Items> mImageEntries = new ArrayList<>();
+
         try {
-            mDatabase.addValueEventListener(new ValueEventListener() {
+            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot eventsnapshot : dataSnapshot.getChildren()) {
 
                         Image_Items image_items = eventsnapshot.getValue(Image_Items.class);
+                        String key  = eventsnapshot.getKey();
                         Utils.Images_name_Array_List.add(image_items.getName());
                         Utils.Images_latitude_Array_List.add(image_items.getLatitude());
                         Utils.Images_longitude_Array_List.add(image_items.getLongitude());
@@ -284,6 +305,8 @@ public class Image_Capture_Location extends BaseActivity implements GoogleApiCli
                         mImageEntries.add(image_items);
 
                     }
+                    int size = Utils.Images_latitude_Array_List.size();
+                    count.setText("Total Images :" + size);
                     closeProgressDialog();
                     Image_Adapter adapter = new Image_Adapter(Image_Capture_Location.this);
                     recyclerView.setAdapter(adapter);

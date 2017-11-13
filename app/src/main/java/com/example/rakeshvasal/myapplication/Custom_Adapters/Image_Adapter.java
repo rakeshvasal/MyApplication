@@ -69,7 +69,7 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
             title = (TextView) view.findViewById(R.id.image_name);
             latitude = (TextView) view.findViewById(R.id.latitude);
             longitude = (TextView) view.findViewById(R.id.longitude);
-            thumbnail = (ImageView) view.findViewById(R.id.list_image);
+            //thumbnail = (ImageView) view.findViewById(R.id.list_image);
 
         }
     }
@@ -134,14 +134,14 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
 
         //}
 
-        holder.thumbnail.setOnClickListener(new View.OnClickListener() {
+        /*holder.thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, ViewImageFragment.class);
                 intent.putExtra("image_path",images_path.get(position).toString());
                 context.startActivity(intent);
             }
-        });
+        });*/
         /*}*/
     }
 
