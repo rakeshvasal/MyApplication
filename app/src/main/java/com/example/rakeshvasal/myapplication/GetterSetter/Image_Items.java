@@ -5,17 +5,20 @@ package com.example.rakeshvasal.myapplication.GetterSetter;
  */
 
 public class Image_Items {
-    private String name,time;
+    private String name;
+    private String time;
+    private String download_url;
     private double latitude,longitude;
     private int numOfImages;
     private int thumbnail;
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
+    public Image_Items(String name, String time, String download_url, double latitude, double longitude) {
+        this.name = name;
         this.time = time;
+        this.download_url = download_url;
+        this.latitude = latitude;
+        this.longitude = longitude;
+
     }
 
     public Image_Items(String name, String time, double latitude, double longitude) {
@@ -26,9 +29,6 @@ public class Image_Items {
         this.longitude = longitude;
     }
 
-    public Image_Items(){
-
-    }
     public Image_Items (String name,double latitude,double longitude/*, int numOfImages*/) {
         this.name = name;
         this.latitude=latitude;
@@ -37,6 +37,17 @@ public class Image_Items {
 
     }
 
+    public Image_Items(){
+
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public String getName(){
         return name;
@@ -70,6 +81,11 @@ public class Image_Items {
         this.longitude=longitude;
     }
 
+    public String getDownload_url() {
+        return download_url;
+    }
 
-
+    public void setDownload_url(String download_url) {
+        this.download_url = download_url;
+    }
 }

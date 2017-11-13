@@ -25,13 +25,26 @@
             android:layout_height="match_parent">
 
         </android.support.v7.widget.RecyclerView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
 
+            android:layout_alignParentBottom="true"
+            android:weightSum="1">
         <ImageView
             android:id="@+id/click"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_alignParentBottom="true"
+            android:layout_height="match_parent"
+
             android:src="@drawable/photo_camera"/>
+            <ImageView
+                android:id="@+id/upload"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:src="@drawable/rock" />
+        </LinearLayout>
+
     </RelativeLayout>
 </RelativeLayout>

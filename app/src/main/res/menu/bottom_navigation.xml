@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/bottom_navigation_scan"
-        android:icon="@drawable/ic_action_upload"
+        android:icon="@drawable/ic_cloud_upload_white_36dp"
         android:title="Scan" />
 
     <item
@@ -10,13 +10,10 @@
         android:icon="@drawable/ic_assignment_white_36dp"
         android:title="Details" />
 
-   <!-- <item
-        android:id="@+id/bottom_navigation_yellow"
-        android:icon="@drawable/ic_music_note_black_24dp"
-        android:title="Yellow" />
 
-    <item
-        android:id="@+id/bottom_navigation_red"
-        android:icon="@drawable/ic_movie_black_24dp"
-        android:title="Red" />-->
+
+    <!--  <item
+         android:id="@+id/bottom_navigation_red"
+         android:icon="@drawable/ic_movie_black_24dp"
+         android:title="Red" />-->
 </menu>

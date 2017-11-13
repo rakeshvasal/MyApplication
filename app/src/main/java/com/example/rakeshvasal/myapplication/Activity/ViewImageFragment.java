@@ -7,10 +7,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -30,6 +33,8 @@ public class ViewImageFragment extends AppCompatActivity {
     Bitmap bm;
     FileInputStream fs = null;
     Activity activity;
+    BottomNavigationView navigation;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_view_image);
@@ -38,11 +43,12 @@ public class ViewImageFragment extends AppCompatActivity {
         bfOptions.inJustDecodeBounds = true;*/
         bfOptions.inJustDecodeBounds = false;
         bfOptions.inSampleSize = 32;
-        Intent intent=getIntent();
+        Intent intent = getIntent();
         Bundle b = intent.getExtras();
-        String path  = b.getString("image_path");
+        String path = b.getString("image_path");
         activity = ViewImageFragment.this;
-
+        navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         imageView = (ImageView) findViewById(R.id.image_view);
         try {
@@ -59,13 +65,29 @@ public class ViewImageFragment extends AppCompatActivity {
                 Glide.with(activity).load(bytesImage).asBitmap().into(imageView);
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+            switch (item.getItemId()) {
+                case R.id.bottom_navigation_scan:
+
+                    return true;
+                case R.id.bottom_navigation_details:
+
+                    return true;
+            }
+
+            return false;
+        }
+
+    };
 
 
 }

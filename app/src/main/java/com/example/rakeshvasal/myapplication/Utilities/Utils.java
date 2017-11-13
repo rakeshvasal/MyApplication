@@ -66,6 +66,7 @@ public class Utils {
     public static ArrayList<String> positionOfDeletion = new ArrayList<>();
     private static ProgressDialog progressDialog;
     public static String GOOGLE_LOGIN_DATA = "GoogleAccountDetails";
+    public static String Imagga_API_URL = "https://api.imagga.com";
 
     public static boolean isLoggedIn(Context context) {
         pref = context.getSharedPreferences("LoginStatus", Context.MODE_PRIVATE);
