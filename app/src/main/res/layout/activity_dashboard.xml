@@ -180,6 +180,15 @@
                     style="@style/MyLinearayoutStyle"
                     />
 
+                <TextView
+                    android:id="@+id/imagescan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Image Study"
+                    android:textSize="@dimen/activity_text_size"
+                    style="@style/MyLinearayoutStyle"
+                    />
+
             </LinearLayout>
 
         </ScrollView>

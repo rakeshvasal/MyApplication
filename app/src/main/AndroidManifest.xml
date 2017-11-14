@@ -105,18 +105,17 @@
         <activity
             android:name=".Activity.CricInfoAPI"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".Activity.CameraActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".Activity.ViewImageFragment"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Activity.CameraActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.ViewImageFragment"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".Services.FusedLocationService"
             android:enabled="true"
             android:exported="true" />
-
         <service
             android:name=".FirebaseCloudMessaging.MyFirebaseMessagingService"
             android:enabled="true"
@@ -148,7 +147,8 @@
             android:exported="true" />
 
         <activity android:name=".Activity.GalleryActivity" />
-        <activity android:name=".Activity.MatchDetailsActivity"></activity>
+        <activity android:name=".Activity.MatchDetailsActivity" />
+        <activity android:name=".Activity.ImageActivity"></activity>
     </application>
 
 </manifest>

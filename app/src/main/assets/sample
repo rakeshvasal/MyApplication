@@ -69,3 +69,4 @@ compile 'com.android.support:multidex:1.0.1'
   http://api.imagga.com/v1/tagging?url=http://imagga.com/static/images/tagging/wind-farm-538576_640.jpg
 
    compile 'com.clarifai.clarifai-api2:core:2.3.0'
+     compile 'com.clarifai.clarifai-api2:core:2.3.0'

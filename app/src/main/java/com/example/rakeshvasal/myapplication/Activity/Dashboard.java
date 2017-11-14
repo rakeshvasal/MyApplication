@@ -158,6 +158,15 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
             }
         });
 
+        TextView imagescan = (TextView) findViewById(R.id.imagescan);
+        imagescan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Dashboard.this, ImageActivity.class);
+                startActivity(intent);
+            }
+        });
+
         nested_scroll_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
