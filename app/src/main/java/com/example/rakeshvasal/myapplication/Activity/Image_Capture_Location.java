@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -61,7 +62,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Image_Capture_Location extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class Image_Capture_Location extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener,SwipeRefreshLayout.OnRefreshListener {
     private GoogleApiClient mGoogleApiClient;
     double latitude, longitude;
     final int CAMERA_CAPTURE = 1;
@@ -332,6 +333,12 @@ public class Image_Capture_Location extends BaseActivity implements GoogleApiCli
     private int dpToPx(int dp) {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
+    }
+
+    @Override
+    public void onRefresh() {
+
+        FetchAllImageDetails();
     }
 
     public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
