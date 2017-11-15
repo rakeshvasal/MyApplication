@@ -5,6 +5,8 @@
     tools:context="com.example.rakeshvasal.myapplication.Fragments.ImageAnalysisFragment">
 
     <!-- TODO: Update blank fragment layout -->
+
+
     <Button
         android:id="@+id/scan"
         android:layout_width="match_parent"

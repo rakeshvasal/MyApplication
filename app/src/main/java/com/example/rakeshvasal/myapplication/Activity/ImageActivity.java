@@ -20,6 +20,9 @@ public class ImageActivity extends AppCompatActivity {
     private void init() {
 
 
+
+
+
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         Fragment fragment = new ImageAnalysisFragment();
         transaction.add(R.id.fragment_container, fragment);
