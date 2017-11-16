@@ -11,14 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.rakeshvasal.myapplication.Activity.ImageActivity;
 import com.example.rakeshvasal.myapplication.Activity.Image_Capture_Location;
 import com.example.rakeshvasal.myapplication.GetterSetter.Image_Items;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
-import com.example.rakeshvasal.myapplication.Activity.ViewImageFragment;
+
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -62,6 +64,7 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
         public TextView title, longitude, latitude;
         public ImageView thumbnail;
         CardView cv;
+        LinearLayout card_item;
 
         public MyViewHolder(View view) {
             super(view);
@@ -69,7 +72,7 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
             title = (TextView) view.findViewById(R.id.image_name);
             latitude = (TextView) view.findViewById(R.id.latitude);
             longitude = (TextView) view.findViewById(R.id.longitude);
-            //thumbnail = (ImageView) view.findViewById(R.id.list_image);
+            card_item = (LinearLayout) view.findViewById(R.id.card_item);
 
         }
     }
@@ -94,55 +97,23 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
             /*int size=images_path.size();
             for (int i = 0 ; i < size; i++) {*/
             try {
-                holder.title.setText(Utils.Images_name_Array_List.get(position).toString());
-                holder.latitude.setText(Utils.Images_latitude_Array_List.get(position).toString());
-                holder.longitude.setText(Utils.Images_longitude_Array_List.get(position).toString());
+                holder.title.setText("Name "+Utils.Images_name_Array_List.get(position).toString());
+                holder.latitude.setText("Lat "+Utils.Images_latitude_Array_List.get(position).toString());
+                holder.longitude.setText("Long "+Utils.Images_longitude_Array_List.get(position).toString());
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            /*try {
-                fs = new FileInputStream(new File(images_path.get(position).toString()));
+            holder.card_item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ImageActivity.class);
+                    intent.putExtra("source","googleurl");
+                    intent.putExtra("imageurl",Utils.Images_url_Array_List.get(position).toString());
+                    context.startActivity(intent);
 
-                if (fs != null) {
-                    try {
-                        bm = BitmapFactory.decodeFileDescriptor(fs.getFD(), null, bfOptions);
-                        ByteArrayOutputStream os = new ByteArrayOutputStream();
-                        //Bitmap resized = Bitmap.createScaledBitmap(bm,(int)(bm.getWidth()*0.7), (int)(bm.getHeight()*0.7), true);
-                        //imageView.setImageBitmap(resized);
-                        bm.compress(Bitmap.CompressFormat.JPEG, 90, os);
-                        byte[] bytes = os.toByteArray();
-                        String image = Base64.encodeToString(bytes, Base64.DEFAULT);
-                        byte[] bytesImage = Base64.decode(image, Base64.DEFAULT);
-                        Glide.with(context).load(bytesImage).asBitmap().into(holder.thumbnail);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    //holder.thumbnail.setImageBitmap(bm);
-                    //Glide.with(context).load(bm).into(holder.image.setImageBitmap(bitmap););
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (fs != null) {
-                    try {
-                        fs.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }*/
+            });
 
-        //}
-
-        /*holder.thumbnail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, ViewImageFragment.class);
-                intent.putExtra("image_path",images_path.get(position).toString());
-                context.startActivity(intent);
-            }
-        });*/
-        /*}*/
     }
 
     @Override

@@ -130,7 +130,8 @@ public class Image_Capture_Location extends BaseActivity implements GoogleApiCli
         Utils.Images_name_Array_List.clear();
         Utils.Images_latitude_Array_List.clear();
         Utils.Images_longitude_Array_List.clear();
-        Utils.images_time_arraylist.clear();
+        Utils.Images_time_arraylist.clear();
+        Utils.Images_url_Array_List.clear();
 
         FetchAllImageDetails();
         click.setOnClickListener(new View.OnClickListener() {
@@ -155,8 +156,8 @@ public class Image_Capture_Location extends BaseActivity implements GoogleApiCli
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int index = Utils.images_time_arraylist.size()-1;
-                String time = Utils.images_time_arraylist.get(index);
+                int index = Utils.Images_time_arraylist.size()-1;
+                String time = Utils.Images_time_arraylist.get(index);
                 Double latitude = Utils.Images_latitude_Array_List.get(index);
                 Double longitude = Utils.Images_longitude_Array_List.get(index);
                 String name = Utils.Images_name_Array_List.get(index);
@@ -226,7 +227,7 @@ public class Image_Capture_Location extends BaseActivity implements GoogleApiCli
                 Utils.Images_latitude_Array_List.add(latitude);
                 Utils.Images_longitude_Array_List.add(longitude);
                 Utils.Images_name_Array_List.add(image_name);
-                Utils.images_time_arraylist.add(timeStamp1);
+                Utils.Images_time_arraylist.add(timeStamp1);
                 //AddtoFirebase(latitude,longitude,image_name,timeStamp1);
 
                 listOfImagesPath = null;
@@ -302,7 +303,8 @@ public class Image_Capture_Location extends BaseActivity implements GoogleApiCli
                         Utils.Images_name_Array_List.add(image_items.getName());
                         Utils.Images_latitude_Array_List.add(image_items.getLatitude());
                         Utils.Images_longitude_Array_List.add(image_items.getLongitude());
-                        Utils.images_time_arraylist.add(image_items.getTime());
+                        Utils.Images_time_arraylist.add(image_items.getTime());
+                        Utils.Images_url_Array_List.add(image_items.getDownload_url());
                         mImageEntries.add(image_items);
 
                     }

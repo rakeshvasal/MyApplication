@@ -28,6 +28,7 @@
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
+            android:layout_above="@+id/ll_main"
             android:layout_height="wrap_content">
 
             <android.support.v7.widget.RecyclerView
@@ -51,6 +52,7 @@
                 android:id="@+id/click"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_weight="0.5"
                 android:layout_gravity="end"
                 android:src="@drawable/photo_camera" />
 
@@ -58,6 +60,7 @@
                 android:id="@+id/upload"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_weight="0.5"
                 android:layout_gravity="end"
                 android:src="@drawable/rock" />
         </LinearLayout>

@@ -23,6 +23,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
+
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +38,12 @@ import clarifai2.api.request.model.PredictRequest;
 import clarifai2.dto.input.ClarifaiInput;
 import clarifai2.dto.model.output.ClarifaiOutput;
 import clarifai2.dto.prediction.Concept;
+import clarifai2.internal.JSONAdapterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ImageAnalysisFragment extends BaseFragment {
+public class ImageAnalysisFragment extends BaseFragment{
 
     FirebaseStorage storage;
     StorageReference storageRef;
@@ -117,21 +123,27 @@ public class ImageAnalysisFragment extends BaseFragment {
         }
     }
 
+
+
+
+
     class StudyImage extends AsyncTask<Void,Void,Void>{
 
         @Override
         protected Void doInBackground(Void... voids) {
+
+
             final PredictRequest<Concept> predictionResults =
                     client.getDefaultModels().generalModel() // You can also do client.getModelByID("id") to get your custom models
                             .predict()
                             .withInputs(
-                                    ClarifaiInput.forImage(array_image_paths[0]));
+                                    ClarifaiInput.forImage("image url here"));
 
             List<ClarifaiOutput<Concept>> result = predictionResults.executeSync().get();
             result.get(0);
             Log.d("Result",""+result);
-
-
+            String json = new Gson().toJson(result);
+            Log.d("Resultinjson",""+result);
             return null;
         }
 
@@ -146,9 +158,5 @@ public class ImageAnalysisFragment extends BaseFragment {
             super.onPreExecute();
             showProgressDialog();
         }
-
-
-
     }
-
 }

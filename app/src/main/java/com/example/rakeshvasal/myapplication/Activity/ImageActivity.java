@@ -2,6 +2,7 @@ package com.example.rakeshvasal.myapplication.Activity;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -19,9 +20,9 @@ public class ImageActivity extends AppCompatActivity {
 
     private void init() {
 
-
-
-
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        String source =  bundle.getString("source");
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         Fragment fragment = new ImageAnalysisFragment();

@@ -53,8 +53,8 @@ public class Utils {
     public static ArrayList<Double> Images_latitude_Array_List = new ArrayList<>();
     public static ArrayList<Double> Images_longitude_Array_List = new ArrayList<>();
     public static ArrayList<String> Images_name_Array_List = new ArrayList<>();
-    public static ArrayList<String> images_time_arraylist = new ArrayList<>();
-    public static ArrayList<String> vehicle_make_id_array_list = new ArrayList<>();
+    public static ArrayList<String> Images_time_arraylist = new ArrayList<>();
+    public static ArrayList<String> Images_url_Array_List = new ArrayList<>();
     public static ArrayList<String> photos_spinner_update_value = new ArrayList<>();
     public static ArrayList<String> step2_spinner_position_update_value = new ArrayList<>();
     public static ArrayList<String> step2_spinner_position_database_insert_update_value = new ArrayList<>();
