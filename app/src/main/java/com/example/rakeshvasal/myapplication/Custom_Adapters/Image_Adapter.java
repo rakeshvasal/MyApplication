@@ -108,7 +108,7 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
                 public void onClick(View view) {
                     Intent intent = new Intent(context, ImageActivity.class);
                     intent.putExtra("source","googleurl");
-                    intent.putExtra("imageurl",Utils.Images_url_Array_List.get(position).toString());
+                    intent.putExtra("image_path",Utils.Images_url_Array_List.get(position).toString());
                     context.startActivity(intent);
 
                 }

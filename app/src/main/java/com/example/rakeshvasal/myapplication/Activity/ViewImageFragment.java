@@ -12,6 +12,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.R;
 
 import java.io.ByteArrayOutputStream;
@@ -26,7 +28,7 @@ import java.io.File;
 import java.io.FileInputStream;
 
 
-public class ViewImageFragment extends AppCompatActivity {
+public class ViewImageFragment extends BaseFragment {
 
     ImageView imageView;
     BitmapFactory.Options bfOptions;
@@ -35,25 +37,26 @@ public class ViewImageFragment extends AppCompatActivity {
     Activity activity;
     BottomNavigationView navigation;
 
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_view_image);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View root = inflater.inflate(R.layout.fragment_view_image, container, false);
+
         bfOptions = new BitmapFactory.Options();
        /* bfOptions.inPurgeable=true;
         bfOptions.inJustDecodeBounds = true;*/
         bfOptions.inJustDecodeBounds = false;
         bfOptions.inSampleSize = 32;
-        Intent intent = getIntent();
-        Bundle b = intent.getExtras();
-        String path = b.getString("image_path");
-        activity = ViewImageFragment.this;
-        navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+       String image_path = getArguments().getString("image_path");
+        Log.d("image_path", "" + image_path);
+
+        navigation = (BottomNavigationView) root.findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        imageView = (ImageView) findViewById(R.id.image_view);
+        imageView = (ImageView) root.findViewById(R.id.image_view);
         try {
-            if (path != null && !path.equalsIgnoreCase("")) {
-                fs = new FileInputStream(new File(path));
+            if (image_path != null && !image_path.equalsIgnoreCase("")) {
+                fs = new FileInputStream(new File(image_path));
                 bm = BitmapFactory.decodeFileDescriptor(fs.getFD(), null, bfOptions);
                 ByteArrayOutputStream os = new ByteArrayOutputStream();
                 //Bitmap resized = Bitmap.createScaledBitmap(bm,(int)(bm.getWidth()*0.7), (int)(bm.getHeight()*0.7), true);
@@ -68,7 +71,7 @@ public class ViewImageFragment extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        return root;
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {

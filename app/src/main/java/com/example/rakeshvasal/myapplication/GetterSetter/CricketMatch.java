@@ -24,7 +24,7 @@ public class CricketMatch {
     @SerializedName("unique_id")
     private int uniqueId;
 
-    public CricketMatch(String team1, String team2, String type, String matchstarted, String date, String winnerteam, int uniqueId){
+    public CricketMatch(String team1, String team2, String type, String matchstarted, String date, String werteam, int uniqueId){
         this.team1 = team1;
         this.team2 = team2;
         this.type = type;
@@ -62,10 +62,7 @@ public class CricketMatch {
         this.uniqueId = uniqueId;
     }
 
-    public String getTeam1() {
-
-        return team1;
-    }
+    public String getTeam1() { return team1; }
 
     public String getTeam2() {
         return team2;

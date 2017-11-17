@@ -163,6 +163,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Dashboard.this, ImageActivity.class);
+                intent.putExtra("source","dashboard");
                 startActivity(intent);
             }
         });

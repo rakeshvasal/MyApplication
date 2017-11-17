@@ -19,15 +19,30 @@ public class ImageActivity extends AppCompatActivity {
     }
 
     private void init() {
-
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        String source =  bundle.getString("source");
+        String source = bundle.getString("source");
+        String image_path = bundle.getString("image_path");
+        if (source != null) {
+            if (source.equalsIgnoreCase("googleurl")) {
 
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        Fragment fragment = new ImageAnalysisFragment();
-        transaction.add(R.id.fragment_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+                Bundle arg = new Bundle();
+                arg.putString("image_path", image_path);
+                Fragment fragment = new ViewImageFragment();
+                transaction.add(R.id.fragment_container, fragment);
+                fragment.setArguments(arg);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            } else if (source.equalsIgnoreCase("dashboard")) {
+                Bundle arg = new Bundle();
+                arg.putString("image_path", image_path);
+                Fragment fragment = new ImageAnalysisFragment();
+                transaction.add(R.id.fragment_container, fragment);
+                fragment.setArguments(arg);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        }
     }
 }

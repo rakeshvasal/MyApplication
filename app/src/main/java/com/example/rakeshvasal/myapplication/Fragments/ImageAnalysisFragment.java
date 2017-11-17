@@ -28,7 +28,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,15 +42,16 @@ import clarifai2.internal.JSONAdapterFactory;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ImageAnalysisFragment extends BaseFragment{
+public class ImageAnalysisFragment extends BaseFragment {
 
     FirebaseStorage storage;
     StorageReference storageRef;
     private DatabaseReference mDatabase;
     FirebaseDatabase mFirebaseInstance;
     String[] array_image_paths;
-   ClarifaiClient client;
-    String output;
+    ClarifaiClient client;
+    String output, image_path;
+
     public ImageAnalysisFragment() {
         // Required empty public constructor
     }
@@ -65,69 +65,25 @@ public class ImageAnalysisFragment extends BaseFragment{
 
         client = new ClarifaiBuilder(getResources().getString(R.string.Clairify_API_KEY)).buildSync();
         Button scan = (Button) root.findViewById(R.id.scan);
+        image_path = getArguments().getString("image_path");
+        Log.d("image_path", "" + image_path);
+        if (image_path != null && !image_path.equalsIgnoreCase("")) {
+            scan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
+                    new StudyImage().execute();
 
-        mFirebaseInstance = FirebaseDatabase.getInstance();
-        mDatabase = mFirebaseInstance.getReference("ImageList");
-
-        storage = FirebaseStorage.getInstance();
-        storageRef = storage.getReference();
-        FetchAllImageDetails();
-
-        scan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            new StudyImage().execute();
-
-            }
-        });
-
+                }
+            });
+        }
 
 
         return root;
     }
 
-    private void FetchAllImageDetails() {
-        showProgressDialog();
 
-
-        try {
-            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    array_image_paths = new String[(int)dataSnapshot.getChildrenCount()];
-
-                    for (DataSnapshot eventsnapshot : dataSnapshot.getChildren()) {
-
-                        Image_Items image_items = eventsnapshot.getValue(Image_Items.class);
-                        array_image_paths[0] = image_items.getDownload_url();
-
-
-                    }
-                    closeProgressDialog();
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    closeProgressDialog();
-                    Log.d("usermasterdatabaseerror", databaseError.getMessage());
-                    shortToast("Exception");
-                }
-            });
-
-
-        } catch (Exception e) {
-            closeProgressDialog();
-            e.printStackTrace();
-        }
-    }
-
-
-
-
-
-    class StudyImage extends AsyncTask<Void,Void,Void>{
+    class StudyImage extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -137,13 +93,13 @@ public class ImageAnalysisFragment extends BaseFragment{
                     client.getDefaultModels().generalModel() // You can also do client.getModelByID("id") to get your custom models
                             .predict()
                             .withInputs(
-                                    ClarifaiInput.forImage("image url here"));
+                                    ClarifaiInput.forImage(image_path));
 
             List<ClarifaiOutput<Concept>> result = predictionResults.executeSync().get();
             result.get(0);
-            Log.d("Result",""+result);
+            Log.d("Result", "" + result);
             String json = new Gson().toJson(result);
-            Log.d("Resultinjson",""+result);
+            Log.d("Resultinjson", "" + result);
             return null;
         }
 
