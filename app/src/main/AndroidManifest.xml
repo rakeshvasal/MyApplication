@@ -108,10 +108,6 @@
         <activity
             android:name=".Activity.CameraActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".Activity.ViewImageFragment"
-            android:screenOrientation="portrait" />
-
         <service
             android:name=".Services.FusedLocationService"
             android:enabled="true"
@@ -148,7 +144,8 @@
 
         <activity android:name=".Activity.GalleryActivity" />
         <activity android:name=".Activity.MatchDetailsActivity" />
-        <activity android:name=".Activity.ImageActivity"></activity>
+        <activity android:name=".Activity.ImageActivity" />
+        <activity android:name=".Activity.YoutubeDataActivity"></activity>
     </application>
 
 </manifest>

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.rakeshvasal.myapplication.Fragments.ImageAnalysisFragment;
+import com.example.rakeshvasal.myapplication.Fragments.ViewImageFragment;
 import com.example.rakeshvasal.myapplication.R;
 
 public class ImageActivity extends AppCompatActivity {
@@ -36,7 +37,7 @@ public class ImageActivity extends AppCompatActivity {
                 transaction.commit();
             } else if (source.equalsIgnoreCase("dashboard")) {
                 Bundle arg = new Bundle();
-                arg.putString("image_path", image_path);
+                arg.putString("image_path", "https://firebasestorage.googleapis.com/v0/b/myapplication-8f68b.appspot.com/o/mountains.jpg?alt=media&token=e61f3298-b821-4dab-ae7e-81f65021fdcd");
                 Fragment fragment = new ImageAnalysisFragment();
                 transaction.add(R.id.fragment_container, fragment);
                 fragment.setArguments(arg);
