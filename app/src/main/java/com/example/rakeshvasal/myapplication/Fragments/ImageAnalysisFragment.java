@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.example.rakeshvasal.myapplication.Activity.CharacterRecognition;
 import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.R;
 import com.google.firebase.database.DatabaseReference;
@@ -57,6 +58,7 @@ public class ImageAnalysisFragment extends BaseFragment {
     RecyclerView recyclerView;
     ArrayAdapter<String> baseAdapter;
     ListView lv;
+
     public ImageAnalysisFragment() {
         // Required empty public constructor
     }
@@ -70,26 +72,31 @@ public class ImageAnalysisFragment extends BaseFragment {
 
         client = new ClarifaiBuilder(getResources().getString(R.string.Clairify_API_KEY)).buildSync();
         Button scan = (Button) root.findViewById(R.id.scan);
+        Button ocr = (Button) root.findViewById(R.id.ocr);
         recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view);
         lv = (ListView) root.findViewById(R.id.lv);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-         parent = (LinearLayout) root.findViewById(R.id.parent);
+        parent = (LinearLayout) root.findViewById(R.id.parent);
         image_path = getArguments().getString("image_path");
         Log.d("image_path", "" + image_path);
-        if (image_path != null && !image_path.equalsIgnoreCase("")) {
-            scan.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
 
+        scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (image_path != null && !image_path.equalsIgnoreCase("")) {
                     new StudyImage().execute();
-
                 }
-            });
-        }
+            }
+        });
 
-
+        ocr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new CharacterRecognition(getActivity());
+            }
+        });
         return root;
     }
 
@@ -129,18 +136,18 @@ public class ImageAnalysisFragment extends BaseFragment {
     }
 
     private void showResults() {
-        HashMap<String,Double> hmap = new HashMap<String,Double>();
+        HashMap<String, Double> hmap = new HashMap<String, Double>();
         if (resultjson != null) {
             if (!resultjson.equalsIgnoreCase("")) {
                 try {
                     JSONArray jsonArray = new JSONArray(resultjson);
                     JSONObject jsonObject = jsonArray.getJSONObject(0);
                     JSONArray jsonArray1 = jsonObject.getJSONArray("data");
-                    for (int i =0;i < jsonArray1.length();i++){
-                            JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
-                            String key = jsonObject1.getString("name");
-                            Double value = jsonObject1.getDouble("value");
-                            hmap.put(key,value);
+                    for (int i = 0; i < jsonArray1.length(); i++) {
+                        JSONObject jsonObject1 = jsonArray1.getJSONObject(i);
+                        String key = jsonObject1.getString("name");
+                        Double value = jsonObject1.getDouble("value");
+                        hmap.put(key, value);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -148,19 +155,19 @@ public class ImageAnalysisFragment extends BaseFragment {
             }
         }
         Set<Map.Entry<String, Double>> set = hmap.entrySet();
-        String [] content = new String[hmap.size()];
+        String[] content = new String[hmap.size()];
         Iterator<Map.Entry<String, Double>> iterator = set.iterator();
-        int i=0;
-        while(iterator.hasNext()) {
+        int i = 0;
+        while (iterator.hasNext()) {
 
             Map.Entry<String, Double> mentry = iterator.next();
             String key = mentry.getKey().toString();
             Double value = Double.parseDouble(mentry.getValue().toString());
-            Log.d("value " + key ," :"+value);
-            Double s = value*100;
-            Log.d("s " + key ," :"+s);
+            Log.d("value " + key, " :" + value);
+            Double s = value * 100;
+            Log.d("s " + key, " :" + s);
             double roundOff = Math.round(s * 100.0) / 100.0;
-            content[i] = key +" : "+ roundOff+"%" ;
+            content[i] = key + " : " + roundOff + "%";
             i++;
         }
 
