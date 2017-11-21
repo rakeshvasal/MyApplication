@@ -4,36 +4,30 @@ package com.example.rakeshvasal.myapplication.Fragments;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.ListView;
 
-import com.example.rakeshvasal.myapplication.Activity.Image_Capture_Location;
 import com.example.rakeshvasal.myapplication.BaseFragment;
-import com.example.rakeshvasal.myapplication.Custom_Adapters.Image_Adapter;
-import com.example.rakeshvasal.myapplication.GetterSetter.Image_Items;
 import com.example.rakeshvasal.myapplication.R;
-import com.example.rakeshvasal.myapplication.Utilities.Utils;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.reflect.TypeToken;
 
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -46,7 +40,6 @@ import clarifai2.api.request.model.PredictRequest;
 import clarifai2.dto.input.ClarifaiInput;
 import clarifai2.dto.model.output.ClarifaiOutput;
 import clarifai2.dto.prediction.Concept;
-import clarifai2.internal.JSONAdapterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,7 +54,9 @@ public class ImageAnalysisFragment extends BaseFragment {
     ClarifaiClient client;
     String output, image_path, resultjson;
     LinearLayout parent;
-
+    RecyclerView recyclerView;
+    ArrayAdapter<String> baseAdapter;
+    ListView lv;
     public ImageAnalysisFragment() {
         // Required empty public constructor
     }
@@ -75,6 +70,11 @@ public class ImageAnalysisFragment extends BaseFragment {
 
         client = new ClarifaiBuilder(getResources().getString(R.string.Clairify_API_KEY)).buildSync();
         Button scan = (Button) root.findViewById(R.id.scan);
+        recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view);
+        lv = (ListView) root.findViewById(R.id.lv);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 1);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
          parent = (LinearLayout) root.findViewById(R.id.parent);
         image_path = getArguments().getString("image_path");
         Log.d("image_path", "" + image_path);
@@ -147,18 +147,26 @@ public class ImageAnalysisFragment extends BaseFragment {
                 }
             }
         }
-        Set set = hmap.entrySet();
-        Iterator iterator = set.iterator();
+        Set<Map.Entry<String, Double>> set = hmap.entrySet();
+        String [] content = new String[hmap.size()];
+        Iterator<Map.Entry<String, Double>> iterator = set.iterator();
+        int i=0;
         while(iterator.hasNext()) {
-            Map.Entry mentry = (Map.Entry)iterator.next();
-            ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            TextView tv=new TextView(getActivity());
-            tv.setLayoutParams(lparams);
-            Double value = Double.parseDouble(mentry.getValue().toString());
-            tv.setText(mentry.getKey()+ " = " +value*100);
-            this.parent.addView(tv);
 
+            Map.Entry<String, Double> mentry = iterator.next();
+            String key = mentry.getKey().toString();
+            Double value = Double.parseDouble(mentry.getValue().toString());
+            Log.d("value " + key ," :"+value);
+            Double s = value*100;
+            Log.d("s " + key ," :"+s);
+            double roundOff = Math.round(s * 100.0) / 100.0;
+            content[i] = key +" : "+ roundOff+"%" ;
+            i++;
         }
+
+        baseAdapter = new ArrayAdapter<>(getActivity(), R.layout.memo_content, R.id.memo_list_items, content);
+        //recyclerView.setAdapter();
+        lv.setAdapter(baseAdapter);
+        baseAdapter.notifyDataSetChanged();
     }
 }

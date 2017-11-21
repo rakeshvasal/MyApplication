@@ -277,7 +277,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
 
     private void updateUI(boolean signedIn) {
         if (signedIn) {
-            //findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+
             Intent intent = new Intent(this, Dashboard.class);
             startActivity(intent);
             finish();
