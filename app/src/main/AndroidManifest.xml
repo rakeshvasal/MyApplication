@@ -145,7 +145,8 @@
         <activity android:name=".Activity.GalleryActivity" />
         <activity android:name=".Activity.MatchDetailsActivity" />
         <activity android:name=".Activity.ImageActivity" />
-        <activity android:name=".Activity.YoutubeDataActivity"></activity>
+        <activity android:name=".Activity.YoutubeDataActivity" />
+        <activity android:name=".Activity.ZomatoActivity"></activity>
     </application>
 
 </manifest>

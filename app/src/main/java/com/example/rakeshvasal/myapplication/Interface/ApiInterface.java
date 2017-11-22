@@ -36,4 +36,6 @@ public interface ApiInterface {
     @POST("cricketScore/")
     Call<MatchDetails> checkLevel(@Field("id") int id);
 
+
+
 }
