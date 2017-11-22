@@ -1,6 +1,7 @@
 package com.example.rakeshvasal.myapplication.Fragments;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -36,7 +37,7 @@ public class ViewImageFragment extends BaseFragment {
     FileInputStream fs = null;
     Activity activity;
     BottomNavigationView navigation;
-
+    String image_path;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -47,7 +48,7 @@ public class ViewImageFragment extends BaseFragment {
         bfOptions.inJustDecodeBounds = true;*/
         bfOptions.inJustDecodeBounds = false;
         bfOptions.inSampleSize = 32;
-       String image_path = getArguments().getString("image_path");
+        image_path = getArguments().getString("image_path");
         Log.d("image_path", "" + image_path);
 
         navigation = (BottomNavigationView) root.findViewById(R.id.bottom_navigation);
@@ -80,6 +81,14 @@ public class ViewImageFragment extends BaseFragment {
 
             switch (item.getItemId()) {
                 case R.id.bottom_navigation_scan:
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    Bundle arg = new Bundle();
+                    arg.putString("image_path", image_path);
+                    android.app.Fragment fragment = new ImageAnalysisFragment();
+                    transaction.add(R.id.fragment_container, fragment);
+                    fragment.setArguments(arg);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
 
                     return true;
                 case R.id.bottom_navigation_details:

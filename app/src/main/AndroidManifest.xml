@@ -74,25 +74,13 @@
             android:name=".Activity.ShowLocationList"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog.NoActionBar" />
-        <activity
-            android:name=".Activity.RestaurantInfo"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Activity.Googlemap"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Activity.SplashScreen"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Activity.SearchPage"
-            android:screenOrientation="portrait" />
+
+
         <activity
             android:name=".Activity.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".Activity.Comments"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".Activity.OddessyMain"
             android:screenOrientation="portrait" />

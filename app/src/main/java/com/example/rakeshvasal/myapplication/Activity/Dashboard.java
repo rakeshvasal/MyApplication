@@ -119,7 +119,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
         zomato.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Dashboard.this, SplashScreen.class);
+                Intent intent = new Intent(Dashboard.this, ZomatoActivity.class);
                 startActivity(intent);
                 finish();
             }

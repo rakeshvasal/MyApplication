@@ -22,6 +22,5 @@ public class ZomatoActivity extends BaseActivity {
         transaction.addToBackStack(null);
         transaction.commit();
 
-
     }
 }

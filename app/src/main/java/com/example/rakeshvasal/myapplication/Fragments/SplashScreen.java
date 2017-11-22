@@ -23,7 +23,7 @@ public class SplashScreen extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.activity_splash_screen, container, false);
-
+        init();
         return root;
     }
 
@@ -34,7 +34,7 @@ public class SplashScreen extends BaseFragment {
             public void run() {
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 Fragment fragment = new SearchPage();
-                transaction.add(R.id.fragment_container, fragment);
+                transaction.replace(R.id.fragment_container, fragment);
                 transaction.commit();
             }
         },1000);

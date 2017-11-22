@@ -1,15 +1,21 @@
-package com.example.rakeshvasal.myapplication.Activity;
+package com.example.rakeshvasal.myapplication.Fragments;
 
 import android.Manifest;
+import android.app.Fragment;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.google.android.gms.location.LocationListener;
@@ -25,7 +31,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 /**
  * Created by User on 9/18/2016.
  */
-public class Googlemap extends AppCompatActivity implements LocationListener, OnMapReadyCallback {
+public class Googlemap extends Fragment implements LocationListener, OnMapReadyCallback {
     private GoogleMap googlemap;
     String userlat, userlng, res_name;
     LatLng userloc;
@@ -33,48 +39,48 @@ public class Googlemap extends AppCompatActivity implements LocationListener, On
     boolean onPause = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_google_map);
-        // calling init method to for initialization
-        Intent i = getIntent();
-        if (i != null) {
-            userlat = i.getStringExtra("lat");
-            userlng = i.getStringExtra("long");
-            res_name = i.getStringExtra("res_name");
-            if (Utils.is_Connected_To_Internet(Googlemap.this)) {
-                init();
-            } else {
-                Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-            }
+        View root = inflater.inflate(R.layout.activity_google_map, container, false);
 
+        userlat = getArguments().getString("lat");
+        userlng = getArguments().getString("long");
+        res_name = getArguments().getString("res_name");
+
+        if (Utils.is_Connected_To_Internet(getActivity())) {
+            init();
+        } else {
+            Toast.makeText(getActivity(), getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
 
         }
+        return root;
     }
 
     private void init() {
-        if (Utils.isConnectedToGps(Googlemap.this)) {
+        if (Utils.isConnectedToGps(getActivity())) {
 
             //initializing google maps & throwing error if failed to do so.
             if (googlemap == null) {
-                SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                        .findFragmentById(R.id.map);
-                mapFragment.getMapAsync(this);
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    MapFragment mapFragment = (MapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+                    mapFragment.getMapAsync(this);
+                }
+                /*MapFragment mapFragment = (MapFragment) getActivity().getFragmentManager()
+                        .findFragmentById(R.id.map);*/
+
             }
         } else {
 
-       Utils.showSettingsAlert(Googlemap.this);
+       Utils.showSettingsAlert(getActivity());
 
 
         }
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         if (onPause) {
-
             init();
             onPause = false;
         } else {
@@ -83,7 +89,7 @@ public class Googlemap extends AppCompatActivity implements LocationListener, On
 
     }
 
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         onPause = true;
     }
@@ -111,7 +117,7 @@ public class Googlemap extends AppCompatActivity implements LocationListener, On
     public void onMapReady(GoogleMap googleMap) {
 
         googlemap = googleMap;
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -126,7 +132,7 @@ public class Googlemap extends AppCompatActivity implements LocationListener, On
         getuserlocation();
 
         if (googleMap == null) {
-            Toast.makeText(getApplicationContext(), "Couldn't initialize google maps ! try again.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Couldn't initialize google maps ! try again.", Toast.LENGTH_LONG).show();
         }
     }
 }

@@ -1,9 +1,12 @@
 package com.example.rakeshvasal.myapplication.Custom_Adapters;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.rakeshvasal.myapplication.Activity.RestaurantInfo;
+import com.example.rakeshvasal.myapplication.Fragments.RestaurantInfo;
 import com.example.rakeshvasal.myapplication.DatabaseHelper.DatabaseHelper;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.GetterSetter.Search_Row_Item;
@@ -26,12 +29,14 @@ public class Search_Custom_Adapter extends ArrayAdapter<Search_Row_Item> {
     Activity activity;
     int resource;
     private List<Search_Row_Item> search_item = null;
+    FragmentManager fragmentManager;
 
-    public Search_Custom_Adapter(Activity activity, int search_list_item, List<Search_Row_Item> search_item) {
+    public Search_Custom_Adapter(Activity activity, int search_list_item, List<Search_Row_Item> search_item, FragmentManager fragmentManager) {
         super(activity, search_list_item, search_item);
         this.activity = activity;
         this.resource = search_list_item;
         this.search_item = search_item;
+        this.fragmentManager=fragmentManager;
     }
 
     public int getCount() {
@@ -85,12 +90,24 @@ public class Search_Custom_Adapter extends ArrayAdapter<Search_Row_Item> {
 
                 }
 
-                Intent intent = new Intent(activity, RestaurantInfo.class);
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                Bundle arg = new Bundle();
+                arg.putString("Restaurant_id", row_item.getRestaurant_id());
+                arg.putString("Restaurant_name", row_item.getRestaurant_name());
+                arg.putString("lat", lat);
+                arg.putString("long", longitude);
+                Fragment fragment = new RestaurantInfo();
+                fragment.setArguments(arg);
+                transaction.replace(R.id.fragment_container, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+
+                /*Intent intent = new Intent(activity, RestaurantInfo.class);
                 intent.putExtra("Restaurant_id", row_item.getRestaurant_id());
                 intent.putExtra("Restaurant_name", row_item.getRestaurant_name());
                 intent.putExtra("lat",lat);
                 intent.putExtra("long",longitude);
-                activity.startActivity(intent);
+                activity.startActivity(intent);*/
 
 
             }
