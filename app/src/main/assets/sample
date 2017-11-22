@@ -70,3 +70,6 @@ compile 'com.android.support:multidex:1.0.1'
 
    compile 'com.clarifai.clarifai-api2:core:2.3.0'
      compile 'com.clarifai.clarifai-api2:core:2.3.0'
+
+     compile 'com.rmtheis:tess-two:5.4.1'
+         compile files('libs/YouTubeAndroidPlayerApi.jar')
