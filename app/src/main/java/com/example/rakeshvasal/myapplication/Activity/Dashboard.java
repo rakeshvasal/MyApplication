@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rakeshvasal.myapplication.BaseActivity;
+import com.example.rakeshvasal.myapplication.Fragments.SplashScreen;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Services.UserLocation;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
