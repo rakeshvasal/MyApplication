@@ -81,10 +81,10 @@
             android:name=".Activity.Googlemap"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.SplashScreen"
+            android:name=".Fragments.SplashScreen"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.SearchPage"
+            android:name=".Fragments.SearchPage"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.FacebookActivity"
@@ -108,6 +108,7 @@
         <activity
             android:name=".Activity.CameraActivity"
             android:screenOrientation="portrait" />
+
         <service
             android:name=".Services.FusedLocationService"
             android:enabled="true"
@@ -145,7 +146,8 @@
         <activity android:name=".Activity.GalleryActivity" />
         <activity android:name=".Activity.MatchDetailsActivity" />
         <activity android:name=".Activity.ImageActivity" />
-        <activity android:name=".Activity.YoutubeDataActivity"></activity>
+        <activity android:name=".Activity.YoutubeDataActivity" />
+        <activity android:name=".Activity.ZomatoActivity"></activity>
     </application>
 
 </manifest>
