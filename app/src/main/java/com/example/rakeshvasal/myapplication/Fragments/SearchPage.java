@@ -50,7 +50,7 @@ public class SearchPage extends BaseFragment {
         lv = (ListView) root.findViewById(R.id.search_list);
         init();
         setDataInList();
-        //setSupportActionBar(toolbar);
+
         return root;
     }
 

@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.rakeshvasal.myapplication.Activity.ImageActivity;
 import com.example.rakeshvasal.myapplication.Activity.Image_Capture_Location;
 import com.example.rakeshvasal.myapplication.GetterSetter.Image_Items;
@@ -73,7 +75,7 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
             latitude = (TextView) view.findViewById(R.id.latitude);
             longitude = (TextView) view.findViewById(R.id.longitude);
             card_item = (LinearLayout) view.findViewById(R.id.card_item);
-
+            thumbnail = (ImageView) view.findViewById(R.id.list_image);
         }
     }
 
@@ -87,19 +89,21 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
 
 
     @Override
-    public void onBindViewHolder(Image_Adapter.MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final Image_Adapter.MyViewHolder holder, final int position) {
 
-        /*if (images_path.size() <= 0) {
-
-
-
-        } else {*/
-            /*int size=images_path.size();
-            for (int i = 0 ; i < size; i++) {*/
             try {
                 holder.title.setText("Name "+Utils.Images_name_Array_List.get(position).toString());
                 holder.latitude.setText("Lat "+Utils.Images_latitude_Array_List.get(position).toString());
                 holder.longitude.setText("Long "+Utils.Images_longitude_Array_List.get(position).toString());
+                Glide.with(context)
+                        .load(Utils.Images_url_Array_List.get(position).toString())
+                        .asBitmap()
+                        .into(new SimpleTarget<Bitmap>(100, 100) {
+                            @Override
+                            public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
+                                holder.thumbnail.setImageBitmap(bitmap);
+                            }
+                        });
             } catch (Exception e) {
                 e.printStackTrace();
             }

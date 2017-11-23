@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -21,12 +22,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 
 
 public class ViewImageFragment extends BaseFragment {
@@ -57,16 +61,8 @@ public class ViewImageFragment extends BaseFragment {
         imageView = (ImageView) root.findViewById(R.id.image_view);
         try {
             if (image_path != null && !image_path.equalsIgnoreCase("")) {
-                fs = new FileInputStream(new File(image_path));
-                bm = BitmapFactory.decodeFileDescriptor(fs.getFD(), null, bfOptions);
-                ByteArrayOutputStream os = new ByteArrayOutputStream();
-                //Bitmap resized = Bitmap.createScaledBitmap(bm,(int)(bm.getWidth()*0.7), (int)(bm.getHeight()*0.7), true);
-                //imageView.setImageBitmap(resized);
-                bm.compress(Bitmap.CompressFormat.JPEG, 100, os);
-                byte[] bytes = os.toByteArray();
-                String image = Base64.encodeToString(bytes, Base64.DEFAULT);
-                byte[] bytesImage = Base64.decode(image, Base64.DEFAULT);
-                Glide.with(activity).load(bytesImage).asBitmap().into(imageView);
+
+              new DownloadImage(getActivity(),image_path).execute();
             }
 
         } catch (Exception e) {
@@ -85,7 +81,7 @@ public class ViewImageFragment extends BaseFragment {
                     Bundle arg = new Bundle();
                     arg.putString("image_path", image_path);
                     android.app.Fragment fragment = new ImageAnalysisFragment();
-                    transaction.add(R.id.fragment_container, fragment);
+                    transaction.replace(R.id.fragment_container, fragment);
                     fragment.setArguments(arg);
                     transaction.addToBackStack(null);
                     transaction.commit();
@@ -101,5 +97,55 @@ public class ViewImageFragment extends BaseFragment {
 
     };
 
+    class DownloadImage extends AsyncTask<String, Void, Bitmap> {
+
+        Context context;
+        String image_url;
+        Bitmap img;
+
+        DownloadImage(Context context,String image_url){
+            this.context=context;
+            this.image_url=image_url;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            try {
+                InputStream in = new java.net.URL(image_url).openStream();
+                img = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+
+            return img;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgressDialog();
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            img.compress(Bitmap.CompressFormat.JPEG, 100, os);
+            byte[] bytes = os.toByteArray();
+            String image = Base64.encodeToString(bytes, Base64.DEFAULT);
+            byte[] bytesImage = Base64.decode(image, Base64.DEFAULT);
+            Glide.with(getActivity())
+                    .load(image_url)
+                    .asBitmap()
+                    .into(new SimpleTarget<Bitmap>(600, 400) {
+                        @Override
+                        public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
+                            imageView.setImageBitmap(bitmap);
+                        }
+                        });
+            closeProgressDialog();
+        }
+    }
 
 }
