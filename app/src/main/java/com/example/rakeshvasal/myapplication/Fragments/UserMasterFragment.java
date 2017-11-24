@@ -76,7 +76,7 @@ public class UserMasterFragment extends BaseFragment {
                 transaction.commit();
             }
         });
-
+        fetchallusers();
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

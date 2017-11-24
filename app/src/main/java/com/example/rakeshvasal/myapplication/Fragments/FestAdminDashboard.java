@@ -68,7 +68,11 @@ public class FestAdminDashboard extends Fragment{
 
                 }
                 if (position==2){
-
+                    FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
+                    Fragment fragment = new LocationMasterFragment();
+                    transaction.replace(R.id.fragment_container, fragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
                 }
                 if (position==3){
 
