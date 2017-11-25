@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.rakeshvasal.myapplication.Fragments.ViewImageFragment">
+    tools:context="com.example.rakeshvasal.myapplication.Fragments.MasterFragments.ViewImageFragment">
 
    <ImageView
        android:id="@+id/image_view"

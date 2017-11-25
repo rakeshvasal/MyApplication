@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/blur_background"
     android:padding="@dimen/activity_horizontal_margin"
-    tools:context="com.example.rakeshvasal.myapplication.Fragments.AddUpdateUserFragment">
+    tools:context="com.example.rakeshvasal.myapplication.Fragments.AddUpdateFragments.AddUpdateUserFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -89,6 +89,7 @@
                     android:layout_height="match_parent"
                     android:maxLines="1"/>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -107,6 +108,39 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_role"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="Role"/>
+                <RadioGroup
+                    android:id="@+id/role_group"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/rb_student"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="Student"/>
+                    <RadioButton
+                        android:id="@+id/rb_admin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:text="Admin"/>
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_pass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
@@ -126,6 +160,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_conf_pass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView

@@ -1,4 +1,4 @@
-package com.example.rakeshvasal.myapplication.Fragments;
+package com.example.rakeshvasal.myapplication.Fragments.MasterFragments;
 
 
 import android.app.FragmentTransaction;
@@ -17,18 +17,13 @@ import android.widget.EditText;
 
 import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.LocationMasterAdapter;
-import com.example.rakeshvasal.myapplication.Custom_Adapters.UserMasterAdapter;
-import com.example.rakeshvasal.myapplication.GetterSetter.User;
+import com.example.rakeshvasal.myapplication.Fragments.AddUpdateFragments.AddUpdateLocationFragment;
 import com.example.rakeshvasal.myapplication.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class LocationMasterFragment extends BaseFragment {

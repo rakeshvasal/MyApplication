@@ -1,4 +1,4 @@
-package com.example.rakeshvasal.myapplication.Fragments;
+package com.example.rakeshvasal.myapplication.Fragments.MasterFragments;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.rakeshvasal.myapplication.BaseFragment;
+import com.example.rakeshvasal.myapplication.Fragments.ImageAnalysisFragment;
 import com.example.rakeshvasal.myapplication.R;
 
 import java.io.ByteArrayOutputStream;

@@ -1,4 +1,4 @@
-package com.example.rakeshvasal.myapplication.Fragments;
+package com.example.rakeshvasal.myapplication.Fragments.AddUpdateFragments;
 
 
 import android.os.Bundle;

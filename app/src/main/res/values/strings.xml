@@ -6,7 +6,7 @@
     <string name="Image_Capture">Image_Capture</string>
     <string name="Check_Internet">Please Check your Internet Connection....</string>
 
-    <string name="username">USERNAME</string>
+    <string name="email">EMAIL ADDRESS</string>
     <string name="password">PASSWORD</string>
     <string name="register">Register Here</string>
     <string name="Sign_in">Sign In</string>

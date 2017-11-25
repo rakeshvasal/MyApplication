@@ -6,7 +6,7 @@ package com.example.rakeshvasal.myapplication.GetterSetter;
 
 public class User {
 
-    String user_name,user_email,user_id,photourl,contact_no,branch,course_year,password,googleid;
+    String user_name,user_email,user_id,photourl,contact_no,branch,course_year,password,googleid,role;
 
     public User(){
 
@@ -14,7 +14,8 @@ public class User {
 
 
 
-    public User(String user_name, String user_email, String user_id, String photourl, String contact_no, String branch, String course_year, String password, String googleid) {
+
+    /*public User(String user_name, String user_email, String user_id, String photourl, String contact_no, String branch, String course_year, String password, String googleid) {
 
         this.user_name = user_name;
         this.user_email = user_email;
@@ -26,7 +27,7 @@ public class User {
         this.password = password;
         this.googleid=googleid;
 
-    }
+    }*/
 
     public void setUser_name(String user_name) {
         this.user_name = user_name;
@@ -101,5 +102,26 @@ public class User {
     public String getGoogleid() {
 
         return googleid;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public User(String user_name, String user_email, String user_id, String photourl, String contact_no, String branch, String course_year, String password, String googleid, String role) {
+        this.user_name = user_name;
+        this.user_email = user_email;
+        this.user_id = user_id;
+        this.photourl = photourl;
+        this.contact_no = contact_no;
+        this.branch = branch;
+        this.course_year = course_year;
+        this.password = password;
+        this.googleid = googleid;
+        this.role = role;
     }
 }
