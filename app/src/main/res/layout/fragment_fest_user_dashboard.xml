@@ -2,8 +2,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.rakeshvasal.myapplication.Fragments.FestUserDashboard">
 
+    <TextView
+        android:id="@+id/event_participate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Events Participate"
+        android:textSize="@dimen/activity_text_size"
+        style="@style/MyLinearayoutStyle"
+        />
 
+    <TextView
+        android:id="@+id/events_calender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Events Calender"
+        android:textSize="@dimen/activity_text_size"
+        style="@style/MyLinearayoutStyle"
+        />
 
 </LinearLayout>

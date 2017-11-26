@@ -1,4 +1,4 @@
-package com.example.rakeshvasal.myapplication.Fragments.MasterFragments;
+package com.example.rakeshvasal.myapplication.Fragments;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;

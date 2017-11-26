@@ -55,8 +55,8 @@ public class Utils {
     public static ArrayList<String> Images_name_Array_List = new ArrayList<>();
     public static ArrayList<String> Images_time_arraylist = new ArrayList<>();
     public static ArrayList<String> Images_url_Array_List = new ArrayList<>();
-    public static ArrayList<String> photos_spinner_update_value = new ArrayList<>();
-    public static ArrayList<String> step2_spinner_position_update_value = new ArrayList<>();
+    public static ArrayList<String> eventselected = new ArrayList<>();
+    public static ArrayList<String> eventselectedamounts = new ArrayList<>();
     public static ArrayList<String> step2_spinner_position_database_insert_update_value = new ArrayList<>();
     public static ArrayList<String> step2_photo_category_id = new ArrayList<>();
     public static ArrayList<String> json_city_id = new ArrayList<>();

@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.rakeshvasal.myapplication.Fragments.ImageAnalysisFragment;
-import com.example.rakeshvasal.myapplication.Fragments.MasterFragments.ViewImageFragment;
+import com.example.rakeshvasal.myapplication.Fragments.ViewImageFragment;
 import com.example.rakeshvasal.myapplication.R;
 
 public class ImageActivity extends AppCompatActivity {

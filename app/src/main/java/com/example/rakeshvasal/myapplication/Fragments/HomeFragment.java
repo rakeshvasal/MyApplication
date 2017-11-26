@@ -62,7 +62,10 @@ public class HomeFragment extends BaseFragment {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mUserDatabase = mFirebaseInstance.getReference();
         userref = mUserDatabase.child("users");
-        et_email.setText("rakeshvasal@gmail.com");
+        //et_email.setText("rakeshvasal@gmail.com");
+        //et_password.setText("pass");
+        et_email.setText("sachin.tendulkar@gmail.com");
+        et_password.setText("pass@123");
         operations();
         return root;
     }
@@ -104,22 +107,31 @@ public class HomeFragment extends BaseFragment {
                     for (DataSnapshot eventsnapshot : dataSnapshot.getChildren()) {
                         Log.d("eventsnapshot", "" + eventsnapshot);
                         User user = eventsnapshot.getValue(User.class);
+
                         String user_email = user.getUser_email();
                         if (user_email.equalsIgnoreCase(email_id)) {
                             if (password.equalsIgnoreCase(user.getPassword())) {
                                 String role = user.getRole();
+                                String user_id = user.getUser_id();
+                                Log.d("user_id", "" + user_id);
                                 if (role.equalsIgnoreCase("Admin")) {
                                     match = true;
+                                    Bundle arg = new Bundle();
+                                    arg.putString("user_id", user_id);
                                     FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
                                     Fragment fragment = new FestAdminDashboard();
+                                    fragment.setArguments(arg);
                                     transaction.replace(R.id.fragment_container, fragment);
                                     transaction.addToBackStack(null);
                                     transaction.commit();
                                     break;
                                 } else {
                                     match = true;
+                                    Bundle arg = new Bundle();
+                                    arg.putString("user_id", user_id);
                                     FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
                                     Fragment fragment = new FestUserDashboard();
+                                    fragment.setArguments(arg);
                                     transaction.replace(R.id.fragment_container, fragment);
                                     transaction.addToBackStack(null);
                                     transaction.commit();

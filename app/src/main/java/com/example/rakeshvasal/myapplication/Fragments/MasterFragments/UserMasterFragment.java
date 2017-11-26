@@ -76,7 +76,7 @@ public class UserMasterFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Bundle arg = new Bundle();
-                arg.putString("task", "Add");
+                arg.putString("userid", "Add");
                 FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
                 Fragment fragment = new AddUpdateUserFragment();
                 fragment.setArguments(arg);

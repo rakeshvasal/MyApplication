@@ -10,6 +10,16 @@ public class Events {
     public String eventName,location,entryFees,contactPerson;
     int id;
 
+    public boolean getSelectedposition() {
+        return selectedposition;
+    }
+
+    public void setSelectedposition(boolean selectedposition) {
+        this.selectedposition = selectedposition;
+    }
+
+    boolean selectedposition;
+
     public Events(String eventName, String location, String entryFees, String contactPerson, int id) {
         this.eventName = eventName;
         this.location = location;
@@ -33,7 +43,6 @@ public class Events {
     public Events(String eventName, String location, String entryFees, String contactPerson) {
         this.eventName = eventName;
         this.location=location;
-
         this.entryFees=entryFees;
         this.contactPerson=contactPerson;
     }
