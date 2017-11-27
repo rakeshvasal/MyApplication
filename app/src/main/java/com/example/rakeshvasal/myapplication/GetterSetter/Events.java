@@ -10,13 +10,7 @@ public class Events {
     public String eventName,location,entryFees,contactPerson;
     int id;
 
-    public boolean getSelectedposition() {
-        return selectedposition;
-    }
 
-    public void setSelectedposition(boolean selectedposition) {
-        this.selectedposition = selectedposition;
-    }
 
     boolean selectedposition;
 
@@ -77,5 +71,13 @@ public class Events {
 
     public void setContactPerson(String contactPerson) {
         this.contactPerson = contactPerson;
+    }
+
+    public boolean getSelectedposition() {
+        return selectedposition;
+    }
+
+    public void setSelectedposition(boolean selectedposition) {
+        this.selectedposition = selectedposition;
     }
 }

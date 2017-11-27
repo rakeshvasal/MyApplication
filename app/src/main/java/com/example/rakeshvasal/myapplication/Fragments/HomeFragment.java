@@ -62,10 +62,13 @@ public class HomeFragment extends BaseFragment {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mUserDatabase = mFirebaseInstance.getReference();
         userref = mUserDatabase.child("users");
+
         //et_email.setText("rakeshvasal@gmail.com");
         //et_password.setText("pass");
+
         et_email.setText("sachin.tendulkar@gmail.com");
         et_password.setText("pass@123");
+
         operations();
         return root;
     }

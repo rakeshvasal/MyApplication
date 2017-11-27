@@ -78,7 +78,6 @@ public class Utils {
         pref.edit().putBoolean("isLoggedIn", false).apply();
     }
 
-
     public static boolean is_Connected_To_Internet(Context context) {
 
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);

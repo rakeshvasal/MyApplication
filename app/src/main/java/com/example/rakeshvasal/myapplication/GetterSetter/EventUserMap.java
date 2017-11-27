@@ -6,6 +6,7 @@ package com.example.rakeshvasal.myapplication.GetterSetter;
 
 public class EventUserMap {
 
+
     String user_id,event_name,trans_id,map_id;
 
 

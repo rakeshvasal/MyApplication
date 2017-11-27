@@ -1,4 +1,4 @@
-package com.example.rakeshvasal.myapplication.Fragments.AddUpdateFragments;
+package com.example.rakeshvasal.myapplication.Fragments;
 
 
 import android.os.Bundle;
@@ -12,21 +12,19 @@ import com.example.rakeshvasal.myapplication.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddUpdateCommiteeMember extends Fragment {
+public class EventCalenderFragment extends Fragment {
 
 
-    public AddUpdateCommiteeMember() {
+    public EventCalenderFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootview = inflater.inflate(R.layout.fragment_comittee_member_master, container, false);
-
-
-        return rootview;
+        return inflater.inflate(R.layout.fragment_event_calender, container, false);
     }
 
 }

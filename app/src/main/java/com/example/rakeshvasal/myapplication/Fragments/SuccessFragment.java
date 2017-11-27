@@ -39,9 +39,11 @@ public class SuccessFragment extends BaseFragment {
         amount = getArguments().getInt("amt");
         events = getArguments().getStringArray("eventarray");
         String strevents = "";
+
         for (int i = 0; i < events.length; i++) {
             strevents = strevents + "\n" + events[i];
         }
+
         message.setText("Success\n You have successfully Registered for the Following Events :\n" + strevents + ".\nTotal Amount Paid is :" + amount);
 
         // Inflate the layout for this fragment

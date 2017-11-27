@@ -63,6 +63,7 @@ public class EventSelectAdapter extends RecyclerView.Adapter<EventSelectAdapter.
                 events.get(position).setSelectedposition(compoundButton.isChecked());
             }
         });
+
         holder.check.setChecked(events.get(position).getSelectedposition());
 
     }
