@@ -7,11 +7,11 @@ package com.example.rakeshvasal.myapplication.GetterSetter;
 
 public class Events {
 
-    public String eventName,location,entryFees,contactPerson,startdate,enddate,contactno;
-    int id;
+    public String eventName,location,entryFees,contactPerson,startdate,enddate,contactno,id;
+
     boolean selectedposition;
 
-    public Events(String eventName, String location, String entryFees, String contactPerson,String contactno, int id,String startdate,String enddate) {
+    public Events(String eventName, String location, String entryFees, String contactPerson,String contactno, String id,String startdate,String enddate) {
         this.eventName = eventName;
         this.location = location;
         this.entryFees = entryFees;
@@ -25,11 +25,11 @@ public class Events {
     public Events() {
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getId() {
+    public String getId() {
 
         return id;
     }

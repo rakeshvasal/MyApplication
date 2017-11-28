@@ -19,11 +19,17 @@ import com.example.rakeshvasal.myapplication.GetterSetter.Events;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.DatePickerClass;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,12 +38,14 @@ import java.util.List;
 
 public class AddUpdateEventFragment extends BaseFragment {
 
-    EditText name, location, contact, entryfees,contactno;
+    EditText name, location, contact, entryfees, contactno;
     TextView eventfrm, eventto;
     Button add;
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase, ref, childref;
     FirebaseDatabase mFirebaseInstance;
     int size;
+    String task, id;
+    String keyq;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +57,7 @@ public class AddUpdateEventFragment extends BaseFragment {
             mFirebaseInstance = FirebaseDatabase.getInstance();
             mDatabase = mFirebaseInstance.getReference("events");
 
+
             name = (EditText) rootview.findViewById(R.id.eventname);
             location = (EditText) rootview.findViewById(R.id.eventlocation);
             contact = (EditText) rootview.findViewById(R.id.contact_person);
@@ -58,6 +67,19 @@ public class AddUpdateEventFragment extends BaseFragment {
             contactno = (EditText) rootview.findViewById(R.id.contact_number);
             add = (Button) rootview.findViewById(R.id.add);
 
+            task = getArguments().getString(Utils.TASK);
+            if (task.equalsIgnoreCase(Utils.UPDATE_TASK)) {
+                add.setText("Update");
+            } else {
+                add.setText("Add");
+            }
+            id = getArguments().getString("userid");
+            if (id == null || id.equalsIgnoreCase("")) {
+
+                //FetchDetailsfromId(id);
+            }else {
+                readData("eventName", id);
+            }
             fetchallevents();
 
             clickListeners();
@@ -70,7 +92,6 @@ public class AddUpdateEventFragment extends BaseFragment {
 
     private void clickListeners() {
 
-        //final DatePickerClass datePickerClass = new DatePickerClass();
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,10 +102,10 @@ public class AddUpdateEventFragment extends BaseFragment {
                 boolean checkentryfees = checkemptyedittext(entryfees);
                 boolean checkdate = validateDate();
 
-                if (!checkdate){
+                if (!checkdate) {
                     shortToast("Irregular Dates");
                     return;
-                }else if (checkname) {
+                } else if (checkname) {
                     shortToast("Enter Name");
                     return;
                 } else if (checkcontact) {
@@ -103,11 +124,13 @@ public class AddUpdateEventFragment extends BaseFragment {
                 String eventenddate = eventto.getText().toString();
                 String contactnumber = contactno.getText().toString();
 
+
+                Events events = new Events(strname, strlocation, strentryfees, strcontact, contactnumber, "", eventstartdate, eventenddate);
                 int id = (int) System.currentTimeMillis();
                 if (id < 0) {
                     id = id * -1;
                 }
-                addUpdateEvent(strname, strlocation, strcontact, strentryfees,contactnumber, id,eventstartdate,eventenddate);
+                addUpdateEvent(events);
 
             }
         });
@@ -134,8 +157,7 @@ public class AddUpdateEventFragment extends BaseFragment {
             Date date1 = formatter.parse(eventfrm.getText().toString());
             Date date2 = formatter.parse(eventto.getText().toString());
 
-            if (date1.compareTo(date2)<0)
-            {
+            if (date1.compareTo(date2) < 0) {
                 return true;
             }
 
@@ -145,16 +167,23 @@ public class AddUpdateEventFragment extends BaseFragment {
         return false;
     }
 
-    private void addUpdateEvent(String strname, String strlocation, String strcontact, String strentryfees,String contactno, int id,String eventstartdate,String eventenddate) {
-        try {
-            Events events = new Events(strname, strlocation, strcontact, strentryfees,contactno,id,eventstartdate,eventenddate);
+    private void addUpdateEvent(Events events) {
 
-            String userId = mDatabase.push().getKey();
+        if (task.equalsIgnoreCase("Update")) {
+            String userid = events.getId();
+            events.setId(keyq);
+            mDatabase.child(keyq).setValue(events);
 
-            mDatabase.child(userId).setValue(events);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            try {
+                String id = mDatabase.push().getKey();
+                events.setId(id);
+                mDatabase.child(id).setValue(events);
+            } catch (Exception e) {
+                e.printStackTrace();
+                shortToast("Error while inserting/updating user" + e.getMessage());
+            }
         }
     }
 
@@ -187,6 +216,101 @@ public class AddUpdateEventFragment extends BaseFragment {
         }
 
 
+    }
+
+    private void FetchDetailsfromId(String id) {
+        showProgressDialog();
+        ref = mDatabase.child(id);
+        childref = ref.getRef();
+        final List<Events> meventEntries = new ArrayList<>();
+        try {
+            childref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    Events events = dataSnapshot.getValue(Events.class);
+                    meventEntries.add(events);
+                    String json = new Gson().toJson(meventEntries);
+                    Log.d("totaljson", json);
+                    closeProgressDialog();
+                    try {
+                        JSONArray jsonArray = new JSONArray(json);
+                        try {
+                            JSONObject jsonObject = jsonArray.getJSONObject(0);
+                            Log.d("jsonobject", "" + jsonObject);
+                            //setValues("" + jsonObject);
+                        } catch (Exception r) {
+                            r.printStackTrace();
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    closeProgressDialog();
+                    Log.d("usermasterdatabaseerror", databaseError.getMessage());
+                }
+            });
+
+
+        } catch (Exception e) {
+            closeProgressDialog();
+            e.printStackTrace();
+        }
+    }
+
+    private void readData(String parameter, String searchtext) {
+
+        final List<Events> mEventsEntries = new ArrayList<>();
+        mDatabase.orderByChild(parameter).equalTo(searchtext).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                String key = dataSnapshot.getKey();
+                Events events = dataSnapshot.getValue(Events.class);
+                mEventsEntries.add(events);
+                keyq = key;
+                setData(mEventsEntries);
+                closeProgressDialog();
+                //EventsMasterAdapter adapter = new EventsMasterAdapter(getActivity(), mEventsEntries,fm);
+                //recyclerView.setAdapter(adapter);
+                //adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                closeProgressDialog();
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                closeProgressDialog();
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                closeProgressDialog();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                closeProgressDialog();
+            }
+        });
+
+    }
+
+    private void setData(List<Events> events) {
+
+        Events events1 = events.get(0);
+        name.setText(events1.getEventName());
+        location.setText(events1.getLocation());
+        entryfees.setText(events1.getEntryFees());
+        contact.setText(events1.getContactPerson());
+        //contactno.setText(events1.getEventName());
+        //name.setText(events1.getEventName());
     }
 
 }

@@ -18,6 +18,7 @@ import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.Fragments.AddUpdateFragments.AddUpdateUserFragment;
 import com.example.rakeshvasal.myapplication.GetterSetter.User;
 import com.example.rakeshvasal.myapplication.R;
+import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -79,7 +80,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Bundle arg = new Bundle();
-                arg.putString("task", "Add");
+                arg.putString(Utils.TASK, Utils.ADD_TASK);
                 FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
                 Fragment fragment = new AddUpdateUserFragment();
                 fragment.setArguments(arg);

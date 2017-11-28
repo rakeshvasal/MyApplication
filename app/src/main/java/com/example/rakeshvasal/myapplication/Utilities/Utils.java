@@ -64,6 +64,9 @@ public class Utils {
     public static ArrayList<String> json_model_id = new ArrayList<>();
     public static ArrayList<String> chk_value_lead_id = new ArrayList<>();
     public static ArrayList<String> positionOfDeletion = new ArrayList<>();
+    public static String ADD_TASK = "ADD";
+    public static String UPDATE_TASK = "UPDATE";
+    public static String TASK = "TASK";
     private static ProgressDialog progressDialog;
     public static String GOOGLE_LOGIN_DATA = "GoogleAccountDetails";
     public static String Imagga_API_URL = "https://api.imagga.com";

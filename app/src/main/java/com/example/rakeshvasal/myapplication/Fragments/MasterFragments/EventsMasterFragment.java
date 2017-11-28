@@ -2,6 +2,7 @@ package com.example.rakeshvasal.myapplication.Fragments.MasterFragments;
 
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 
@@ -20,6 +21,7 @@ import com.example.rakeshvasal.myapplication.Custom_Adapters.EventsMasterAdapter
 import com.example.rakeshvasal.myapplication.Fragments.AddUpdateFragments.AddUpdateEventFragment;
 import com.example.rakeshvasal.myapplication.GetterSetter.Events;
 import com.example.rakeshvasal.myapplication.R;
+import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,6 +43,7 @@ public class EventsMasterFragment extends BaseFragment {
     private DatabaseReference mEventsDatabase;
     FirebaseDatabase mFirebaseInstance;
     DatabaseReference ref;
+    FragmentManager fm;
     public EventsMasterFragment() {
 
     }
@@ -57,6 +60,7 @@ public class EventsMasterFragment extends BaseFragment {
         search_text = (EditText) rootview.findViewById(R.id.searchtext);
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mEventsDatabase = mFirebaseInstance.getReference();
+        fm = getFragmentManager();
         ref = mEventsDatabase.child("events");
         recyclerView = (RecyclerView) rootview.findViewById(R.id.recycler_view);
         fetchallevents();
@@ -68,8 +72,11 @@ public class EventsMasterFragment extends BaseFragment {
         add_event.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle arg = new Bundle();
                 FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
+                arg.putString(Utils.TASK, Utils.ADD_TASK);
                 Fragment fragment = new AddUpdateEventFragment();
+                fragment.setArguments(arg);
                 transaction.replace(R.id.fragment_container, fragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
@@ -104,7 +111,7 @@ public class EventsMasterFragment extends BaseFragment {
                         mEventsEntries.add(events);
 
                     }
-                    EventsMasterAdapter adapter = new EventsMasterAdapter(getActivity(),mEventsEntries);
+                    EventsMasterAdapter adapter = new EventsMasterAdapter(getActivity(),mEventsEntries,fm);
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 }
@@ -132,7 +139,7 @@ public class EventsMasterFragment extends BaseFragment {
                 Events events = dataSnapshot.getValue(Events.class);
                 mEventsEntries.add(events);
                 closeProgressDialog();
-                EventsMasterAdapter adapter = new EventsMasterAdapter(getActivity(), mEventsEntries);
+                EventsMasterAdapter adapter = new EventsMasterAdapter(getActivity(), mEventsEntries,fm);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }

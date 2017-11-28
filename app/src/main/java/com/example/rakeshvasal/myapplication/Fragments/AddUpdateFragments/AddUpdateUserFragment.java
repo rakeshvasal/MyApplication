@@ -80,8 +80,8 @@ public class AddUpdateUserFragment extends BaseFragment {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mDatabase = mFirebaseInstance.getReference("users");
         sharedPreferences = getActivity().getSharedPreferences(Utils.GOOGLE_LOGIN_DATA, Context.MODE_PRIVATE);
-        task = getArguments().getString("task");
-        if (task.equalsIgnoreCase("Update")) {
+        task = getArguments().getString(Utils.TASK);
+        if (task.equalsIgnoreCase(Utils.UPDATE_TASK)) {
             submit.setText("Update");
         } else {
             submit.setText("Add");
@@ -140,7 +140,7 @@ public class AddUpdateUserFragment extends BaseFragment {
     private void AddUpdateUser(User user/*,String param,String value*/) {
 
         if (task.equalsIgnoreCase("Update")) {
-            String userid=user.getUser_id();
+            String userid = user.getUser_id();
                 mDatabase.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {

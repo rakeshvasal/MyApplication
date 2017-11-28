@@ -21,6 +21,7 @@ import com.example.rakeshvasal.myapplication.Fragments.MasterFragments.UserMaste
 import com.example.rakeshvasal.myapplication.GetterSetter.Events;
 import com.example.rakeshvasal.myapplication.GetterSetter.User;
 import com.example.rakeshvasal.myapplication.R;
+import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.google.android.gms.vision.text.Line;
 
 import java.util.List;
@@ -65,7 +66,7 @@ public class UserMasterAdapter extends RecyclerView.Adapter<UserMasterAdapter.My
 
                     Bundle arg = new Bundle();
                     arg.putString("userid", userelement.getUser_id());
-                    arg.putString("task", "Update");
+                    arg.putString(Utils.TASK, Utils.UPDATE_TASK);
                     FragmentTransaction transaction = fm.beginTransaction();
                     Fragment fragment = new AddUpdateUserFragment();
                     fragment.setArguments(arg);

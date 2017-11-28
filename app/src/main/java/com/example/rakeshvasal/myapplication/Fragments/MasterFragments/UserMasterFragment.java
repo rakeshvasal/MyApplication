@@ -18,10 +18,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.rakeshvasal.myapplication.BaseFragment;
+import com.example.rakeshvasal.myapplication.Custom_Adapters.EventsMasterAdapter;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.UserMasterAdapter;
 import com.example.rakeshvasal.myapplication.Fragments.AddUpdateFragments.AddUpdateUserFragment;
+import com.example.rakeshvasal.myapplication.GetterSetter.Events;
 import com.example.rakeshvasal.myapplication.GetterSetter.User;
 import com.example.rakeshvasal.myapplication.R;
+import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -76,7 +79,7 @@ public class UserMasterFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Bundle arg = new Bundle();
-                arg.putString("task", "Add");
+                arg.putString(Utils.TASK, Utils.ADD_TASK);
                 FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
                 Fragment fragment = new AddUpdateUserFragment();
                 fragment.setArguments(arg);
@@ -90,10 +93,13 @@ public class UserMasterFragment extends BaseFragment {
             public void onClick(View v) {
                // showProgressDialog();
                 if (!search_text.getText().toString().equalsIgnoreCase("")) {
-                    FetchDetailsfromUserName(search_text.getText().toString());
+                    //FetchDetailsfromUserName(search_text.getText().toString());
+                    readData("user_name",search_text.getText().toString());
                 }
             }
         });
+
+
 
 
         return rootview;
@@ -173,5 +179,43 @@ public class UserMasterFragment extends BaseFragment {
             e.printStackTrace();
         }
     }
+
+    private void readData(String parameter,String searchtext) {
+        showProgressDialog();
+        final List<User> mEventsEntries = new ArrayList<>();
+        userref.orderByChild(parameter).equalTo(searchtext).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                User events = dataSnapshot.getValue(User.class);
+                mEventsEntries.add(events);
+                closeProgressDialog();
+                UserMasterAdapter adapter = new UserMasterAdapter(getActivity(), mEventsEntries,fm);
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                closeProgressDialog();
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                closeProgressDialog();
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                closeProgressDialog();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                closeProgressDialog();
+            }
+        });
+
+    }
+
 }
 
