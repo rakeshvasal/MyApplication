@@ -19,18 +19,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.Toast;
-
 
 
 import java.text.SimpleDateFormat;
 
 public class BaseFragment extends Fragment {
 
-    public static final int PERMS_REQ_READ_PHONE_STATE =  001;
-    public static final int PERMS_REQ_READ_CALL_PHONE =  002;
-    public static final int PERMS_REQ_READ_CALL_PHONE1 =  001;
-//    public GoogleApiClient mGoogleApiClient;
+    public static final int PERMS_REQ_READ_PHONE_STATE = 001;
+    public static final int PERMS_REQ_READ_CALL_PHONE = 002;
+    public static final int PERMS_REQ_READ_CALL_PHONE1 = 001;
+    //    public GoogleApiClient mGoogleApiClient;
     private ProgressDialog progressDialog;
     protected Typeface font, fontBold;
     protected int datePickFlag;
@@ -55,9 +55,9 @@ public class BaseFragment extends Fragment {
         super.onCreate(savedInstanceState);
         logInfo("onCreate");
         //font = Typeface.createFromAsset(getActivity().getAssets(),
-                //"fonts/opensans_regular.ttf");
+        //"fonts/opensans_regular.ttf");
         //fontBold = Typeface.createFromAsset(getActivity().getAssets(),
-                //"fonts/opensans_semibold.ttf");
+        //"fonts/opensans_semibold.ttf");
 
     }
 
@@ -156,7 +156,6 @@ public class BaseFragment extends Fragment {
     }
 
 
-
     public void hideKeyboard(View edt) {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(edt.getApplicationWindowToken(), 0);
@@ -209,9 +208,17 @@ public class BaseFragment extends Fragment {
         }
     }
 
-
-
     protected void longToast(String msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+    }
+
+    protected boolean checkemptyedittext(EditText editText) {
+
+        if (editText != null) {
+            if (editText.getText().toString().equalsIgnoreCase("")) {
+                return true;
+            }
+        }
+        return false;
     }
 }

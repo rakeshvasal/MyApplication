@@ -5,14 +5,14 @@ package com.example.rakeshvasal.myapplication.GetterSetter;
  */
 
 public class ComitteeMembers {
-    String memberName;
-    int memberID;
+    String memberName, memberID,contact_no;
+
 
     public void setMemberName(String memberName) {
         this.memberName = memberName;
     }
 
-    public void setMemberID(int memberID) {
+    public void setMemberID(String memberID) {
         this.memberID = memberID;
     }
 
@@ -21,13 +21,21 @@ public class ComitteeMembers {
         return memberName;
     }
 
-    public int getMemberID() {
+    public String getMemberID() {
         return memberID;
     }
 
-    public ComitteeMembers(String memberName, int memberID) {
+    public String getContact_no() {
+        return contact_no;
+    }
 
+    public void setContact_no(String contact_no) {
+        this.contact_no = contact_no;
+    }
+
+    public ComitteeMembers(String memberName, String memberID, String contact_no) {
         this.memberName = memberName;
         this.memberID = memberID;
+        this.contact_no = contact_no;
     }
 }

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rakeshvasal.myapplication.GetterSetter.Events;
@@ -41,7 +42,7 @@ public class EventsMasterAdapter extends RecyclerView.Adapter<EventsMasterAdapte
     @Override
     public void onBindViewHolder(EventsMasterAdapter.MyViewHolder holder, int position) {
 
-        if(events.size()>0){
+        if (events.size() > 0) {
 
             Events eventelement = events.get(position);
             //Log.d("eventname",eventelement.getEventName());
@@ -49,6 +50,12 @@ public class EventsMasterAdapter extends RecyclerView.Adapter<EventsMasterAdapte
             holder.venue.setText(eventelement.getLocation());
             holder.contact.setText(eventelement.getContactPerson());
             holder.entryfees.setText(eventelement.getEntryFees());
+            holder.edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
     }
 
@@ -60,6 +67,7 @@ public class EventsMasterAdapter extends RecyclerView.Adapter<EventsMasterAdapte
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView entryfees, venue, name, contact;
+        public ImageView edit;
 
 
         public MyViewHolder(View itemView) {
@@ -69,6 +77,7 @@ public class EventsMasterAdapter extends RecyclerView.Adapter<EventsMasterAdapte
             name = (TextView) itemView.findViewById(R.id.name);
             venue = (TextView) itemView.findViewById(R.id.venue);
             contact = (TextView) itemView.findViewById(R.id.contact);
+            edit = (ImageView) itemView.findViewById(R.id.edit);
         }
     }
 }

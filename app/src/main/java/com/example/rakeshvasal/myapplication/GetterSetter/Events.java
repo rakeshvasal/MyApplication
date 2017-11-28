@@ -7,19 +7,19 @@ package com.example.rakeshvasal.myapplication.GetterSetter;
 
 public class Events {
 
-    public String eventName,location,entryFees,contactPerson;
+    public String eventName,location,entryFees,contactPerson,startdate,enddate,contactno;
     int id;
-
-
-
     boolean selectedposition;
 
-    public Events(String eventName, String location, String entryFees, String contactPerson, int id) {
+    public Events(String eventName, String location, String entryFees, String contactPerson,String contactno, int id,String startdate,String enddate) {
         this.eventName = eventName;
         this.location = location;
         this.entryFees = entryFees;
         this.contactPerson = contactPerson;
         this.id = id;
+        this.startdate = startdate;
+        this.enddate = enddate;
+        this.contactno = contactno;
     }
 
     public Events() {
@@ -32,13 +32,6 @@ public class Events {
     public int getId() {
 
         return id;
-    }
-
-    public Events(String eventName, String location, String entryFees, String contactPerson) {
-        this.eventName = eventName;
-        this.location=location;
-        this.entryFees=entryFees;
-        this.contactPerson=contactPerson;
     }
 
     public String getEventName() {
@@ -80,4 +73,22 @@ public class Events {
     public void setSelectedposition(boolean selectedposition) {
         this.selectedposition = selectedposition;
     }
+
+    public String getStartdate() {
+        return startdate;
+    }
+
+    public void setStartdate(String startdate) {
+        this.startdate = startdate;
+    }
+
+    public String getEnddate() {
+        return enddate;
+    }
+
+    public void setEnddate(String enddate) {
+        this.enddate = enddate;
+    }
+
+
 }

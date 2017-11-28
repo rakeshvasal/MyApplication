@@ -24,6 +24,7 @@
     <string name="no_friends_selected">No friends selected</string>
     <string name="no_place_selected">No place selected</string>
     <string name="pick_seattle_place">Pick a Seattle Place</string>
+    <string name="click_to_select_date">Click to Select Date</string>
 
     <string name="exception">Exception: %1$s</string>
     <string name="no_internet_connection">Please check your Internet connection!</string>

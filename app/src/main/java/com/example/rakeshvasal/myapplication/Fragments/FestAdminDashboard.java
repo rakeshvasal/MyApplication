@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.rakeshvasal.myapplication.Fragments.MasterFragments.CommitteeMemberMasterFragment;
 import com.example.rakeshvasal.myapplication.Fragments.MasterFragments.EventsMasterFragment;
 import com.example.rakeshvasal.myapplication.Fragments.MasterFragments.LocationMasterFragment;
 import com.example.rakeshvasal.myapplication.Fragments.MasterFragments.UserMasterFragment;
@@ -78,6 +79,11 @@ public class FestAdminDashboard extends Fragment{
                     transaction.commit();
                 }
                 if (position==3){
+                    FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
+                    Fragment fragment = new CommitteeMemberMasterFragment();
+                    transaction.replace(R.id.fragment_container, fragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
 
                 }
             }

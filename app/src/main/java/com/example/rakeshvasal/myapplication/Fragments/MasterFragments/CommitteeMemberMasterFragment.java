@@ -7,26 +7,38 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.rakeshvasal.myapplication.BaseFragment;
+import com.example.rakeshvasal.myapplication.Custom_Adapters.UserMasterAdapter;
+import com.example.rakeshvasal.myapplication.Fragments.AddUpdateFragments.AddUpdateCommiteeMember;
 import com.example.rakeshvasal.myapplication.Fragments.AddUpdateFragments.AddUpdateEventFragment;
+import com.example.rakeshvasal.myapplication.GetterSetter.ComitteeMembers;
+import com.example.rakeshvasal.myapplication.GetterSetter.User;
 import com.example.rakeshvasal.myapplication.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CommitteeMemberMasterFragment extends Fragment {
+public class CommitteeMemberMasterFragment extends BaseFragment {
 
     Button add,search;
     EditText search_text;
     RecyclerView recyclerView;
-    private DatabaseReference mEventsDatabase;
+    private DatabaseReference mDatabase;
     FirebaseDatabase mFirebaseInstance;
     DatabaseReference ref;
 
@@ -48,20 +60,20 @@ public class CommitteeMemberMasterFragment extends Fragment {
         search_text = (EditText) rootview.findViewById(R.id.searchtext);
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
-        mEventsDatabase = mFirebaseInstance.getReference();
+        mDatabase = mFirebaseInstance.getReference("committee_members");
 
         recyclerView = (RecyclerView) rootview.findViewById(R.id.recycler_view);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
+        fetchallmembers();
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
-                android.app.Fragment fragment = new AddUpdateEventFragment();
+                android.app.Fragment fragment = new AddUpdateCommiteeMember();
                 transaction.replace(R.id.fragment_container, fragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
@@ -70,6 +82,40 @@ public class CommitteeMemberMasterFragment extends Fragment {
 
 
         return rootview;
+    }
+
+    private void fetchallmembers(){
+
+        final List<ComitteeMembers> mUserEntries = new ArrayList<>();
+        try {
+            mDatabase.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot eventsnapshot : dataSnapshot.getChildren()) {
+
+                        ComitteeMembers members = eventsnapshot.getValue(ComitteeMembers.class);
+                        mUserEntries.add(members);
+
+                    }
+                    closeProgressDialog();
+                    //UserMasterAdapter adapter = new UserMasterAdapter(getActivity(), mUserEntries);
+                    //recyclerView.setAdapter(adapter);
+                    //adapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    closeProgressDialog();
+                    Log.d("usermasterdatabaseerror", databaseError.getMessage());
+                }
+            });
+
+
+        } catch (Exception e) {
+            closeProgressDialog();
+            e.printStackTrace();
+        }
+
     }
 
 }
