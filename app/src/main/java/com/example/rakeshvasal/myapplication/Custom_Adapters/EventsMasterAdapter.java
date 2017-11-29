@@ -63,7 +63,7 @@ public class EventsMasterAdapter extends RecyclerView.Adapter<EventsMasterAdapte
                 @Override
                 public void onClick(View v) {
                     Bundle arg = new Bundle();
-                    arg.putString("userid", eventelement.getEventName());
+                    arg.putString("userid", eventelement.getId());
                     arg.putString(Utils.TASK, Utils.UPDATE_TASK);
                     FragmentTransaction transaction = fm.beginTransaction();
                     Fragment fragment = new AddUpdateEventFragment();

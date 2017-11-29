@@ -13,6 +13,10 @@ public class Locations {
         this.locationName = locationName;
     }
 
+    public Locations(){
+
+    }
+
     public int getLocationid() {
         return locationid;
     }

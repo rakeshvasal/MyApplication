@@ -141,21 +141,12 @@ public class AddUpdateUserFragment extends BaseFragment {
 
         if (task.equalsIgnoreCase("Update")) {
             String userid = user.getUser_id();
-                mDatabase.child(userid).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+            user.setPassword(pass);
+            user.setPhotourl(photourl);
+            user.setUser_id(userid);
+            mDatabase.child(userid).setValue(user);
 
-                        dataSnapshot.getRef().child("role").setValue("Student");
-
-
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.d("User", databaseError.getMessage());
-                    }
-                });
-
-            childref = ref.getRef();
+           // childref = ref.getRef();
         } else {
             try {
                 String userid = mDatabase.push().getKey();
@@ -264,6 +255,7 @@ public class AddUpdateUserFragment extends BaseFragment {
         ll_conf_pass.setVisibility(View.GONE);
         photourl=object.getPhotourl();
         pass=object.getPassword();
+
 
     }
 

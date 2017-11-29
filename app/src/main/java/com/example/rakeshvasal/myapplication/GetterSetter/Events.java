@@ -7,7 +7,19 @@ package com.example.rakeshvasal.myapplication.GetterSetter;
 
 public class Events {
 
-    public String eventName,location,entryFees,contactPerson,startdate,enddate,contactno,id;
+    public String eventName;
+    public String location;
+    public String entryFees;
+    public String contactPerson;
+    public String startdate;
+    public String enddate;
+
+
+
+
+
+    public String contactno;
+    public String id;
 
     boolean selectedposition;
 
@@ -90,5 +102,12 @@ public class Events {
         this.enddate = enddate;
     }
 
+    public String getContactno() {
+        return contactno;
+    }
+
+    public void setContactno(String contactno) {
+        this.contactno = contactno;
+    }
 
 }

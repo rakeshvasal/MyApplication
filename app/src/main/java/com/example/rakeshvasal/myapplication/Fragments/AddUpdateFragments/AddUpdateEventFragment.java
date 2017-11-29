@@ -9,13 +9,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.EventsMasterAdapter;
 import com.example.rakeshvasal.myapplication.GetterSetter.Events;
+import com.example.rakeshvasal.myapplication.GetterSetter.Locations;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.DatePickerClass;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
@@ -41,11 +44,11 @@ public class AddUpdateEventFragment extends BaseFragment {
     EditText name, location, contact, entryfees, contactno;
     TextView eventfrm, eventto;
     Button add;
-    private DatabaseReference mDatabase, ref, childref;
+    private DatabaseReference mDatabase, location_ref, comm_mem_ref,ref,childref;
     FirebaseDatabase mFirebaseInstance;
-    int size;
+    Spinner splocation;
     String task, id;
-    String keyq;
+    List<String> locid,loc_name;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,7 +59,7 @@ public class AddUpdateEventFragment extends BaseFragment {
         try {
             mFirebaseInstance = FirebaseDatabase.getInstance();
             mDatabase = mFirebaseInstance.getReference("events");
-
+            location_ref = mFirebaseInstance.getReference("locations");
 
             name = (EditText) rootview.findViewById(R.id.eventname);
             location = (EditText) rootview.findViewById(R.id.eventlocation);
@@ -66,6 +69,7 @@ public class AddUpdateEventFragment extends BaseFragment {
             eventto = (TextView) rootview.findViewById(R.id.event_end_date);
             contactno = (EditText) rootview.findViewById(R.id.contact_number);
             add = (Button) rootview.findViewById(R.id.add);
+            splocation = (Spinner) rootview.findViewById(R.id.splocation);
 
             task = getArguments().getString(Utils.TASK);
             if (task.equalsIgnoreCase(Utils.UPDATE_TASK)) {
@@ -76,11 +80,11 @@ public class AddUpdateEventFragment extends BaseFragment {
             id = getArguments().getString("userid");
             if (id == null || id.equalsIgnoreCase("")) {
 
-                //FetchDetailsfromId(id);
-            }else {
-                readData("eventName", id);
+            } else {
+                //readData("id", id);
+                FetchDetailsfromId(id);
             }
-            fetchallevents();
+            fetchalldata();
 
             clickListeners();
 
@@ -168,40 +172,48 @@ public class AddUpdateEventFragment extends BaseFragment {
     }
 
     private void addUpdateEvent(Events events) {
+        try {
+            if (task.equalsIgnoreCase(Utils.UPDATE_TASK)) {
+                events.setId(id);
+                mDatabase.child(id).setValue(events);
+            } else if (task.equalsIgnoreCase(Utils.ADD_TASK)) {
 
-        if (task.equalsIgnoreCase("Update")) {
-            String userid = events.getId();
-            events.setId(keyq);
-            mDatabase.child(keyq).setValue(events);
-
-
-        } else {
-            try {
                 String id = mDatabase.push().getKey();
                 events.setId(id);
                 mDatabase.child(id).setValue(events);
-            } catch (Exception e) {
-                e.printStackTrace();
-                shortToast("Error while inserting/updating user" + e.getMessage());
+
+            } else {
+                shortToast("Error");
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            shortToast("Error while inserting/updating user" + e.getMessage());
         }
     }
 
-    private void fetchallevents() {
+    private void fetchalldata() {
 
-
-        final List<Events> mEventsEntries = new ArrayList<>();
+        int i=0;
+        final List<Locations> mLocationEntries = new ArrayList<>();
         try {
-            mDatabase.addValueEventListener(new ValueEventListener() {
+
+            location_ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot eventsnapshot : dataSnapshot.getChildren()) {
-                        Events events = eventsnapshot.getValue(Events.class);
-                        mEventsEntries.add(events);
-                        size = mEventsEntries.size();
+                        Locations locations = eventsnapshot.getValue(Locations.class);
+
+                            mLocationEntries.add(locations);
 
                     }
-
+                    loc_name = new ArrayList<String>(mLocationEntries.size());
+                    locid = new ArrayList<String>(mLocationEntries.size());
+                    for(int i =0;i<mLocationEntries.size();i++) {
+                        loc_name.add(i, mLocationEntries.get(i).getLocationName());
+                        locid.add(i, "" + mLocationEntries.get(i).getLocationid());
+                    }
+                    ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,loc_name);
+                    splocation.setAdapter(arrayAdapter);
                 }
 
                 @Override
@@ -239,6 +251,7 @@ public class AddUpdateEventFragment extends BaseFragment {
                             JSONObject jsonObject = jsonArray.getJSONObject(0);
                             Log.d("jsonobject", "" + jsonObject);
                             //setValues("" + jsonObject);
+                            setData(meventEntries);
                         } catch (Exception r) {
                             r.printStackTrace();
                         }
@@ -262,46 +275,6 @@ public class AddUpdateEventFragment extends BaseFragment {
         }
     }
 
-    private void readData(String parameter, String searchtext) {
-
-        final List<Events> mEventsEntries = new ArrayList<>();
-        mDatabase.orderByChild(parameter).equalTo(searchtext).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                String key = dataSnapshot.getKey();
-                Events events = dataSnapshot.getValue(Events.class);
-                mEventsEntries.add(events);
-                keyq = key;
-                setData(mEventsEntries);
-                closeProgressDialog();
-                //EventsMasterAdapter adapter = new EventsMasterAdapter(getActivity(), mEventsEntries,fm);
-                //recyclerView.setAdapter(adapter);
-                //adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                closeProgressDialog();
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                closeProgressDialog();
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                closeProgressDialog();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                closeProgressDialog();
-            }
-        });
-
-    }
-
     private void setData(List<Events> events) {
 
         Events events1 = events.get(0);
@@ -309,8 +282,9 @@ public class AddUpdateEventFragment extends BaseFragment {
         location.setText(events1.getLocation());
         entryfees.setText(events1.getEntryFees());
         contact.setText(events1.getContactPerson());
-        //contactno.setText(events1.getEventName());
-        //name.setText(events1.getEventName());
+        contactno.setText(events1.getContactno());
+        eventfrm.setText(events1.getStartdate());
+        eventto.setText(events1.getEnddate());
     }
 
 }
