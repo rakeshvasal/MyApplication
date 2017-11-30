@@ -105,8 +105,13 @@
             android:id="@+id/contact_number"
             android:layout_width="0dp"
             android:layout_weight="0.5"
+            android:visibility="gone"
             android:layout_height="match_parent" />
-
+        <Spinner
+            android:id="@+id/spmember"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="match_parent" />
     </LinearLayout>
 
     <LinearLayout

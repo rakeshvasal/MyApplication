@@ -74,13 +74,10 @@
             android:name=".Activity.ShowLocationList"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog.NoActionBar" />
-
-
         <activity
             android:name=".Activity.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".Activity.OddessyMain"
             android:screenOrientation="portrait" />
@@ -96,7 +93,8 @@
         <activity
             android:name=".Activity.CameraActivity"
             android:screenOrientation="portrait" />
-            <service
+
+        <service
             android:name=".Services.FusedLocationService"
             android:enabled="true"
             android:exported="true" />
@@ -134,7 +132,8 @@
         <activity android:name=".Activity.MatchDetailsActivity" />
         <activity android:name=".Activity.ImageActivity" />
         <activity android:name=".Activity.YoutubeDataActivity" />
-        <activity android:name=".Activity.ZomatoActivity"></activity>
+        <activity android:name=".Activity.ZomatoActivity" />
+        <activity android:name=".Activity.MovieDBActivity"></activity>
     </application>
 
 </manifest>

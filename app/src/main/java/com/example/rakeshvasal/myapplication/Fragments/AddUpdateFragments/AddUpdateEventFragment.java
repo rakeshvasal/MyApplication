@@ -1,10 +1,9 @@
 package com.example.rakeshvasal.myapplication.Fragments.AddUpdateFragments;
 
 
-import android.app.Fragment;
 import android.os.Bundle;
 
-import android.os.SystemClock;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,13 +15,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.rakeshvasal.myapplication.BaseFragment;
-import com.example.rakeshvasal.myapplication.Custom_Adapters.EventsMasterAdapter;
+
+import com.example.rakeshvasal.myapplication.GetterSetter.ComitteeMembers;
 import com.example.rakeshvasal.myapplication.GetterSetter.Events;
 import com.example.rakeshvasal.myapplication.GetterSetter.Locations;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.DatePickerClass;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
-import com.google.firebase.database.ChildEventListener;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,11 +44,11 @@ public class AddUpdateEventFragment extends BaseFragment {
     EditText name, location, contact, entryfees, contactno;
     TextView eventfrm, eventto;
     Button add;
-    private DatabaseReference mDatabase, location_ref, comm_mem_ref,ref,childref;
+    private DatabaseReference mDatabase, location_ref, comm_mem_ref, ref, childref;
     FirebaseDatabase mFirebaseInstance;
-    Spinner splocation;
+    Spinner splocation,spmember;
     String task, id;
-    List<String> locid,loc_name;
+    List<String> locid, loc_name,comm_name,comm_id,comm_no;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,7 +60,7 @@ public class AddUpdateEventFragment extends BaseFragment {
             mFirebaseInstance = FirebaseDatabase.getInstance();
             mDatabase = mFirebaseInstance.getReference("events");
             location_ref = mFirebaseInstance.getReference("locations");
-
+            comm_mem_ref = mFirebaseInstance.getReference("committee_members");
             name = (EditText) rootview.findViewById(R.id.eventname);
             location = (EditText) rootview.findViewById(R.id.eventlocation);
             contact = (EditText) rootview.findViewById(R.id.contact_person);
@@ -70,20 +70,21 @@ public class AddUpdateEventFragment extends BaseFragment {
             contactno = (EditText) rootview.findViewById(R.id.contact_number);
             add = (Button) rootview.findViewById(R.id.add);
             splocation = (Spinner) rootview.findViewById(R.id.splocation);
-
+            spmember = (Spinner) rootview.findViewById(R.id.spmember);
             task = getArguments().getString(Utils.TASK);
             if (task.equalsIgnoreCase(Utils.UPDATE_TASK)) {
                 add.setText("Update");
+                id = getArguments().getString("userid");
+                if (id == null || id.equalsIgnoreCase("")) {
+
+                } else {
+                    //readData("id", id);
+                    FetchDetailsfromId(id);
+                }
             } else {
                 add.setText("Add");
             }
-            id = getArguments().getString("userid");
-            if (id == null || id.equalsIgnoreCase("")) {
 
-            } else {
-                //readData("id", id);
-                FetchDetailsfromId(id);
-            }
             fetchalldata();
 
             clickListeners();
@@ -193,26 +194,26 @@ public class AddUpdateEventFragment extends BaseFragment {
 
     private void fetchalldata() {
 
-        int i=0;
+        int i = 0;
         final List<Locations> mLocationEntries = new ArrayList<>();
         try {
 
-            location_ref.addValueEventListener(new ValueEventListener() {
+            location_ref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot eventsnapshot : dataSnapshot.getChildren()) {
                         Locations locations = eventsnapshot.getValue(Locations.class);
 
-                            mLocationEntries.add(locations);
+                        mLocationEntries.add(locations);
 
                     }
                     loc_name = new ArrayList<String>(mLocationEntries.size());
                     locid = new ArrayList<String>(mLocationEntries.size());
-                    for(int i =0;i<mLocationEntries.size();i++) {
+                    for (int i = 0; i < mLocationEntries.size(); i++) {
                         loc_name.add(i, mLocationEntries.get(i).getLocationName());
                         locid.add(i, "" + mLocationEntries.get(i).getLocationid());
                     }
-                    ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,loc_name);
+                    ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, loc_name);
                     splocation.setAdapter(arrayAdapter);
                 }
 
@@ -225,6 +226,41 @@ public class AddUpdateEventFragment extends BaseFragment {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        final List<ComitteeMembers> mCommMembers = new ArrayList<>();
+        try {
+            comm_mem_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot eventsnapshot : dataSnapshot.getChildren()) {
+                        ComitteeMembers CommMembers = eventsnapshot.getValue(ComitteeMembers.class);
+
+                        mCommMembers.add(CommMembers);
+
+                    }
+                    comm_name = new ArrayList<String>(mCommMembers.size());
+                    comm_id = new ArrayList<String>(mCommMembers.size());
+                    comm_no = new ArrayList<String>(mCommMembers.size());
+
+                    for (int i = 0; i < mCommMembers.size(); i++) {
+                        comm_name.add(i, mCommMembers.get(i).getMemberName());
+                        comm_id.add(i, "" + mCommMembers.get(i).getMemberID());
+                        comm_no.add(i, "" + mCommMembers.get(i).getContact_no());
+                    }
+                    ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, comm_name);
+                    spmember.setAdapter(arrayAdapter);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.d("eventsdatabaseerror", databaseError.getMessage());
+                }
+            });
+
+
+
+        } catch (Exception e) {
+
         }
 
 

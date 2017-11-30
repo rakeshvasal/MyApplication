@@ -73,3 +73,5 @@ compile 'com.android.support:multidex:1.0.1'
 
      compile 'com.rmtheis:tess-two:5.4.1'
          compile files('libs/YouTubeAndroidPlayerApi.jar')
+
+         https://developers.themoviedb.org/3/getting-started/search-and-query-for-details

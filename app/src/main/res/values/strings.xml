@@ -66,4 +66,6 @@ Samsung is also looking to leverage its IoT platform to push its Bixby assistant
     <string name="Imagga_client_secret">9d8f5cda418ea0188dee655ae563e827</string>
     <string name="Imagga_Authorization">YWNjX2U5NTA0YmNlMTQwMjUyYjo5ZDhmNWNkYTQxOGVhMDE4OGRlZTY1NWFlNTYzZTgyNw==</string>
     <string name="Clairify_API_KEY">e7bacabd17b640e0a0d4b263b936fe4f</string>
+    <string name="MovieDB_API_KEY">51c6606ded4215822559a4faa5cc8a84</string>
+    <string name="MovieDB_Read_Access_Token">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1MWM2NjA2ZGVkNDIxNTgyMjU1OWE0ZmFhNWNjOGE4NCIsInN1YiI6IjVhMWZiNWJhMGUwYTI2NGNjODA4ZGU4YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.44KImEQBt60I6tPALiNkztCwjppnHg7RajkqSZvXDZo</string>
 </resources>

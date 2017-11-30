@@ -7,6 +7,8 @@ package com.example.rakeshvasal.myapplication.GetterSetter;
 public class ComitteeMembers {
     String memberName, memberID,contact_no;
 
+    public ComitteeMembers() {
+    }
 
     public void setMemberName(String memberName) {
         this.memberName = memberName;

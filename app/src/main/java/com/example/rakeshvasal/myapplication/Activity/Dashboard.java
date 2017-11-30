@@ -178,6 +178,16 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
             }
         });
 
+        TextView movieDb = (TextView) findViewById(R.id.movieDb);
+        movieDb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Dashboard.this, MovieDBActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         sign_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

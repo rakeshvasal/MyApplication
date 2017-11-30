@@ -5,31 +5,31 @@ package com.example.rakeshvasal.myapplication.GetterSetter;
  */
 
 public class Locations {
-    int locationid;
-    String locationName;
 
-    public Locations(int locationid, String locationName) {
+    String name,locationid;
+
+    public Locations(String locationid, String name) {
         this.locationid = locationid;
-        this.locationName = locationName;
+        this.name = name;
     }
 
     public Locations(){
 
     }
 
-    public int getLocationid() {
+    public String getLocationid() {
         return locationid;
     }
 
-    public void setLocationid(int locationid) {
+    public void setLocationid(String locationid) {
         this.locationid = locationid;
     }
 
     public String getLocationName() {
-        return locationName;
+        return name;
     }
 
-    public void setLocationName(String locationName) {
-        this.locationName = locationName;
+    public void setLocationName(String name) {
+        this.name = name;
     }
 }

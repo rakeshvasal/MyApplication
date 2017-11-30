@@ -29,7 +29,6 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MyViewHo
     public MatchesAdapter(Context mContext, List<CricketMatch> matchesList) {
         this.mContext = mContext;
         this.matchesList = matchesList;
-
     }
     public interface OnShareClickedListener {
         public void ShareClicked(int match_id);
