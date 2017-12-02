@@ -1,8 +1,10 @@
 package com.example.rakeshvasal.myapplication.Fragments;
 
 
+import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+
+
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,13 +21,12 @@ import com.example.rakeshvasal.myapplication.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class MovieDb_HomeFragment extends BaseFragment {
 
     RecyclerView recyclerView;
     List<MovieModel> movieModels;
+    FragmentManager fragmentManager;
     public MovieDb_HomeFragment() {
         // Required empty public constructor
     }
@@ -40,6 +41,7 @@ public class MovieDb_HomeFragment extends BaseFragment {
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        fragmentManager=getFragmentManager();
         int[] covers = new int[]{
                 R.drawable.album1,
                 R.drawable.album2,
@@ -64,7 +66,7 @@ public class MovieDb_HomeFragment extends BaseFragment {
         a = new MovieModel("Popular People",covers[4]);
         movieModels.add(a);
 
-        MovieDbHomeAdapter adapter = new MovieDbHomeAdapter(getActivity(),movieModels);
+        MovieDbHomeAdapter adapter = new MovieDbHomeAdapter(getActivity(),movieModels,fragmentManager);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
