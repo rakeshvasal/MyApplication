@@ -133,7 +133,13 @@
         <activity android:name=".Activity.ImageActivity" />
         <activity android:name=".Activity.YoutubeDataActivity" />
         <activity android:name=".Activity.ZomatoActivity" />
-        <activity android:name=".Activity.MovieDBActivity"></activity>
+        <activity android:name=".Activity.MovieDBActivity" />
+        <activity
+            android:name=".Activity.PosterActivity"
+            android:screenOrientation="portrait"
+            >
+
+        </activity>
     </application>
 
 </manifest>

@@ -75,3 +75,16 @@ compile 'com.android.support:multidex:1.0.1'
          compile files('libs/YouTubeAndroidPlayerApi.jar')
 
          https://developers.themoviedb.org/3/getting-started/search-and-query-for-details
+
+         # Created by .ignore support plugin (hsz.mobi)
+         *.iml
+         .gradle
+         /local.properties
+         /.idea/workspace.xml
+         /.idea/libraries
+         .DS_Store
+         /build
+         /captures
+         /*.class
+         .idea/vcs.xml
+         app/libs/

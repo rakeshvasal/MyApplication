@@ -63,8 +63,9 @@ public class Utils {
     public static ArrayList<String> vehicle_model_name_array_list = new ArrayList<>();
     public static ArrayList<String> json_model_id = new ArrayList<>();
     public static ArrayList<String> chk_value_lead_id = new ArrayList<>();
-    public static ArrayList<String> positionOfDeletion = new ArrayList<>();
-    public static String MOVIEDB_BASE_URL = "https://api.themoviedb.org/3/";
+    //public static String TYPE=
+    public static String MOVIEDB_BASE_URL = "https://api.themoviedb.org/3";
+    public static String MOVIEDB_PIC_BASE_URL = "https://image.tmdb.org/t/p/w780";
     public static String ADD_TASK = "ADD";
     public static String UPDATE_TASK = "UPDATE";
     public static String TASK = "TASK";

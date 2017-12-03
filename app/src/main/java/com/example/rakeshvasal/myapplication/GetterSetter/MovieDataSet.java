@@ -8,7 +8,41 @@ import java.util.List;
 
 public class MovieDataSet {
 
-    private String name,rating;
+    private String name;
+    private String rating;
+    private String id;
+    private String title;
+
+    public String getPosterurl() {
+        return posterurl;
+    }
+
+    public void setPosterurl(String posterurl) {
+        this.posterurl = posterurl;
+    }
+
+    private String posterurl;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public MovieDataSet() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+
 
     public String getName() {
         return name;

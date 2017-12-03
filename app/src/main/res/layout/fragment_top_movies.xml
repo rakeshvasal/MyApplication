@@ -14,19 +14,19 @@
             android:id="@+id/filter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Filter"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
             android:background="@color/blur_background"
             android:drawableEnd="@drawable/quantum_ic_keyboard_arrow_down_white_36"
-            android:drawableRight="@drawable/quantum_ic_keyboard_arrow_down_white_36" />
+            android:drawableRight="@drawable/quantum_ic_keyboard_arrow_down_white_36"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:text="Filter" />
 
         <LinearLayout
             android:id="@+id/filter_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:background="@color/blur_background"
+            android:orientation="vertical"
             android:visibility="gone">
 
             <LinearLayout
@@ -35,18 +35,20 @@
                 android:orientation="horizontal">
 
                 <EditText
+                    android:id="@+id/page"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.5"
-                    android:hint="Certification"
-                    android:background="@color/white"/>
+                    android:background="@color/white"
+                    android:hint="Page" />
 
                 <EditText
+                    android:id="@+id/region"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.5"
-                    android:hint="year"
-                    android:background="@color/white" />
+                    android:background="@color/white"
+                    android:hint="Region" />
 
             </LinearLayout>
 
@@ -54,12 +56,13 @@
 
 
         <Button
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:layout_gravity="center"
+            android:id="@+id/search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:background="@drawable/circular_button"
-            android:text="SHOOT"/>
+            android:text="SHOOT" />
     </LinearLayout>
 
 
@@ -70,4 +73,8 @@
 
     </android.support.v7.widget.RecyclerView>
 
+    <Button
+        android:id="@+id/show_more"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>
