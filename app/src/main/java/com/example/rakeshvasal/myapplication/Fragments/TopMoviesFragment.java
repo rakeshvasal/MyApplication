@@ -81,7 +81,7 @@ public class TopMoviesFragment extends BaseFragment implements MovieDBAdapter.On
 
                 // creates empty builder, capacity 16
                 StringBuilder sb = new StringBuilder("/movie/top_rated");
-// adds 9 character string at beginning
+                // adds 9 character string at beginning
                 sb.append("?api_key=" + getResources().getString(R.string.MovieDB_API_KEY));
                 sb.append("&language=en-US");
                 if (!page.getText().toString().equalsIgnoreCase("")) {

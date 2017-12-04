@@ -29,6 +29,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -82,13 +83,14 @@ public class FacebookFragment extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
         getdata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (fbloginResult != null) {
                     setFacebookData(fbloginResult);
+                    getPosts();
+                    getFreindsList();
                 }
             }
         });
@@ -123,8 +125,11 @@ public class FacebookFragment extends Fragment {
                 Toast.makeText(getActivity(), "Error while Signing In", Toast.LENGTH_SHORT).show();
             }
         });
+
+
         return v;
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -256,6 +261,32 @@ public class FacebookFragment extends Fragment {
         parameters.putString("fields", "id,email,first_name,last_name,gender,friends");
         request.setParameters(parameters);
         request.executeAsync();
+    }
+
+    private void getFreindsList(){
+        new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/{friend-list-id}",
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        Log.e("FrndsResponse", response.toString());
+                    }
+                }
+        ).executeAsync();
+    }
+
+
+    private void getPosts() {
+        new GraphRequest(
+                AccessToken.getCurrentAccessToken(), "/me/posts", null, HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        Log.e("Response", response.toString());
+                    }
+                }
+        ).executeAsync();
     }
 
     /*get Facebook Friends Who has downoaded your app:
