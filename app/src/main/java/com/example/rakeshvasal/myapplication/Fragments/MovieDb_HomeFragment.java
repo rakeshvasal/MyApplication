@@ -3,8 +3,7 @@ package com.example.rakeshvasal.myapplication.Fragments;
 
 import android.app.FragmentManager;
 import android.os.Bundle;
-
-
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +20,9 @@ import com.example.rakeshvasal.myapplication.R;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * A simple {@link Fragment} subclass.
+ */
 public class MovieDb_HomeFragment extends BaseFragment {
 
     RecyclerView recyclerView;
