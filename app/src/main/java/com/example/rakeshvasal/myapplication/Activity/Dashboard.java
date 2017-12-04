@@ -41,6 +41,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
     Location location;
     public static int MY_PERMISSIONS_REQUEST_LOCATION = 1;
     final int REQUEST_ID_MULTIPLE_PERMISSIONS = 2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -164,7 +165,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Dashboard.this, ImageActivity.class);
-                intent.putExtra("source","dashboard");
+                intent.putExtra("source", "dashboard");
                 startActivity(intent);
             }
         });
@@ -202,12 +203,11 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
+                String s = Base64.encodeToString(md.digest(), Base64.DEFAULT);
                 Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
             }
-        } catch (PackageManager.NameNotFoundException e) {
-
-        } catch (NoSuchAlgorithmException e) {
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         checkAndRequestPermissions();
     }
@@ -261,18 +261,6 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
     }
 
 
-    /*@Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.sign_out:
-                signOut();
-                break;
-            *//*case R.id.disconnect_button:
-                revokeAccess();
-                break;*//*
-        }
-    }*/
-    // [START signOut]
     private void signOut() {
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
@@ -334,6 +322,23 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
             }
         });
         alertDialog.show();
+    }
+
+    private void FacebookKeyHash() {
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.example.rakeshvasal.myapplication",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 }
 

@@ -1,13 +1,16 @@
 package com.example.rakeshvasal.myapplication.Activity;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
+
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
 import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.Fragments.FacebookFragment;
 import com.example.rakeshvasal.myapplication.R;
+import com.facebook.FacebookSdk;
 
 /**
  * Created by Rakeshvasal on 02-Apr-17.
@@ -15,30 +18,27 @@ import com.example.rakeshvasal.myapplication.R;
 
 public class FacebookActivity extends BaseActivity {
 
-    private com.facebook.login.widget.LoginButton loginButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facebook);
-        FragmentManager fm = getFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
-
-        if (fragment == null) {
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        FragmentManager fm = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
+        Fragment fragment = new FacebookFragment();
+        transaction.add(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+       /* if (fragment == null) {
             fragment = new FacebookFragment();
             fm.beginTransaction()
                     .add(R.id.fragment_container, fragment)
                     .commit();
-        }
+        }*/
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        final FacebookFragment fragment = (FacebookFragment) getFragmentManager().findFragmentById(R.id.container);
-        if (fragment != null) {
-            fragment.onActivityResult(requestCode, resultCode, data);
-        }
-    }
+
 
 }
 
