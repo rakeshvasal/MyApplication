@@ -34,6 +34,7 @@ import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,6 +42,8 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FacebookFragment extends Fragment {
 
@@ -51,61 +54,43 @@ public class FacebookFragment extends Fragment {
     ImageView profile_pic;
     Button getdata;
     LoginResult fbloginResult;
+    List<String> permissons;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_facebook, parent, false);
-        loginButton = (LoginButton) v.findViewById(R.id.login_button);
-        name = (TextView) v.findViewById(R.id.name);
-        email = (TextView) v.findViewById(R.id.email);
-        frnds = (TextView) v.findViewById(R.id.frnds);
-        data = (TextView) v.findViewById(R.id.data);
-        profile_pic = (ImageView) v.findViewById(R.id.profilePicture);
-        ll_user_details = (LinearLayout) v.findViewById(R.id.userDatall);
-        getdata = (Button) v.findViewById(R.id.getInterestsButton);
-        loginButton.setReadPermissions("email");
-        // If using in a fragment
-        loginButton.setFragment(FacebookFragment.this);
-        boolean loggedIn = isLoggedIn();
-        if (loggedIn) {
-            ll_user_details.setVisibility(View.VISIBLE);
-            // Toast.makeText(getActivity(),loginResult.getRecentlyGrantedPermissions().toString(),Toast.LENGTH_SHORT).show();
-            boolean enableButtons = AccessToken.getCurrentAccessToken() != null;
-            AccessToken accesstoken = AccessToken.getCurrentAccessToken();
-            Profile profile = Profile.getCurrentProfile();
-            name.setText(profile.getName());
-            email.setText("" + accesstoken.getToken());
-            //Uri pic_uri = profile.getProfilePictureUri(100, 100);
-            frnds.setText("" + profile.getProfilePictureUri(100, 100));
-            try {
-                new LoadProfileImage(profile_pic).execute(profile.getProfilePictureUri(100, 100).toString());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        getdata.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (fbloginResult != null) {
-                    setFacebookData(fbloginResult);
-                    getPosts();
-                    getFreindsList();
-                }
-            }
-        });
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
+        try {
+            loginButton = (LoginButton) v.findViewById(R.id.login_button);
+            name = (TextView) v.findViewById(R.id.name);
+            email = (TextView) v.findViewById(R.id.email);
+            frnds = (TextView) v.findViewById(R.id.frnds);
+            data = (TextView) v.findViewById(R.id.data);
+            permissons = new ArrayList<String>();
+            profile_pic = (ImageView) v.findViewById(R.id.profilePicture);
+            ll_user_details = (LinearLayout) v.findViewById(R.id.userDatall);
+            getdata = (Button) v.findViewById(R.id.getInterestsButton);
+            permissons.add("email");
+            permissons.add("user_friends");
+            permissons.add("user_posts");
+            permissons.add("user_photos");
+            permissons.add("read_custom_friendlists");
+
+
+            loginButton.setReadPermissions(permissons);
+            // loginButton.setReadPermissions();
+            // If using in a fragment
+            loginButton.setFragment(FacebookFragment.this);
+            boolean loggedIn = isLoggedIn();
+            if (loggedIn) {
                 ll_user_details.setVisibility(View.VISIBLE);
-                getdata.setVisibility(View.VISIBLE);
-                fbloginResult = loginResult;
                 // Toast.makeText(getActivity(),loginResult.getRecentlyGrantedPermissions().toString(),Toast.LENGTH_SHORT).show();
                 boolean enableButtons = AccessToken.getCurrentAccessToken() != null;
                 AccessToken accesstoken = AccessToken.getCurrentAccessToken();
                 Profile profile = Profile.getCurrentProfile();
                 name.setText(profile.getName());
                 email.setText("" + accesstoken.getToken());
+                getdata.setVisibility(View.VISIBLE);
                 //Uri pic_uri = profile.getProfilePictureUri(100, 100);
                 frnds.setText("" + profile.getProfilePictureUri(100, 100));
                 try {
@@ -114,19 +99,55 @@ public class FacebookFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
+            getdata.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-            @Override
-            public void onCancel() {
-                Toast.makeText(getActivity(), "Signing In Cancelled", Toast.LENGTH_SHORT).show();
-            }
+                    setFacebookData();
+                    getPosts();
+                    getFreindsList();
+                    getThreads();
 
-            @Override
-            public void onError(FacebookException exception) {
-                Toast.makeText(getActivity(), "Error while Signing In", Toast.LENGTH_SHORT).show();
-            }
-        });
+                }
+            });
+            loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    ll_user_details.setVisibility(View.VISIBLE);
+                    getdata.setVisibility(View.VISIBLE);
+                    fbloginResult = loginResult;
+                    // Toast.makeText(getActivity(),loginResult.getRecentlyGrantedPermissions().toString(),Toast.LENGTH_SHORT).show();
 
+                    AccessToken accesstoken = AccessToken.getCurrentAccessToken();
+                    Profile profile = Profile.getCurrentProfile();
+                    name.setText(profile.getName());
+                    email.setText("" + accesstoken.getToken());
 
+                    //Uri pic_uri = profile.getProfilePictureUri(100, 100);
+                    frnds.setText("" + profile.getProfilePictureUri(100, 100));
+                    try {
+                        new LoadProfileImage(profile_pic).execute(profile.getProfilePictureUri(100, 100).toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onCancel() {
+                    Toast.makeText(getActivity(), "Signing In Cancelled", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onError(FacebookException exception) {
+                    Toast.makeText(getActivity(), "Error while Signing In", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        } catch (Exception r) {
+            r.printStackTrace();
+            Log.e("Loginexception",r.getMessage());
+            //loginButton.performClick();
+        }
         return v;
     }
 
@@ -204,9 +225,9 @@ public class FacebookFragment extends Fragment {
         }
     }
 
-    private void setFacebookData(final LoginResult loginResult) {
+    private void setFacebookData() {
         GraphRequest request = GraphRequest.newMeRequest(
-                loginResult.getAccessToken(),
+                AccessToken.getCurrentAccessToken(),
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
@@ -218,7 +239,7 @@ public class FacebookFragment extends Fragment {
                             String firstName = response.getJSONObject().getString("first_name");
                             String lastName = response.getJSONObject().getString("last_name");
                             String gender = response.getJSONObject().getString("gender");
-
+                            Log.i("AccessToken", AccessToken.getCurrentAccessToken().getToken());
 
                             Profile profile = Profile.getCurrentProfile();
                             String id = profile.getId();
@@ -263,30 +284,79 @@ public class FacebookFragment extends Fragment {
         request.executeAsync();
     }
 
-    private void getFreindsList(){
-        new GraphRequest(
+    private void getFreindsList() {
+        GraphRequest request1 = new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
-                "/{friend-list-id}",
+                "/me/friendlists",
                 null,
                 HttpMethod.GET,
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
-                        Log.e("FrndsResponse", response.toString());
+                        Log.e("FrndsResponse1", response.toString());
                     }
                 }
-        ).executeAsync();
+        );
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,name,link,picture,name");
+        request1.setParameters(parameters);
+        request1.executeAsync();
+        //request1.executeAsync();
+        Profile profile = Profile.getCurrentProfile();
+        GraphRequest request = new GraphRequest(
+
+                AccessToken.getCurrentAccessToken(),
+                "/me/permissions",
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        Log.e("FrndsResponse2", response.toString());
+                    }
+                }
+
+        );
+
+        request.executeAsync();
     }
 
 
     private void getPosts() {
-        new GraphRequest(
-                AccessToken.getCurrentAccessToken(), "/me/posts", null, HttpMethod.GET,
+        Profile profile = Profile.getCurrentProfile();
+        GraphRequest request = new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/me/photos", null, HttpMethod.GET,
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
-                        Log.e("Response", response.toString());
+                        Log.e("Responsephotos", response.toString());
+                        /*String json = new Gson().toJson(response);
+                        Log.e("Responsephotosjson", response.toString());*/
                     }
                 }
-        ).executeAsync();
+
+        );
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "album,id,from,link,picture,name");
+        request.setParameters(parameters);
+        request.executeAsync();
+    }
+
+    private void getThreads() {
+        Profile profile = Profile.getCurrentProfile();
+        GraphRequest request = GraphRequest.newGraphPathRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/me/feed",
+                new GraphRequest.Callback() {
+                    @Override
+                    public void onCompleted(GraphResponse response) {
+                        Log.e("Responsefeed", response.toString());
+                    }
+                });
+
+        Bundle parameters = new Bundle();
+        parameters.putString("since", "1 january 2017");
+        parameters.putString("until", "now");
+        request.setParameters(parameters);
+        request.executeAsync();
     }
 
     /*get Facebook Friends Who has downoaded your app:
