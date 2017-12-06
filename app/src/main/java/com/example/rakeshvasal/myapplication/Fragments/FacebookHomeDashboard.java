@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.FBPostsCustomAdapter;
+import com.example.rakeshvasal.myapplication.GetterSetter.FBPhotos;
 import com.example.rakeshvasal.myapplication.GetterSetter.FBPosts;
 import com.example.rakeshvasal.myapplication.R;
 import com.facebook.AccessToken;
@@ -34,8 +35,9 @@ import java.util.List;
  */
 public class FacebookHomeDashboard extends BaseFragment {
 
-    TextView freindlist,posts,photos;
+    TextView freindlist, posts, photos;
     RecyclerView recyclerView;
+
     public FacebookHomeDashboard() {
         // Required empty public constructor
     }
@@ -63,14 +65,23 @@ public class FacebookHomeDashboard extends BaseFragment {
                 getThreads();
             }
         });
+        photos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                freindlist.setVisibility(View.GONE);
+                posts.setVisibility(View.GONE);
+                showProgressDialog();
+                getPhotos();
+            }
+        });
 
         //
         //getFreindsList();
-        //getThreads();
+
         return v;
     }
 
-    private void getPosts() {
+    private void getPhotos() {
         Profile profile = Profile.getCurrentProfile();
         GraphRequest request = new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
@@ -85,18 +96,32 @@ public class FacebookHomeDashboard extends BaseFragment {
 
                             JSONObject jsonObject = new JSONObject(data.toString());
                             JSONArray jsonArray = jsonObject.getJSONArray("data");
-                            List<String> dataarray = new ArrayList<>(jsonArray.length());
-                            for (int i =0;i<jsonArray.length();i++){
-                                JSONObject jsonObject1= jsonArray.getJSONObject(i);
-                                //dataarray.add(i,jsonObject1.getString("picture"));
+                            List<FBPhotos> dataarray = new ArrayList<>(jsonArray.length());
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                 String id = jsonObject1.getString("id");
+                                String pictureurl = jsonObject1.getString("picture");
+                                String postlink = jsonObject.getString("link");
+                                JSONObject jsonObject2 = jsonObject.getJSONObject("from");
+                                String postfrom = jsonObject2.getString("name");
+                                String postfromid = jsonObject2.getString("id");
+                                String albumname = "", albumid = "", albumcreatedate = "";
+                                if (jsonObject1.has("album")) {
+                                    JSONObject jsonObject3 = jsonObject1.getJSONObject("album");
+                                    albumname = jsonObject3.getString("name");
+                                    albumid = jsonObject3.getString("id");
+                                    albumcreatedate = jsonObject3.getString("created_time");
+                                }
+                                FBPhotos fbPhotos = new FBPhotos(postfromid, postfrom, postlink, pictureurl, id, albumcreatedate, albumid, albumname);
+                                dataarray.add(fbPhotos);
                             }
-                            StringBuilder  stringBuilder = new StringBuilder();
-                            for (int j=0;j<dataarray.size();j++){
 
-                                stringBuilder.append(dataarray.get(j)+"\n");
-                            }
-                            photos.setText(stringBuilder.toString());
+                           /* StringBuilder stringBuilder = new StringBuilder();
+                            for (int j = 0; j < dataarray.size(); j++) {
+
+                                stringBuilder.append(dataarray.get(j) + "\n");
+                            }*/
+                            /*photos.setText(stringBuilder.toString());*/
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -112,6 +137,7 @@ public class FacebookHomeDashboard extends BaseFragment {
         request.setParameters(parameters);
         request.executeAsync();
     }
+
     private void getThreads() {
         Profile profile = Profile.getCurrentProfile();
         GraphRequest request = GraphRequest.newGraphPathRequest(
@@ -122,23 +148,23 @@ public class FacebookHomeDashboard extends BaseFragment {
                     public void onCompleted(GraphResponse response) {
                         Log.e("Responsefeed", response.toString());
                         JSONObject data = response.getJSONObject();
-                       // posts.setText("Feed : " +data.toString());
+                        // posts.setText("Feed : " +data.toString());
                         try {
                             closeProgressDialog();
                             JSONObject jsonObject = new JSONObject(data.toString());
                             JSONArray jsonArray = jsonObject.getJSONArray("data");
                             List<FBPosts> dataarray = new ArrayList<>(jsonArray.length());
-                            for (int i =0;i<jsonArray.length();i++){
-                                JSONObject jsonObject1= jsonArray.getJSONObject(i);
-                               // dataarray.add(i,jsonObject1.getString("story"));
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                // dataarray.add(i,jsonObject1.getString("story"));
                                 String id = jsonObject1.getString("id");
                                 String createdtime = jsonObject1.getString("created_time");
                                 String story = jsonObject1.getString("story");
-                                String message="";
-                                if(jsonObject1.has("message")){
+                                String message = "";
+                                if (jsonObject1.has("message")) {
                                     message = jsonObject1.getString("message");
                                 }
-                                FBPosts fbPosts = new FBPosts(message,story,createdtime,id);
+                                FBPosts fbPosts = new FBPosts(message, story, createdtime, id);
                                 dataarray.add(fbPosts);
                             }
 
@@ -147,7 +173,7 @@ public class FacebookHomeDashboard extends BaseFragment {
 
                                 stringBuilder.append(dataarray.get(j)+"\n");
                             }*/
-                            FBPostsCustomAdapter adapter = new FBPostsCustomAdapter(getActivity(),dataarray);
+                            FBPostsCustomAdapter adapter = new FBPostsCustomAdapter(getActivity(), dataarray);
                             recyclerView.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
 
@@ -166,6 +192,7 @@ public class FacebookHomeDashboard extends BaseFragment {
         request.setParameters(parameters);
         request.executeAsync();
     }
+
     private void getFreindsList() {
         GraphRequest request1 = new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
@@ -176,7 +203,7 @@ public class FacebookHomeDashboard extends BaseFragment {
                     public void onCompleted(GraphResponse response) {
                         Log.e("FrndsResponse1", response.toString());
                         JSONObject data = response.getJSONObject();
-                        freindlist.setText("FreindList : " +data.toString());
+                        freindlist.setText("FreindList : " + data.toString());
                     }
                 }
         );
