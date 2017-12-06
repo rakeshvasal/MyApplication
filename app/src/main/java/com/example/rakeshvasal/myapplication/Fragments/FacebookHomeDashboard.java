@@ -1,6 +1,7 @@
 package com.example.rakeshvasal.myapplication.Fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,7 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.rakeshvasal.myapplication.Activity.PosterActivity;
 import com.example.rakeshvasal.myapplication.BaseFragment;
+import com.example.rakeshvasal.myapplication.Custom_Adapters.FBPhotoCustomAdapter;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.FBPostsCustomAdapter;
 import com.example.rakeshvasal.myapplication.GetterSetter.FBPhotos;
 import com.example.rakeshvasal.myapplication.GetterSetter.FBPosts;
@@ -33,7 +36,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FacebookHomeDashboard extends BaseFragment {
+public class FacebookHomeDashboard extends BaseFragment implements FBPhotoCustomAdapter.OnShareClickedListener {
 
     TextView freindlist, posts, photos;
     RecyclerView recyclerView;
@@ -101,8 +104,13 @@ public class FacebookHomeDashboard extends BaseFragment {
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                 String id = jsonObject1.getString("id");
                                 String pictureurl = jsonObject1.getString("picture");
-                                String postlink = jsonObject.getString("link");
-                                JSONObject jsonObject2 = jsonObject.getJSONObject("from");
+                                String postlink = "";
+                                if (jsonObject1.has("link")) {
+                                    postlink = jsonObject1.getString("link");
+                                } else {
+                                    postlink = "";
+                                }
+                                JSONObject jsonObject2 = jsonObject1.getJSONObject("from");
                                 String postfrom = jsonObject2.getString("name");
                                 String postfromid = jsonObject2.getString("id");
                                 String albumname = "", albumid = "", albumcreatedate = "";
@@ -115,6 +123,10 @@ public class FacebookHomeDashboard extends BaseFragment {
                                 FBPhotos fbPhotos = new FBPhotos(postfromid, postfrom, postlink, pictureurl, id, albumcreatedate, albumid, albumname);
                                 dataarray.add(fbPhotos);
                             }
+                            FBPhotoCustomAdapter adapter = new FBPhotoCustomAdapter(getActivity(), dataarray);
+                            recyclerView.setAdapter(adapter);
+                            adapter.setOnShareClickedListener(FacebookHomeDashboard.this);
+                            adapter.notifyDataSetChanged();
 
                            /* StringBuilder stringBuilder = new StringBuilder();
                             for (int j = 0; j < dataarray.size(); j++) {
@@ -231,4 +243,15 @@ public class FacebookHomeDashboard extends BaseFragment {
     }
 
 
+    @Override
+    public void ShareClicked(String url) {
+        Intent intent = new Intent(getActivity(), PosterActivity.class);
+        intent.putExtra("poster_url", url);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    public void getDetails(String id) {
+
+    }
 }
