@@ -1,13 +1,53 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?android:windowBackground"
+    android:orientation="vertical"
     tools:context="com.example.rakeshvasal.myapplication.Fragments.FacebookHomeDashboard">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/freindlist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Search FreindList"
+                android:textSize="@dimen/activity_text_size"
+                style="@style/MyLinearayoutStyle"
+                />
+            <TextView
+                android:id="@+id/post"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Search Posts"
+                android:textSize="@dimen/activity_text_size"
+                style="@style/MyLinearayoutStyle"/>
+
+            <TextView
+                android:id="@+id/photos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Search Photos"
+                android:textSize="@dimen/activity_text_size"
+                style="@style/MyLinearayoutStyle"/>
+
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

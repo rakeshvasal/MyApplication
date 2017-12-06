@@ -1,6 +1,7 @@
 package com.example.rakeshvasal.myapplication.Fragments;
 
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,6 +32,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -55,6 +57,7 @@ public class FacebookFragment extends Fragment {
     Button getdata;
     LoginResult fbloginResult;
     List<String> permissons;
+    ProfileTracker mProfileTracker;
 
     @Nullable
     @Override
@@ -88,25 +91,33 @@ public class FacebookFragment extends Fragment {
                 boolean enableButtons = AccessToken.getCurrentAccessToken() != null;
                 AccessToken accesstoken = AccessToken.getCurrentAccessToken();
                 Profile profile = Profile.getCurrentProfile();
-                name.setText(profile.getName());
-                email.setText("" + accesstoken.getToken());
-                getdata.setVisibility(View.VISIBLE);
-                //Uri pic_uri = profile.getProfilePictureUri(100, 100);
-                frnds.setText("" + profile.getProfilePictureUri(100, 100));
-                try {
-                    new LoadProfileImage(profile_pic).execute(profile.getProfilePictureUri(100, 100).toString());
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (profile != null) {
+                    getdata.setVisibility(View.VISIBLE);
+                    setProfileData(profile);
+                } else {
+                    mProfileTracker = new ProfileTracker() {
+                        @Override
+                        protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+                            Log.v("facebook - profile", currentProfile.getFirstName());
+                            mProfileTracker.stopTracking();
+                            Profile.setCurrentProfile(currentProfile);
+                            setProfileData(currentProfile);
+                        }
+                    };
                 }
             }
             getdata.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    setFacebookData();
+                    FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
+                    android.app.Fragment fragment = new FacebookHomeDashboard();
+                    transaction.replace(((ViewGroup)getView().getParent()).getId(), fragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                   /* setFacebookData();
                     getPosts();
                     getFreindsList();
-                    getThreads();
+                    getThreads();*/
 
                 }
             });
@@ -120,15 +131,19 @@ public class FacebookFragment extends Fragment {
 
                     AccessToken accesstoken = AccessToken.getCurrentAccessToken();
                     Profile profile = Profile.getCurrentProfile();
-                    name.setText(profile.getName());
-                    email.setText("" + accesstoken.getToken());
 
-                    //Uri pic_uri = profile.getProfilePictureUri(100, 100);
-                    frnds.setText("" + profile.getProfilePictureUri(100, 100));
-                    try {
-                        new LoadProfileImage(profile_pic).execute(profile.getProfilePictureUri(100, 100).toString());
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    if (profile != null) {
+                        setProfileData(profile);
+                    } else {
+                        mProfileTracker = new ProfileTracker() {
+                            @Override
+                            protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+                                Log.v("facebook - profile", currentProfile.getFirstName());
+                                mProfileTracker.stopTracking();
+                                Profile.setCurrentProfile(currentProfile);
+                                setProfileData(currentProfile);
+                            }
+                        };
                     }
                 }
 
@@ -145,10 +160,24 @@ public class FacebookFragment extends Fragment {
 
         } catch (Exception r) {
             r.printStackTrace();
-            Log.e("Loginexception",r.getMessage());
+            Log.e("Loginexception", r.getMessage());
             //loginButton.performClick();
         }
         return v;
+    }
+
+    private void setProfileData(Profile profile) {
+        name.setText(profile.getName());
+        email.setText(AccessToken.getCurrentAccessToken().getToken().toString());
+        Log.d("act",AccessToken.getCurrentAccessToken().getToken().toString());
+        frnds.setText("" + profile.getProfilePictureUri(100, 100));
+        try {
+            new LoadProfileImage(profile_pic).execute(profile.getProfilePictureUri(100, 100).toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 
@@ -297,7 +326,7 @@ public class FacebookFragment extends Fragment {
                 }
         );
         Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,name,link,picture,name");
+        parameters.putString("fields", "id,link,picture,name");
         request1.setParameters(parameters);
         request1.executeAsync();
         //request1.executeAsync();
