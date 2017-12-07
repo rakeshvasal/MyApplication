@@ -113,7 +113,7 @@ public class MainActivity extends BaseActivity implements
         SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
         String regId = pref.getString("regId", null);
         Log.d("Firebase reg id",regId);
-        // Log.e(TAG, "Firebase reg id: " + regId);
+        //Log.e(TAG, "Firebase reg id: " + regId);
 
         /*if (!TextUtils.isEmpty(regId))
             txtRegId.setText("Firebase Reg Id: " + regId);

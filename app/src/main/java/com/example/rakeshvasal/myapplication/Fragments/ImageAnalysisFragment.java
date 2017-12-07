@@ -1,6 +1,7 @@
 package com.example.rakeshvasal.myapplication.Fragments;
 
 
+import android.app.FragmentTransaction;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,7 +17,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.example.rakeshvasal.myapplication.Activity.CharacterRecognition;
 import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.R;
 import com.google.firebase.database.DatabaseReference;
@@ -94,7 +94,11 @@ public class ImageAnalysisFragment extends BaseFragment {
         ocr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new CharacterRecognition(getActivity());
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                android.app.Fragment fragment = new CharacterRecognitionFragment();
+                transaction.replace(R.id.fragment_container, fragment);
+                transaction.commit();
+                //new CharacterRecognitionFragment(getActivity());
             }
         });
         return root;

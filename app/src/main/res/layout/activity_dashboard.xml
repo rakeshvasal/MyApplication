@@ -197,6 +197,14 @@
                     android:textSize="@dimen/activity_text_size"
                     style="@style/MyLinearayoutStyle"
                     />
+                <TextView
+                    android:id="@+id/source_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Movie DB"
+                    android:textSize="@dimen/activity_text_size"
+                    style="@style/MyLinearayoutStyle"
+                    />
 
             </LinearLayout>
 

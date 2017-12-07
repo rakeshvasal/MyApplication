@@ -188,6 +188,17 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
                 finish();
             }
         });
+        TextView source_code = (TextView) findViewById(R.id.source_code);
+        source_code.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Dashboard.this, ImageActivity.class);
+                intent.putExtra("source", "source");
+                startActivity(intent);
+                finish();
+            }
+        });
+
 
         sign_out.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -43,6 +43,12 @@ public class ImageActivity extends AppCompatActivity {
                 fragment.setArguments(arg);
                 transaction.addToBackStack(null);
                 transaction.commit();
+            }else {
+                Fragment fragment = new OpenSourceCode();
+                transaction.add(R.id.fragment_container, fragment);
+                //fragment.setArguments(arg);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         }
     }

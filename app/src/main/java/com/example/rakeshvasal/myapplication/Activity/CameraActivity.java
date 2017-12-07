@@ -59,13 +59,8 @@ public class CameraActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.activity_camera);
-
         init();
-
-
-
     }
 
     private void init() {

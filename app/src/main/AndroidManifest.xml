@@ -81,9 +81,7 @@
         <activity
             android:name=".Activity.OddessyMain"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".Activity.Add_Event"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".Activity.Device_Info"
             android:screenOrientation="portrait" />
