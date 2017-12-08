@@ -5,8 +5,12 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.example.rakeshvasal.myapplication.Fragments.ImageAnalysisFragment;
+import com.example.rakeshvasal.myapplication.Fragments.OpenSourceCodeFragment;
 import com.example.rakeshvasal.myapplication.Fragments.ViewImageFragment;
 import com.example.rakeshvasal.myapplication.R;
 
@@ -17,8 +21,29 @@ public class ImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
         init();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.code:
+                try {
+                    //Utils.openSourceFile(Device_Info.this, "Device_Info", "java");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     private void init() {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         Intent intent = getIntent();
@@ -44,9 +69,12 @@ public class ImageActivity extends AppCompatActivity {
                 transaction.addToBackStack(null);
                 transaction.commit();
             }else {
-                Fragment fragment = new OpenSourceCode();
+                Bundle arg = new Bundle();
+                //arg.putString("file_type", "java");
+                arg.putString("file_name","Device_Info");
+                Fragment fragment = new OpenSourceCodeFragment();
                 transaction.add(R.id.fragment_container, fragment);
-                //fragment.setArguments(arg);
+                fragment.setArguments(arg);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }

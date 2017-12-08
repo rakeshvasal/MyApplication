@@ -1,13 +1,12 @@
 package com.example.rakeshvasal.myapplication.Activity;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -18,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Surface;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -25,14 +25,16 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.rakeshvasal.myapplication.BaseActivity;
-import com.example.rakeshvasal.myapplication.Fragments.OpenSourceCodeFragment;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.View.CameraPreview;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -46,7 +48,7 @@ public class CameraActivity extends BaseActivity {
     static String assembly, image_path;
     CheckBox flashcheck;
     Camera.Parameters params;
-    String filepath = "https://github.com/rakeshvasal/MyApplication/blob/master/app/src/main/java/com/example/rakeshvasal/myapplication/Fragments/Comments.java";
+
     SQLiteDatabase db;
     SharedPreferences preferences;
 
@@ -117,15 +119,7 @@ public class CameraActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.code:
                 try {
-                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                    Bundle arg = new Bundle();
-                    //arg.putString("file_type", "java");
-                    arg.putString("file_name","CameraActivity");
-                    Fragment fragment = new OpenSourceCodeFragment();
-                    transaction.add(R.id.fragment_container, fragment);
-                    fragment.setArguments(arg);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
+                    //Utils.openSourceFile(Device_Info.this, "Device_Info", "java");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

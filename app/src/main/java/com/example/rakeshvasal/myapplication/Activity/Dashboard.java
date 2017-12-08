@@ -14,6 +14,8 @@ import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -100,7 +102,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
             public void onClick(View v) {
                 Intent intent = new Intent(Dashboard.this, Image_Capture_Location.class);
                 startActivity(intent);
-                finish();
+
             }
         });
         TextView location_search = (TextView) findViewById(R.id.location);
@@ -122,7 +124,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
             public void onClick(View v) {
                 Intent intent = new Intent(Dashboard.this, ZomatoActivity.class);
                 startActivity(intent);
-                finish();
+
             }
         });
 
@@ -175,7 +177,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
             public void onClick(View view) {
                 Intent intent = new Intent(Dashboard.this, GalleryActivity.class);
                 startActivity(intent);
-                finish();
+
             }
         });
 
@@ -185,19 +187,19 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
             public void onClick(View v) {
                 Intent intent = new Intent(Dashboard.this, MovieDBActivity.class);
                 startActivity(intent);
-                finish();
+
             }
         });
-        TextView source_code = (TextView) findViewById(R.id.source_code);
+        /*TextView source_code = (TextView) findViewById(R.id.source_code);
         source_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Dashboard.this, ImageActivity.class);
+                Intent intent = new Intent(Dashboard.this, SourceCodeActivity.class);
                 intent.putExtra("source", "source");
                 startActivity(intent);
-                finish();
+
             }
-        });
+        });*/
 
 
         sign_out.setOnClickListener(new View.OnClickListener() {
@@ -349,6 +351,27 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.code:
+                try {
+                    //Utils.openSourceFile(Device_Info.this, "Device_Info", "java");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

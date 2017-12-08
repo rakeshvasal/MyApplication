@@ -5,7 +5,11 @@
     android:id="@+id/main"
     android:background="@color/blur_background"
     android:weightSum="1">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/header_layout">
 
+    </include>
     <LinearLayout
         android:id="@+id/search_layout"
         android:layout_width="match_parent"

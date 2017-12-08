@@ -1,6 +1,7 @@
-package com.example.rakeshvasal.myapplication.Fragments;
+package com.example.rakeshvasal.myapplication.Fragments.FacebookFragments;
 
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,7 +42,7 @@ public class FacebookHomeDashboard extends BaseFragment implements FBPhotoCustom
 
     TextView freindlist, posts, photos;
     RecyclerView recyclerView;
-
+    ProfileTracker mProfileTracker;
     public FacebookHomeDashboard() {
         // Required empty public constructor
     }
@@ -55,6 +57,21 @@ public class FacebookHomeDashboard extends BaseFragment implements FBPhotoCustom
         freindlist = (TextView) v.findViewById(R.id.freindlist);
         posts = (TextView) v.findViewById(R.id.post);
         photos = (TextView) v.findViewById(R.id.photos);
+        Profile profile = Profile.getCurrentProfile();
+        if (profile != null) {
+
+            //setProfileData(profile);
+        } else {
+            mProfileTracker = new ProfileTracker() {
+                @Override
+                protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+                    Log.v("facebook - profile", currentProfile.getFirstName());
+                    mProfileTracker.stopTracking();
+                    Profile.setCurrentProfile(currentProfile);
+                    //setProfileData(currentProfile);
+                }
+            };
+        }
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -62,10 +79,15 @@ public class FacebookHomeDashboard extends BaseFragment implements FBPhotoCustom
         posts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                freindlist.setVisibility(View.GONE);
+                /*freindlist.setVisibility(View.GONE);
                 photos.setVisibility(View.GONE);
                 showProgressDialog();
-                getThreads();
+                getThreads();*/
+                FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
+                android.app.Fragment fragment = new PostsFragment();
+                transaction.replace(((ViewGroup)getView().getParent()).getId(), fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
         photos.setOnClickListener(new View.OnClickListener() {
@@ -75,12 +97,14 @@ public class FacebookHomeDashboard extends BaseFragment implements FBPhotoCustom
                 posts.setVisibility(View.GONE);
                 showProgressDialog();
                 getPhotos();
+
             }
         });
 
         //
         //getFreindsList();
-
+        getTaggableFreinds();
+        //getFreindsFreinds();
         return v;
     }
 
@@ -221,6 +245,80 @@ public class FacebookHomeDashboard extends BaseFragment implements FBPhotoCustom
         );
         Bundle parameters = new Bundle();
         parameters.putString("fields", "id,name,list_type");
+        request1.setParameters(parameters);
+        request1.executeAsync();
+
+
+        GraphRequest request = new GraphRequest(
+
+                AccessToken.getCurrentAccessToken(),
+                "/me/permissions",
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        Log.e("FrndsResponse2", response.toString());
+                    }
+                }
+
+        );
+
+        request.executeAsync();
+    }
+
+    private void getTaggableFreinds() {
+        GraphRequest request1 = new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/me/taggable_friends",
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        Log.e("Frnds1", response.toString());
+                        JSONObject data = response.getJSONObject();
+                        //freindlist.setText("Freinds : " + data.toString());
+                    }
+                }
+        );
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,name");
+        request1.setParameters(parameters);
+        request1.executeAsync();
+
+
+        GraphRequest request = new GraphRequest(
+
+                AccessToken.getCurrentAccessToken(),
+                "/me/permissions",
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        Log.e("FrndsResponse2", response.toString());
+                    }
+                }
+
+        );
+
+        request.executeAsync();
+    }
+
+    private void getFreindsFreinds() {
+        GraphRequest request1 = new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/me/friends",
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        Log.e("Frnds1", response.toString());
+                        JSONObject data = response.getJSONObject();
+                        //freindlist.setText("Freinds : " + data.toString());
+                    }
+                }
+        );
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,name");
         request1.setParameters(parameters);
         request1.executeAsync();
 

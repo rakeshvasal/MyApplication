@@ -90,13 +90,10 @@ public class Device_Info extends BaseActivity implements GoogleApiClient.OnConne
         switch (item.getItemId()) {
             case R.id.code:
                 try {
-                    Utils.openSourceFile(Device_Info.this, "Device_Info", "java");
+                    //Utils.openSourceFile(Device_Info.this, "Device_Info", "java");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                return true;
-            case R.id.logout:
-                signOut();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -4,8 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.rakeshvasal.myapplication.Activity.MatchDetailsActivity">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/header_layout">
 
+    </include>
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"

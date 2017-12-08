@@ -4,7 +4,11 @@
     android:layout_height="fill_parent"
     android:background="@color/blur_background"
     android:orientation="vertical" >
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/header_layout">
 
+    </include>
     <FrameLayout
         android:layout_margin="16dp"
         android:id="@+id/camera_preview"

@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.rakeshvasal.myapplication.ApiClient;
@@ -45,6 +48,8 @@ public class CricInfoAPI extends BaseActivity implements MatchesAdapter.OnShareC
             return;
         }
         recyclerView = (RecyclerView) findViewById(R.id.match_recycler);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
         Call<Matches> matches = apiInterface.getMatches(API_KEY);
@@ -100,5 +105,24 @@ public class CricInfoAPI extends BaseActivity implements MatchesAdapter.OnShareC
         recyclerView.setAdapter(adapter);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.code:
+                try {
+                    //Utils.openSourceFile(Device_Info.this, "Device_Info", "java");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

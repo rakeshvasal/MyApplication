@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="?android:windowBackground"
     android:orientation="vertical"
-    tools:context="com.example.rakeshvasal.myapplication.Fragments.FacebookHomeDashboard">
+    tools:context="com.example.rakeshvasal.myapplication.Fragments.FacebookFragments.FacebookHomeDashboard">
 
     <!-- TODO: Update blank fragment layout -->
     <ScrollView
@@ -18,12 +18,12 @@
 
             <TextView
                 android:id="@+id/freindlist"
+                style="@style/MyLinearayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Search FreindList"
-                android:textSize="@dimen/activity_text_size"
-                style="@style/MyLinearayoutStyle"
-                />
+                android:textSize="@dimen/activity_text_size" />
+
             <TextView
                 android:id="@+id/post"
                 android:layout_width="match_parent"
