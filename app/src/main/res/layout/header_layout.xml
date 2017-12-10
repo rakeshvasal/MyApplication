@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:src="@drawable/ic_home_black_36dp"/>
+            android:src="@drawable/ic_home_black_48dp"/>
 
     </RelativeLayout>
 

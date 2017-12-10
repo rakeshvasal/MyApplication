@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.rakeshvasal.myapplication.Activity.PosterActivity;
+
 import com.example.rakeshvasal.myapplication.GetterSetter.MovieDataSet;
 import com.example.rakeshvasal.myapplication.R;
 

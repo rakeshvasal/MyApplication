@@ -1,10 +1,11 @@
 package com.example.rakeshvasal.myapplication.Fragments.FacebookFragments;
 
 
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,9 +13,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.rakeshvasal.myapplication.Activity.PosterActivity;
+
 import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.FBPhotoCustomAdapter;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.FBPostsCustomAdapter;
@@ -35,14 +38,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class FacebookHomeDashboard extends BaseFragment implements FBPhotoCustomAdapter.OnShareClickedListener {
+public class FacebookHomeDashboard extends BaseFragment {
 
-    TextView freindlist, posts, photos;
+    TextView freindlist, posts, photos, tagfreind, appfreinds;
     RecyclerView recyclerView;
     ProfileTracker mProfileTracker;
+
     public FacebookHomeDashboard() {
         // Required empty public constructor
     }
@@ -57,18 +58,16 @@ public class FacebookHomeDashboard extends BaseFragment implements FBPhotoCustom
         freindlist = (TextView) v.findViewById(R.id.freindlist);
         posts = (TextView) v.findViewById(R.id.post);
         photos = (TextView) v.findViewById(R.id.photos);
+        tagfreind = (TextView) v.findViewById(R.id.tagfreind);
+        appfreinds = (TextView) v.findViewById(R.id.appfreinds);
         Profile profile = Profile.getCurrentProfile();
-        if (profile != null) {
-
-            //setProfileData(profile);
-        } else {
+        if (profile == null) {
             mProfileTracker = new ProfileTracker() {
                 @Override
                 protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
                     Log.v("facebook - profile", currentProfile.getFirstName());
                     mProfileTracker.stopTracking();
                     Profile.setCurrentProfile(currentProfile);
-                    //setProfileData(currentProfile);
                 }
             };
         }
@@ -79,13 +78,12 @@ public class FacebookHomeDashboard extends BaseFragment implements FBPhotoCustom
         posts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*freindlist.setVisibility(View.GONE);
-                photos.setVisibility(View.GONE);
-                showProgressDialog();
-                getThreads();*/
+                Bundle arg = new Bundle();
+                arg.putString("type", "1");
                 FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
-                android.app.Fragment fragment = new PostsFragment();
-                transaction.replace(((ViewGroup)getView().getParent()).getId(), fragment);
+                Fragment fragment = new PostsFragment();
+                transaction.replace(((ViewGroup) getView().getParent()).getId(), fragment);
+                fragment.setArguments(arg);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
@@ -93,263 +91,58 @@ public class FacebookHomeDashboard extends BaseFragment implements FBPhotoCustom
         photos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                freindlist.setVisibility(View.GONE);
-                posts.setVisibility(View.GONE);
-                showProgressDialog();
-                getPhotos();
-
+                Bundle arg = new Bundle();
+                arg.putString("type", "2");
+                FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
+                Fragment fragment = new PostsFragment();
+                transaction.replace(((ViewGroup) getView().getParent()).getId(), fragment);
+                fragment.setArguments(arg);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
-        //
-        //getFreindsList();
-        getTaggableFreinds();
-        //getFreindsFreinds();
+        freindlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle arg = new Bundle();
+                arg.putString("type", "2");
+                FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
+                Fragment fragment = new TaggableFreindsFragment();
+                transaction.replace(((ViewGroup) getView().getParent()).getId(), fragment);
+                fragment.setArguments(arg);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+        tagfreind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle arg = new Bundle();
+                arg.putString("type", "1");
+                FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
+                Fragment fragment = new TaggableFreindsFragment();
+                transaction.replace(((ViewGroup) getView().getParent()).getId(), fragment);
+                fragment.setArguments(arg);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+        appfreinds.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle arg = new Bundle();
+                arg.putString("type", "3");
+                FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
+                Fragment fragment = new TaggableFreindsFragment();
+                transaction.replace(((ViewGroup) getView().getParent()).getId(), fragment);
+                fragment.setArguments(arg);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
         return v;
     }
 
-    private void getPhotos() {
-        Profile profile = Profile.getCurrentProfile();
-        GraphRequest request = new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/me/photos", null, HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-                        closeProgressDialog();
-                        Log.e("Responsephotos", response.toString());
-                        JSONObject data = response.getJSONObject();
-                        //photos.setText("Posts : " +data.toString());
-                        try {
 
-                            JSONObject jsonObject = new JSONObject(data.toString());
-                            JSONArray jsonArray = jsonObject.getJSONArray("data");
-                            List<FBPhotos> dataarray = new ArrayList<>(jsonArray.length());
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                String id = jsonObject1.getString("id");
-                                String pictureurl = jsonObject1.getString("picture");
-                                String postlink = "";
-                                if (jsonObject1.has("link")) {
-                                    postlink = jsonObject1.getString("link");
-                                } else {
-                                    postlink = "";
-                                }
-                                JSONObject jsonObject2 = jsonObject1.getJSONObject("from");
-                                String postfrom = jsonObject2.getString("name");
-                                String postfromid = jsonObject2.getString("id");
-                                String albumname = "", albumid = "", albumcreatedate = "";
-                                if (jsonObject1.has("album")) {
-                                    JSONObject jsonObject3 = jsonObject1.getJSONObject("album");
-                                    albumname = jsonObject3.getString("name");
-                                    albumid = jsonObject3.getString("id");
-                                    albumcreatedate = jsonObject3.getString("created_time");
-                                }
-                                FBPhotos fbPhotos = new FBPhotos(postfromid, postfrom, postlink, pictureurl, id, albumcreatedate, albumid, albumname);
-                                dataarray.add(fbPhotos);
-                            }
-                            FBPhotoCustomAdapter adapter = new FBPhotoCustomAdapter(getActivity(), dataarray);
-                            recyclerView.setAdapter(adapter);
-                            adapter.setOnShareClickedListener(FacebookHomeDashboard.this);
-                            adapter.notifyDataSetChanged();
-
-                           /* StringBuilder stringBuilder = new StringBuilder();
-                            for (int j = 0; j < dataarray.size(); j++) {
-
-                                stringBuilder.append(dataarray.get(j) + "\n");
-                            }*/
-                            /*photos.setText(stringBuilder.toString());*/
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        /*String json = new Gson().toJson(response);
-                        Log.e("Responsephotosjson", response.toString());*/
-                    }
-                }
-
-        );
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "album,id,from,link,picture,name");
-        request.setParameters(parameters);
-        request.executeAsync();
-    }
-
-    private void getThreads() {
-        Profile profile = Profile.getCurrentProfile();
-        GraphRequest request = GraphRequest.newGraphPathRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/me/feed",
-                new GraphRequest.Callback() {
-                    @Override
-                    public void onCompleted(GraphResponse response) {
-                        Log.e("Responsefeed", response.toString());
-                        JSONObject data = response.getJSONObject();
-                        // posts.setText("Feed : " +data.toString());
-                        try {
-                            closeProgressDialog();
-                            JSONObject jsonObject = new JSONObject(data.toString());
-                            JSONArray jsonArray = jsonObject.getJSONArray("data");
-                            List<FBPosts> dataarray = new ArrayList<>(jsonArray.length());
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                // dataarray.add(i,jsonObject1.getString("story"));
-                                String id = jsonObject1.getString("id");
-                                String createdtime = jsonObject1.getString("created_time");
-                                String story = jsonObject1.getString("story");
-                                String message = "";
-                                if (jsonObject1.has("message")) {
-                                    message = jsonObject1.getString("message");
-                                }
-                                FBPosts fbPosts = new FBPosts(message, story, createdtime, id);
-                                dataarray.add(fbPosts);
-                            }
-
-                            /*StringBuilder  stringBuilder = new StringBuilder();
-                            for (int j=0;j<dataarray.size();j++){
-
-                                stringBuilder.append(dataarray.get(j)+"\n");
-                            }*/
-                            FBPostsCustomAdapter adapter = new FBPostsCustomAdapter(getActivity(), dataarray);
-                            recyclerView.setAdapter(adapter);
-                            adapter.notifyDataSetChanged();
-
-                            //posts.setText(stringBuilder.toString());
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                });
-
-        Bundle parameters = new Bundle();
-        parameters.putString("since", "1 january 2017");
-        parameters.putString("until", "now");
-        request.setParameters(parameters);
-        request.executeAsync();
-    }
-
-    private void getFreindsList() {
-        GraphRequest request1 = new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/me/friendlists",
-                null,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-                        Log.e("FrndsResponse1", response.toString());
-                        JSONObject data = response.getJSONObject();
-                        freindlist.setText("FreindList : " + data.toString());
-                    }
-                }
-        );
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,name,list_type");
-        request1.setParameters(parameters);
-        request1.executeAsync();
-
-
-        GraphRequest request = new GraphRequest(
-
-                AccessToken.getCurrentAccessToken(),
-                "/me/permissions",
-                null,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-                        Log.e("FrndsResponse2", response.toString());
-                    }
-                }
-
-        );
-
-        request.executeAsync();
-    }
-
-    private void getTaggableFreinds() {
-        GraphRequest request1 = new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/me/taggable_friends",
-                null,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-                        Log.e("Frnds1", response.toString());
-                        JSONObject data = response.getJSONObject();
-                        //freindlist.setText("Freinds : " + data.toString());
-                    }
-                }
-        );
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,name");
-        request1.setParameters(parameters);
-        request1.executeAsync();
-
-
-        GraphRequest request = new GraphRequest(
-
-                AccessToken.getCurrentAccessToken(),
-                "/me/permissions",
-                null,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-                        Log.e("FrndsResponse2", response.toString());
-                    }
-                }
-
-        );
-
-        request.executeAsync();
-    }
-
-    private void getFreindsFreinds() {
-        GraphRequest request1 = new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/me/friends",
-                null,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-                        Log.e("Frnds1", response.toString());
-                        JSONObject data = response.getJSONObject();
-                        //freindlist.setText("Freinds : " + data.toString());
-                    }
-                }
-        );
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,name");
-        request1.setParameters(parameters);
-        request1.executeAsync();
-
-
-        GraphRequest request = new GraphRequest(
-
-                AccessToken.getCurrentAccessToken(),
-                "/me/permissions",
-                null,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-                        Log.e("FrndsResponse2", response.toString());
-                    }
-                }
-
-        );
-
-        request.executeAsync();
-    }
-
-
-    @Override
-    public void ShareClicked(String url) {
-        Intent intent = new Intent(getActivity(), PosterActivity.class);
-        intent.putExtra("poster_url", url);
-        startActivityForResult(intent, 1);
-    }
-
-    @Override
-    public void getDetails(String id) {
-
-    }
 }

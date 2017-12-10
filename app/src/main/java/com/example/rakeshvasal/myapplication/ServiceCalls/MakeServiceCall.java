@@ -3,9 +3,12 @@ package com.example.rakeshvasal.myapplication.ServiceCalls;
 import android.util.Log;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -46,4 +49,53 @@ public class MakeServiceCall {
         }
         return data;
     }
+    public String makeServiceCall(String url, String jsonObject) {
+
+        String status="";
+        HttpURLConnection urlConnection = null;
+
+        try {
+
+            URL url_main = new URL(url);
+            urlConnection = (HttpURLConnection) url_main.openConnection();
+            urlConnection.setDoInput(true);
+            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestProperty("Content-Type", " application/json; charset=utf-8");
+            Writer writer = new BufferedWriter(new OutputStreamWriter(urlConnection.getOutputStream(), "UTF-8"));
+            writer.write(jsonObject);
+            writer.close();
+            int serverResponseCode =urlConnection.getResponseCode();
+            String serverResponseMessage = urlConnection.getResponseMessage();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+            String Data;
+            StringBuffer buffer = new StringBuffer();
+            if (reader != null) {
+
+                while ((Data = reader.readLine()) != null)
+                    buffer.append(Data + "\n");
+                if (buffer.length() == 0) {
+                    // Stream was empty. No point in parsing.
+                    return null;
+                }
+                return buffer.toString();
+            }
+            // int serverResponseCode =urlConnection.getResponseCode();
+            //String serverResponseMessage = urlConnection.getResponseMessage();
+
+            Log.i("uploadFile", "HTTP Response is : "
+                    + serverResponseMessage + ": " + serverResponseCode);
+
+            if (serverResponseCode == 200) {
+                status = "Success";
+            }
+
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+
+
+        return status;
+    }
+
 }

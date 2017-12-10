@@ -1,20 +1,20 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="?android:windowBackground"
-    tools:context="com.example.rakeshvasal.myapplication.Fragments.FacebookFragments.PostsFragment">
+    tools:context="com.example.rakeshvasal.myapplication.Fragments.FacebookFragments.TaggableFreindsFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/hello_blank_fragment" />
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <ListView
+        android:id="@+id/text_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+    </ListView>
 
-    </android.support.v7.widget.RecyclerView>
-
-</FrameLayout>
+</LinearLayout>

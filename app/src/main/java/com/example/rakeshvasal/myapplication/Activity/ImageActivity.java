@@ -68,15 +68,6 @@ public class ImageActivity extends AppCompatActivity {
                 fragment.setArguments(arg);
                 transaction.addToBackStack(null);
                 transaction.commit();
-            }else {
-                Bundle arg = new Bundle();
-                //arg.putString("file_type", "java");
-                arg.putString("file_name","Device_Info");
-                Fragment fragment = new OpenSourceCodeFragment();
-                transaction.add(R.id.fragment_container, fragment);
-                fragment.setArguments(arg);
-                transaction.addToBackStack(null);
-                transaction.commit();
             }
         }
     }

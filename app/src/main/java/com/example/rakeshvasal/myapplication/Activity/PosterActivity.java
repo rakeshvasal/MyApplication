@@ -1,5 +1,6 @@
 package com.example.rakeshvasal.myapplication.Activity;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,10 +13,12 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.animation.ViewPropertyAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.R;
@@ -27,6 +30,7 @@ import java.io.InputStream;
 public class PosterActivity extends BaseActivity {
 
     ImageView imageView;
+    String image_url, url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +41,43 @@ public class PosterActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        String url = bundle.getString("poster_url");
-        String image_url = Utils.MOVIEDB_PIC_BASE_URL + url;
+        String type = bundle.getString("type");
+
+        if (type.equalsIgnoreCase("1")) {
+            url = bundle.getString("poster_url");
+            image_url = Utils.MOVIEDB_PIC_BASE_URL + url;
+        } else if (type.equalsIgnoreCase("2")) {
+            image_url = bundle.getString("poster_url");
+        }
+        Glide.with(PosterActivity.this)
+                .load(image_url)
+                .asBitmap()
+                .animate(animationObject)
+                .into(new SimpleTarget<Bitmap>(680, 720) {
+                    @Override
+                    public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
+                        
+                        imageView.setImageBitmap(bitmap);
+                    }
+                });
         //showProgressDialog();
-        new DownloadImage(PosterActivity.this, image_url).execute();
+        // new DownloadImage(PosterActivity.this, image_url).execute();
 
     }
+
+    ViewPropertyAnimation.Animator animationObject = new ViewPropertyAnimation.Animator() {
+        @Override
+        public void animate(View view) {
+            // if it's a custom view class, cast it here
+            // then find subviews and do the animations
+            // here, we just use the entire view for the fade animation
+            view.setAlpha(0f);
+
+            ObjectAnimator fadeAnim = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f);
+            fadeAnim.setDuration(2500);
+            fadeAnim.start();
+        }
+    };
 
     class DownloadImage extends AsyncTask<String, Void, Bitmap> {
 
@@ -78,7 +113,7 @@ public class PosterActivity extends BaseActivity {
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
             ByteArrayOutputStream os = new ByteArrayOutputStream();
-            img.compress(Bitmap.CompressFormat.JPEG, 100, os);
+
             byte[] bytes = os.toByteArray();
             String image = Base64.encodeToString(bytes, Base64.DEFAULT);
             byte[] bytesImage = Base64.decode(image, Base64.DEFAULT);

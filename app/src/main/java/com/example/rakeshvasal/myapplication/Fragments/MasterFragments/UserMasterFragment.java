@@ -49,10 +49,10 @@ public class UserMasterFragment extends BaseFragment {
     EditText search_text;
     Button btn_search, btn_add;
     FragmentManager fm;
+
     public UserMasterFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,9 +92,10 @@ public class UserMasterFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                // showProgressDialog();
-                if (!search_text.getText().toString().equalsIgnoreCase("")) {
-                    //FetchDetailsfromUserName(search_text.getText().toString());
-                    readData("user_name",search_text.getText().toString());
+                if (search_text.getText().toString().equalsIgnoreCase("")) {
+                    fetchallusers();
+                }else {
+                    fetchDetailsfromUserName(search_text.getText().toString());
                 }
             }
         });
@@ -138,7 +139,7 @@ public class UserMasterFragment extends BaseFragment {
         }
     }
 
-    private void FetchDetailsfromUserName(final String str_user_name) {
+    private void fetchDetailsfromUserName(final String str_user_name) {
         showProgressDialog();
 
         ref = userref.child(str_user_name);
@@ -183,7 +184,7 @@ public class UserMasterFragment extends BaseFragment {
     private void readData(String parameter,String searchtext) {
         showProgressDialog();
         final List<User> mEventsEntries = new ArrayList<>();
-        userref.orderByChild(parameter).equalTo(searchtext).addChildEventListener(new ChildEventListener() {
+        userref.orderByChild(parameter).startAt(searchtext).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                 User events = dataSnapshot.getValue(User.class);

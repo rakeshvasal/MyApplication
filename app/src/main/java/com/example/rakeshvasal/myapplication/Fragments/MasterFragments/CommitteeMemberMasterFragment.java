@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.rakeshvasal.myapplication.BaseFragment;
+import com.example.rakeshvasal.myapplication.Custom_Adapters.CommitteeMemberAdapter;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.UserMasterAdapter;
 import com.example.rakeshvasal.myapplication.Fragments.AddUpdateFragments.AddUpdateCommiteeMember;
 import com.example.rakeshvasal.myapplication.Fragments.AddUpdateFragments.AddUpdateEventFragment;
@@ -67,7 +68,9 @@ public class CommitteeMemberMasterFragment extends BaseFragment {
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        showProgressDialog();
         fetchallmembers();
+
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,15 +95,15 @@ public class CommitteeMemberMasterFragment extends BaseFragment {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot eventsnapshot : dataSnapshot.getChildren()) {
-
+                        closeProgressDialog();
                         ComitteeMembers members = eventsnapshot.getValue(ComitteeMembers.class);
                         mUserEntries.add(members);
 
                     }
                     closeProgressDialog();
-                    //UserMasterAdapter adapter = new UserMasterAdapter(getActivity(), mUserEntries);
-                    //recyclerView.setAdapter(adapter);
-                    //adapter.notifyDataSetChanged();
+                    CommitteeMemberAdapter adapter = new CommitteeMemberAdapter( mUserEntries,getActivity());
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                 }
 
                 @Override

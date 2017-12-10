@@ -1,6 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/parent"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -13,24 +13,41 @@
         android:id="@+id/scan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello_blank_fragment" />
+        android:text="SCAN IMAGE DATA" />
+
     <Button
         android:id="@+id/ocr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="OCR" />
+        android:text="SCAN CHARACTERS" />
+
+    <Button
+        android:id="@+id/camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="CAMERA" />
+
+    <Button
+        android:id="@+id/scanimg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="Scan" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
     </android.support.v7.widget.RecyclerView>
-<ListView
-    android:id="@+id/lv"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-</ListView>
+    <ListView
+        android:id="@+id/lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+    </ListView>
 </LinearLayout>

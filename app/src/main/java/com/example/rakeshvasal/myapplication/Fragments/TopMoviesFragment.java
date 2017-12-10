@@ -115,6 +115,7 @@ public class TopMoviesFragment extends BaseFragment implements MovieDBAdapter.On
     @Override
     public void ShareClicked(String url) {
         Intent intent = new Intent(getActivity(), PosterActivity.class);
+        intent.putExtra("type","1");
         intent.putExtra("poster_url",url);
         startActivityForResult(intent,1);
     }

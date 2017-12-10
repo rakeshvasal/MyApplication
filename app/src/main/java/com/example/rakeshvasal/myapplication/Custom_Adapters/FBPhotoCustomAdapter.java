@@ -52,6 +52,7 @@ public class FBPhotoCustomAdapter extends RecyclerView.Adapter<FBPhotoCustomAdap
             @Override
             public void onClick(View view) {
                 FBPhotos dataSet = datalist.get(position);
+                if (dataSet.getPictureurl()!=null)
                 mCallback.ShareClicked(dataSet.getPictureurl());
             }
         });

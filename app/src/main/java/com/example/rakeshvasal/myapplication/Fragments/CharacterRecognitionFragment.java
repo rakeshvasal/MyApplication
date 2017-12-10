@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,10 +16,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.rakeshvasal.myapplication.Activity.CameraActivity;
+import com.example.rakeshvasal.myapplication.Activity.Image_Capture_Location;
 import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.R;
+import com.example.rakeshvasal.myapplication.ServiceCalls.MakeServiceCall;
 import com.googlecode.tesseract.android.TessBaseAPI;
 
 import java.io.BufferedInputStream;
@@ -31,6 +36,8 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by Rakeshvasal on 21-Nov-17.
  */
@@ -39,11 +46,13 @@ public class CharacterRecognitionFragment extends BaseFragment {
 
     String filepath = "https://firebasestorage.googleapis.com/v0/b/myapplication-8f68b.appspot.com/o/OCRData%2Feng.traineddata?alt=media&token=8f1b70de-a168-489e-8274-02db321fa52c";
     private TessBaseAPI mTess;
-    String datapath = "",language;
+    String datapath = "", language;
     Bitmap image;
     Context context;
     private ProgressDialog pDialog;
-
+    private static final int CAMERA_CUSTOM_CAPTURE = 1;
+    String image_path;
+    Button scanimg,camera;
     // Progress dialog type (0 - for Horizontal progress bar)
     public static final int progress_bar_type = 0;
 
@@ -54,12 +63,31 @@ public class CharacterRecognitionFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_image_analysis, container, false);
+        Button scan = (Button) root.findViewById(R.id.scan);
+        scan.setVisibility(View.GONE);
+        scanimg = (Button) root.findViewById(R.id.scanimg);
+        camera = (Button) root.findViewById(R.id.camera);
         context = getActivity();
         language = "eng";
         datapath = context.getFilesDir() + "/tesseract/";
         mTess = new TessBaseAPI();
 
-        image = BitmapFactory.decodeResource(context.getResources(), R.drawable.lt02933546);
+        //image = BitmapFactory.decodeResource(context.getResources(), R.drawable.lt02933546);
+        scanimg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showProgressDialog();
+                new Task().execute();
+            }
+        });
+
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), CameraActivity.class);
+                startActivityForResult(intent, CAMERA_CUSTOM_CAPTURE);
+            }
+        });
 
         checkFile(new File(datapath + "tessdata/"));
 
@@ -67,10 +95,10 @@ public class CharacterRecognitionFragment extends BaseFragment {
 
     }
 
-    private void initializeTess(){
-        if (new File(datapath + "tessdata/").exists()){
+    private void initializeTess() {
+        if (new File(datapath + "tessdata/").exists()) {
             mTess.init(datapath, language);
-            processImage();
+            //processImage();
         }
     }
 
@@ -84,6 +112,9 @@ public class CharacterRecognitionFragment extends BaseFragment {
 
             if (!datafile.exists()) {
                 copyFiles();
+            } else {
+                initializeTess();
+
             }
         }
     }
@@ -91,41 +122,47 @@ public class CharacterRecognitionFragment extends BaseFragment {
     private void copyFiles() {
         try {
 
-
             new DownloadFileFromURL(context, filepath).execute();
 
             // processImage();
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void processImage() {
-        String OCRresult = null;
-        mTess.setImage(image);
-        OCRresult = mTess.getUTF8Text();
-        Log.d("OCR", OCRresult);
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == CAMERA_CUSTOM_CAPTURE) {
+            if (resultCode == RESULT_OK) {
+                image_path = data.getStringExtra("image_path");
+                try {
+                    scanimg.setVisibility(View.VISIBLE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
-
-
 
     /**
      * Background Async Task to download file
-     * */
-    class DownloadFileFromURL extends AsyncTask<String, String, String> {
+     */
+    public class DownloadFileFromURL extends AsyncTask<String, String, String> {
 
         Context mContext;
-        String fileurl="";
-        public DownloadFileFromURL(Context context,String url){
-            this.mContext=context;
-            this.fileurl=url;
+        String fileurl = "";
+
+        public DownloadFileFromURL(Context context, String url) {
+            this.mContext = context;
+            this.fileurl = url;
         }
 
         /**
          * Before starting background thread
          * Show Progress Bar Dialog
-         * */
+         */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -142,7 +179,7 @@ public class CharacterRecognitionFragment extends BaseFragment {
 
         /**
          * Downloading file in background thread
-         * */
+         */
         @Override
         protected String doInBackground(String... f_url) {
             int count;
@@ -168,7 +205,7 @@ public class CharacterRecognitionFragment extends BaseFragment {
                     total += count;
                     // publishing the progress....
                     // After this onProgressUpdate will be called
-                    publishProgress(""+(int)((total*100)/lenghtOfFile));
+                    publishProgress("" + (int) ((total * 100) / lenghtOfFile));
 
                     // writing data to file
                     output.write(data, 0, count);
@@ -190,7 +227,7 @@ public class CharacterRecognitionFragment extends BaseFragment {
 
         /**
          * Updating progress bar
-         * */
+         */
         protected void onProgressUpdate(String... progress) {
             // setting progress percentage
             pDialog.setProgress(Integer.parseInt(progress[0]));
@@ -199,16 +236,63 @@ public class CharacterRecognitionFragment extends BaseFragment {
         /**
          * After completing background task
          * Dismiss the progress dialog
-         * **/
+         **/
         @Override
         protected void onPostExecute(String file_url) {
             // dismiss the dialog after the file was downloaded
             //dismissDialog(progress_bar_type);
             pDialog.dismiss();
+            scanimg.setVisibility(View.VISIBLE);
+            Intent intent = new Intent(getActivity(), CameraActivity.class);
+            startActivityForResult(intent, CAMERA_CUSTOM_CAPTURE);
             initializeTess();
 
         }
 
     }
+
+    public class Task extends AsyncTask<String, String, String> {
+        TessBaseAPI baseAPI = new TessBaseAPI();
+        String result = "";
+
+        @Override
+        protected String doInBackground(String... params) {
+            processImage();
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            closeProgressDialog();
+            shortToast(""+result);
+            Log.d("OCRResult",result);
+            /*baseAPI.clear();*/
+        }
+
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            closeProgressDialog();
+            //baseAPI.clear();
+        }
+
+        public void processImage() {
+
+
+            File file = new File(image_path);
+            //image = BitmapFactory.decodeResource(context.getResources(), R.drawable.lt02933546);
+
+            //mTess.setImage(image);
+            mTess.setImage(file);
+            result = mTess.getUTF8Text();
+            Log.d("OCR", result);
+        }
+    }
+
+
+
+
 
 }

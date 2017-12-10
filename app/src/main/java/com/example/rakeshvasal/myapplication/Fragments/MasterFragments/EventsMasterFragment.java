@@ -18,8 +18,10 @@ import android.widget.EditText;
 
 import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.EventsMasterAdapter;
+import com.example.rakeshvasal.myapplication.Custom_Adapters.UserMasterAdapter;
 import com.example.rakeshvasal.myapplication.Fragments.AddUpdateFragments.AddUpdateEventFragment;
 import com.example.rakeshvasal.myapplication.GetterSetter.Events;
+import com.example.rakeshvasal.myapplication.GetterSetter.User;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.google.firebase.database.ChildEventListener;
@@ -42,7 +44,7 @@ public class EventsMasterFragment extends BaseFragment {
     RecyclerView recyclerView;
     private DatabaseReference mEventsDatabase;
     FirebaseDatabase mFirebaseInstance;
-    DatabaseReference ref;
+    DatabaseReference ref,eventref;
     FragmentManager fm;
     public EventsMasterFragment() {
 
@@ -91,6 +93,7 @@ public class EventsMasterFragment extends BaseFragment {
                     fetchallevents();
                 } else {
                     readData("eventName",search_text.getText().toString());
+                    //fetchDetailsfromeventName(search_text.getText().toString());
                 }
             }
         });
@@ -132,16 +135,19 @@ public class EventsMasterFragment extends BaseFragment {
 
     private void readData(String parameter,String searchtext) {
 
+        String substring = searchtext.replace(" ","");
+
         final List<Events> mEventsEntries = new ArrayList<>();
-        ref.orderByChild(parameter).equalTo(searchtext).addChildEventListener(new ChildEventListener() {
+        ref.orderByChild(parameter).startAt(substring.toLowerCase()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                 Events events = dataSnapshot.getValue(Events.class);
                 mEventsEntries.add(events);
-                closeProgressDialog();
+
                 EventsMasterAdapter adapter = new EventsMasterAdapter(getActivity(), mEventsEntries,fm);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
+                closeProgressDialog();
             }
 
             @Override
@@ -164,7 +170,50 @@ public class EventsMasterFragment extends BaseFragment {
                 closeProgressDialog();
             }
         });
+        closeProgressDialog();
+    }
 
+    private void fetchDetailsfromeventName(final String str_user_name) {
+        //showProgressDialog();
+
+        //ref = eventref.child(str_user_name);
+        eventref =ref.getRef();
+        //childref = ref.getRef();
+        final List<Events> mEventEntries = new ArrayList<>();
+        try {
+            eventref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    for (DataSnapshot eventsnapshot : dataSnapshot.getChildren()) {
+                        Log.d("eventsnapshot", ""+eventsnapshot);
+                        Events events = eventsnapshot.getValue(Events.class);
+                        String eventName = events.getEventName();
+                        Log.d("eventName", ""+eventName);
+                        eventName=eventName.toLowerCase();
+                        if (eventName.contains(str_user_name.toLowerCase())){
+                            mEventEntries.add(events);
+                        }
+                    }
+                    EventsMasterAdapter adapter = new EventsMasterAdapter(getActivity(), mEventEntries,fm);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    closeProgressDialog();
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    closeProgressDialog();
+                    Log.d("eventmasterdbaseerror", databaseError.getMessage());
+                }
+            });
+                closeProgressDialog();
+
+        } catch (Exception e) {
+            closeProgressDialog();
+            e.printStackTrace();
+        }
     }
 
 }
