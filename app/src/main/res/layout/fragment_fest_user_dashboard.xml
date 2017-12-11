@@ -4,6 +4,33 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.rakeshvasal.myapplication.Fragments.FestUserDashboard">
+    <ImageView
+        android:id="@+id/profilePicture"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"/>
+
+    <com.example.rakeshvasal.myapplication.View.RoundedImageView
+        android:id="@+id/iv_profile_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/user_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Profile"
+        android:layout_gravity="center"
+        android:textSize="@dimen/activity_text_size"
+        android:background="@drawable/circularshape"
+        style="@style/MyLinearayoutStyle"
+        />
 
     <TextView
         android:id="@+id/event_participate"
