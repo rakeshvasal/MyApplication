@@ -88,3 +88,4 @@ compile 'com.android.support:multidex:1.0.1'
          /*.class
          .idea/vcs.xml
          app/libs/
+compile 'com.itextpdf:itextg:5.5.10'
