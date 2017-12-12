@@ -133,7 +133,8 @@
         <activity android:name=".Activity.MovieDBActivity" />
         <activity
             android:name=".Activity.PosterActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity android:name=".Activity.CreatePDFActivity"></activity>
     </application>
 
 </manifest>

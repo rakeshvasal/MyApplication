@@ -190,16 +190,16 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
 
             }
         });
-        /*TextView source_code = (TextView) findViewById(R.id.source_code);
+        TextView source_code = (TextView) findViewById(R.id.create_pdf);
         source_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Dashboard.this, SourceCodeActivity.class);
-                intent.putExtra("source", "source");
+                Intent intent = new Intent(Dashboard.this, CreatePDFActivity.class);
+
                 startActivity(intent);
 
             }
-        });*/
+        });
 
 
         sign_out.setOnClickListener(new View.OnClickListener() {
