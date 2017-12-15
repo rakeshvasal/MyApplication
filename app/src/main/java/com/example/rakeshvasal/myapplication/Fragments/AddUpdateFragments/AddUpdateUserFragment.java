@@ -48,7 +48,7 @@ public class AddUpdateUserFragment extends BaseFragment {
     Button submit;
     String photourl, googleid, user_id="", task,pass;
     SharedPreferences sharedPreferences;
-    private DatabaseReference mDatabase, ref, childref;
+    private DatabaseReference mDatabase, ref, childref,member_ref;
     FirebaseDatabase mFirebaseInstance;
     RadioGroup role_group;
     RadioButton rb_stu, rb_admin;
@@ -79,18 +79,21 @@ public class AddUpdateUserFragment extends BaseFragment {
         ll_conf_pass = (LinearLayout) view.findViewById(R.id.ll_conf_pass);
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mDatabase = mFirebaseInstance.getReference("users");
+        member_ref = mFirebaseInstance.getReference("committee_members");
         sharedPreferences = getActivity().getSharedPreferences(Utils.GOOGLE_LOGIN_DATA, Context.MODE_PRIVATE);
         task = getArguments().getString(Utils.TASK);
         if (task.equalsIgnoreCase(Utils.UPDATE_TASK)) {
             submit.setText("Update");
+
         } else {
             submit.setText("Add");
         }
         user_id = getArguments().getString("userid");
         if (user_id == null || user_id.equalsIgnoreCase("")) {
-
+            ll_role.setVisibility(View.GONE);
             String isGoogleSignIn = sharedPreferences.getString("isGoogleSignedIn", "false");
             if (isGoogleSignIn.equalsIgnoreCase("true")) {
+
                 ShowDialog();
             }
         } else {
@@ -246,6 +249,10 @@ public class AddUpdateUserFragment extends BaseFragment {
         JsonElement mJson = parser.parse(jsonObject);
         Gson gson = new Gson();
         User object = gson.fromJson(mJson, User.class);
+        String role = object.getRole();
+        if (role.equalsIgnoreCase("Student")){
+            ll_role.setVisibility(View.GONE);
+        }
         et_name.setText(object.getUser_name());
         et_contact_no.setText(object.getContact_no());
         email_id.setText(object.getUser_email());

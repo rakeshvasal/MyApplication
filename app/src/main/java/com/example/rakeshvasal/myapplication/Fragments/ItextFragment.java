@@ -1,18 +1,28 @@
 package com.example.rakeshvasal.myapplication.Fragments;
 
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.os.Environment;
+import android.os.SystemClock;
+import android.provider.Settings;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.rakeshvasal.myapplication.Activity.MainActivity;
 import com.example.rakeshvasal.myapplication.BaseFragment;
+import com.example.rakeshvasal.myapplication.BuildConfig;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.EventsMasterAdapter;
+import com.example.rakeshvasal.myapplication.FirebaseCloudMessaging.NotificationUtils;
 import com.example.rakeshvasal.myapplication.GetterSetter.Events;
 import com.example.rakeshvasal.myapplication.R;
+import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,13 +51,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 
 public class ItextFragment extends BaseFragment {
 
 
     private static String FILE = "FirstPdf";
     String fpath;
-    String dirpath = Environment.getExternalStorageDirectory()+"/ItextPDF/";
+    String dirpath = Environment.getExternalStorageDirectory() + "/ItextPDF/";
     FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mEventsDatabase, ref, eventref;
     final java.util.List<Events> mEventsEntries = new ArrayList<>();
@@ -70,16 +82,21 @@ public class ItextFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_itext, container, false);
+        /*FILE=*/
+        String.format(FILE = "" + SystemClock.currentThreadTimeMillis(), "MM/dd/yyyy");
+        Log.d("filename", FILE);
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mEventsDatabase = mFirebaseInstance.getReference();
         ref = mEventsDatabase.child("events");
+        showProgressDialog();
         createFile();
         fetchallevents();
         return root;
     }
 
-    private void createDocument(){
+    private void createDocument() {
         try {
+
             Document document = new Document();
             PdfWriter.getInstance(document, new FileOutputStream(fpath));
             document.open();
@@ -87,10 +104,16 @@ public class ItextFragment extends BaseFragment {
             addTitlePage(document);
             addContent(document);
             document.close();
+
+            closeProgressDialog();
+            sendNotification();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
+
 
     private void addMetaData(Document document) {
         document.addTitle("My first PDF");
@@ -100,7 +123,7 @@ public class ItextFragment extends BaseFragment {
         document.addCreator("Lars Vogel");
     }
 
-    private  void addTitlePage(Document document)
+    private void addTitlePage(Document document)
             throws DocumentException {
         Paragraph preface = new Paragraph();
         // We add one empty line
@@ -130,21 +153,22 @@ public class ItextFragment extends BaseFragment {
     }
 
     private void addContent(Document document) throws DocumentException {
-        Anchor anchor = new Anchor("First Chapter", catFont);
-        anchor.setName("First Chapter");
+        Anchor anchor = new Anchor("Events", catFont);
+        anchor.setName("Name of Events");
 
         // Second parameter is the number of the chapter
         Chapter catPart = new Chapter(new Paragraph(anchor), 1);
+        Paragraph subPara = new Paragraph("Category 1", subFont);
 
-        Paragraph subPara = new Paragraph("Subcategory 1", subFont);
         Section subCatPart = catPart.addSection(subPara);
-        subCatPart.add(new Paragraph("Hello"));
+
+        /*subCatPart.add(new Paragraph("Hello"));
 
         subPara = new Paragraph("Subcategory 2", subFont);
         subCatPart = catPart.addSection(subPara);
         subCatPart.add(new Paragraph("Paragraph 1"));
         subCatPart.add(new Paragraph("Paragraph 2"));
-        subCatPart.add(new Paragraph("Paragraph 3"));
+        subCatPart.add(new Paragraph("Paragraph 3"));*/
 
         // add a list
         createList(subCatPart);
@@ -174,7 +198,7 @@ public class ItextFragment extends BaseFragment {
 
     }
 
-    private  void createTable(Section subCatPart)
+    private void createTable(Section subCatPart)
             throws BadElementException {
         PdfPTable table = new PdfPTable(3);
 
@@ -208,7 +232,7 @@ public class ItextFragment extends BaseFragment {
     }
 
     private void createList(Section subCatPart) {
-        List list = new List(true, false, 100);
+        List list = new List(true, false, 20);
         for (int i = 0; i < mEventsEntries.size(); i++) {
             list.add(new ListItem(mEventsEntries.get(i).eventName));
         }
@@ -224,18 +248,19 @@ public class ItextFragment extends BaseFragment {
         }
     }
 
-    private File createFile(){
-
-        File file=null;
+    private File createFile() {
+        /*String.format(FILE = "" + SystemClock.currentThreadTimeMillis(), "MM/dd/yyyy");
+        Log.d("filename", FILE);*/
+        File file = null;
         File storageDir = new File(dirpath);
 
 
         if (!storageDir.exists()) {
             storageDir.mkdirs();
         }
-        if (storageDir.exists()){
-            fpath = storageDir +"/"+ FILE + ".pdf";
-           file = new File(fpath);
+        if (storageDir.exists()) {
+            fpath = storageDir + "/" + FILE + ".pdf";
+            file = new File(fpath);
             if (!file.exists()) {
                 try {
                     file.createNewFile();
@@ -245,6 +270,25 @@ public class ItextFragment extends BaseFragment {
             }
         }
         return file;
+    }
+
+    private void sendNotification() {
+        try {
+            Uri file;
+            File mediaFile = new File(fpath);
+            if (Build.VERSION.SDK_INT > 21) { //use this if Lollipop_Mr1 (API 22) or above
+                file = FileProvider.getUriForFile(getActivity(), BuildConfig.APPLICATION_ID + ".provider", mediaFile);
+            } else {
+                file = Uri.fromFile(mediaFile);
+            }
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(file, "application/pdf");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            NotificationUtils notificationUtils = new NotificationUtils(getActivity());
+            notificationUtils.showNotificationMessage("File Created", "PDF created", Utils.getSystemTime(), intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void fetchallevents() {

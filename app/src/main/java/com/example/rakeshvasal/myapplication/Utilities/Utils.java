@@ -37,9 +37,11 @@ import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -100,6 +102,12 @@ public class Utils {
         }
 
         return false;
+    }
+
+    public static String getSystemTime(){
+        String timeStamp = new SimpleDateFormat("dd/MM/yyyy")
+                .format(new Date());
+        return timeStamp;
     }
 
     // To retrieve images list from folder
