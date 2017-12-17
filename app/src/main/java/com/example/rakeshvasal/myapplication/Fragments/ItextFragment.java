@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 
 import com.example.rakeshvasal.myapplication.Activity.MainActivity;
 import com.example.rakeshvasal.myapplication.BaseFragment;
@@ -281,9 +282,13 @@ public class ItextFragment extends BaseFragment {
             } else {
                 file = Uri.fromFile(mediaFile);
             }
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(file, "application/pdf");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            MimeTypeMap mime = MimeTypeMap.getSingleton();
+            String ext=mediaFile.getName().substring(mediaFile.getName().indexOf(".")+1);
+            String type = mime.getMimeTypeFromExtension(ext);
+            Intent intent = new Intent(Intent.ACTION_VIEW,file);
+            //intent.setDataAndType(file, "application/pdf");
+            intent.setDataAndType(file, type);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             NotificationUtils notificationUtils = new NotificationUtils(getActivity());
             notificationUtils.showNotificationMessage("File Created", "PDF created", Utils.getSystemTime(), intent);
         } catch (Exception e) {
