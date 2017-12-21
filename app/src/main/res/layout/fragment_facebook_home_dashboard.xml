@@ -56,6 +56,14 @@
                 android:text="Search Freinds on App"
                 android:textSize="@dimen/activity_text_size" />
 
+            <TextView
+                android:id="@+id/userbio"
+                style="@style/MyLinearayoutStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Search Freinds on App"
+                android:textSize="@dimen/activity_text_size" />
+
         </LinearLayout>
     </ScrollView>
     <android.support.v7.widget.RecyclerView

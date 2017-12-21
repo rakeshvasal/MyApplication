@@ -40,7 +40,7 @@ import java.util.List;
 
 public class FacebookHomeDashboard extends BaseFragment {
 
-    TextView freindlist, posts, photos, tagfreind, appfreinds;
+    TextView freindlist, posts, photos, tagfreind, appfreinds,userbio;
     RecyclerView recyclerView;
     ProfileTracker mProfileTracker;
 
@@ -60,6 +60,7 @@ public class FacebookHomeDashboard extends BaseFragment {
         photos = (TextView) v.findViewById(R.id.photos);
         tagfreind = (TextView) v.findViewById(R.id.tagfreind);
         appfreinds = (TextView) v.findViewById(R.id.appfreinds);
+        userbio = (TextView) v.findViewById(R.id.userbio);
         Profile profile = Profile.getCurrentProfile();
         if (profile == null) {
             mProfileTracker = new ProfileTracker() {
@@ -139,6 +140,48 @@ public class FacebookHomeDashboard extends BaseFragment {
                 fragment.setArguments(arg);
                 transaction.addToBackStack(null);
                 transaction.commit();
+            }
+        });
+        /*userbio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GraphRequest request = GraphRequest.newGraphPathRequest(
+                        AccessToken.getCurrentAccessToken(),
+                        "/me",
+                        new GraphRequest.Callback() {
+                            @Override
+                            public void onCompleted(GraphResponse response) {
+                                Log.e("BIO", ""+response.getJSONObject());
+                            }
+                        });
+
+
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "about,address,birthday,location");
+                request.setParameters(parameters);
+                request.executeAsync();
+            }
+        });*/
+        userbio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GraphRequest request = GraphRequest.newGraphPathRequest(
+                        AccessToken.getCurrentAccessToken(),
+                        "/me/objects",
+                        //"/me/feed",
+                        new GraphRequest.Callback() {
+                            @Override
+                            public void onCompleted(GraphResponse response) {
+                                Log.e("BIO", ""+response.getJSONObject());
+                            }
+                        });
+
+
+                Bundle parameters = new Bundle();
+                parameters.putString("type", "comment");
+                //parameters.putString("fields", "id");
+                request.setParameters(parameters);
+                request.executeAsync();
             }
         });
         return v;

@@ -73,6 +73,19 @@ public class FacebookFragment extends Fragment {
             permissons.add("user_posts");
             permissons.add("user_photos");
             permissons.add("read_custom_friendlists");
+            permissons.add("user_hometown");
+            permissons.add("user_about_me");
+            permissons.add("user_birthday");
+            permissons.add("user_education_history");
+            permissons.add("user_hometown");
+            permissons.add("user_location");
+            permissons.add("user_likes");
+            permissons.add("user_tagged_places");
+            permissons.add("user_hometown");
+            permissons.add("user_hometown");
+            permissons.add("user_hometown");
+
+
 
 
             loginButton.setReadPermissions(permissons);
@@ -166,6 +179,7 @@ public class FacebookFragment extends Fragment {
         email.setText(AccessToken.getCurrentAccessToken().getToken().toString());
         Log.d("act",AccessToken.getCurrentAccessToken().getToken().toString());
         frnds.setText("" + profile.getProfilePictureUri(100, 100));
+
         try {
             new LoadProfileImage(profile_pic).execute(profile.getProfilePictureUri(100, 100).toString());
         } catch (Exception e) {
