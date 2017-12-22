@@ -8,13 +8,18 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/nextpages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello_blank_fragment" />
+        style="@style/MyLinearayoutStyle"
+        android:text="NEXT"
+        android:gravity="center"/>
     <ListView
         android:id="@+id/text_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </ListView>
+
+
 
 </LinearLayout>

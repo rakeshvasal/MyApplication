@@ -61,7 +61,7 @@
                 style="@style/MyLinearayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Search Freinds on App"
+                android:text="User Bio"
                 android:textSize="@dimen/activity_text_size" />
 
         </LinearLayout>

@@ -142,7 +142,7 @@ public class FacebookHomeDashboard extends BaseFragment {
                 transaction.commit();
             }
         });
-        /*userbio.setOnClickListener(new View.OnClickListener() {
+        userbio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 GraphRequest request = GraphRequest.newGraphPathRequest(
@@ -161,8 +161,8 @@ public class FacebookHomeDashboard extends BaseFragment {
                 request.setParameters(parameters);
                 request.executeAsync();
             }
-        });*/
-        userbio.setOnClickListener(new View.OnClickListener() {
+        });
+        /*userbio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 GraphRequest request = GraphRequest.newGraphPathRequest(
@@ -183,7 +183,7 @@ public class FacebookHomeDashboard extends BaseFragment {
                 request.setParameters(parameters);
                 request.executeAsync();
             }
-        });
+        });*/
         return v;
     }
 

@@ -1,6 +1,7 @@
 package com.example.rakeshvasal.myapplication.Fragments.FacebookFragments;
 
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -11,11 +12,15 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.GetterSetter.FBFreinds;
 import com.example.rakeshvasal.myapplication.GetterSetter.FBPhotos;
 import com.example.rakeshvasal.myapplication.R;
+import com.example.rakeshvasal.myapplication.ServiceCalls.MakeServiceCall;
+import com.example.rakeshvasal.myapplication.Utilities.Utils;
+import com.example.rakeshvasal.myapplication.Utilities.makeServiceCall;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -25,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +39,8 @@ public class TaggableFreindsFragment extends BaseFragment {
 
     ListView text_list_view;
     List<FBFreinds> freindlistarray;
+    String nextstring = "";
+
     public TaggableFreindsFragment() {
         // Required empty public constructor
     }
@@ -52,20 +60,67 @@ public class TaggableFreindsFragment extends BaseFragment {
         } else if (type.equalsIgnoreCase("2")) {
             getFreindsList();
         } else if (type.equalsIgnoreCase("3")) {
-            getFreindsFreinds();
+            getFreinds();
         }
+        TextView nextpages = (TextView) v.findViewById(R.id.nextpages);
+        nextpages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showProgressDialog();
+                new getNext(TaggableFreindsFragment.this).execute();
+
+            }
+        });
+
 
         text_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (type.equalsIgnoreCase("3")){
-                    FBFreinds fbFreinds =freindlistarray.get(i);
+                if (type.equalsIgnoreCase("3")) {
+                    FBFreinds fbFreinds = freindlistarray.get(i);
                     getIndividualdetails(fbFreinds.getId());
                 }
             }
         });
 
         return v;
+    }
+
+    public void onBackgroundTaskCompleted(String s) {
+        Log.d("nextdata", s);
+        closeProgressDialog();
+        try {
+            JSONObject jsonObject = new JSONObject(s.toString());
+            JSONArray jsonArray = jsonObject.getJSONArray("data");
+            //String[] dataarray = new String[jsonArray.length()];
+            List<String> dataarray = new ArrayList<>(jsonArray.length());
+            freindlistarray = new ArrayList<FBFreinds>(jsonArray.length());
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                // dataarray.add(i,jsonObject1.getString("story"));
+                String id = jsonObject1.getString("id");
+                String name = jsonObject1.getString("name");
+                FBFreinds fbfrnds = new FBFreinds();
+                fbfrnds.setId(id);
+                fbfrnds.setName(name);
+                String datavalue = i + 1 + " : " + name + "\n" + id;
+                dataarray.add(datavalue);
+                freindlistarray.add(fbfrnds);
+            }
+
+            if (jsonObject.has("paging")) {
+                JSONObject jsonObject1 = jsonObject.getJSONObject("paging");
+                if (jsonObject1.has("next")) {
+                    nextstring = jsonObject1.getString("next");
+                }
+            }
+            ArrayAdapter adapter = new ArrayAdapter<>(getActivity(), R.layout.fbphotoslistitem, R.id.photo_id, dataarray);
+            text_list_view.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void getTaggableFreinds() {
@@ -79,7 +134,7 @@ public class TaggableFreindsFragment extends BaseFragment {
 
                         try {
                             closeProgressDialog();
-                            Log.e("Frnds1", response.toString());
+                            Log.e("taggablefrnds", response.toString());
                             JSONObject data = response.getJSONObject();
                             JSONObject jsonObject = new JSONObject(data.toString());
                             JSONArray jsonArray = jsonObject.getJSONArray("data");
@@ -99,6 +154,12 @@ public class TaggableFreindsFragment extends BaseFragment {
                                 freindlistarray.add(fbfrnds);
                             }
 
+                            if (jsonObject.has("paging")) {
+                                JSONObject jsonObject1 = jsonObject.getJSONObject("paging");
+                                if (jsonObject1.has("next")) {
+                                    nextstring = jsonObject1.getString("next");
+                                }
+                            }
                             ArrayAdapter adapter = new ArrayAdapter<>(getActivity(), R.layout.fbphotoslistitem, R.id.photo_id, dataarray);
                             text_list_view.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
@@ -130,7 +191,7 @@ public class TaggableFreindsFragment extends BaseFragment {
                     public void onCompleted(GraphResponse response) {
                         try {
                             closeProgressDialog();
-                            Log.e("Frnds1", response.toString());
+                            Log.e("freindlist", response.toString());
                             JSONObject data = response.getJSONObject();
                             JSONObject jsonObject = new JSONObject(data.toString());
                             JSONArray jsonArray = jsonObject.getJSONArray("data");
@@ -171,7 +232,7 @@ public class TaggableFreindsFragment extends BaseFragment {
 
     }
 
-    private void getFreindsFreinds() {
+    private void getFreinds() {
         GraphRequest request1 = new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
                 "/me/friends",
@@ -181,7 +242,7 @@ public class TaggableFreindsFragment extends BaseFragment {
                     public void onCompleted(GraphResponse response) {
                         try {
                             closeProgressDialog();
-                            Log.e("Frnds1", response.toString());
+                            Log.e("frndsonapp", response.toString());
                             JSONObject data = response.getJSONObject();
                             JSONObject jsonObject = new JSONObject(data.toString());
                             JSONArray jsonArray = jsonObject.getJSONArray("data");
@@ -221,12 +282,11 @@ public class TaggableFreindsFragment extends BaseFragment {
     }
 
 
-
     public void getIndividualdetails(String userid) {
 
         GraphRequest request = GraphRequest.newGraphPathRequest(
                 AccessToken.getCurrentAccessToken(),
-                "/"+userid,
+                "/" + userid,
                 new GraphRequest.Callback() {
                     @Override
                     public void onCompleted(GraphResponse response) {
@@ -239,6 +299,31 @@ public class TaggableFreindsFragment extends BaseFragment {
         parameters.putString("fields", "id,name,address,cover,gender,favorite_teams");
         request.setParameters(parameters);
         request.executeAsync();
+    }
+
+    public class getNext extends AsyncTask<String, String, String> {
+        String data;
+        TaggableFreindsFragment caller;
+
+        getNext(TaggableFreindsFragment caller) {
+            this.caller = caller;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                data = new makeServiceCall().makeServiceGETCall(nextstring);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            caller.onBackgroundTaskCompleted(s);
+        }
     }
 
 }
