@@ -89,3 +89,23 @@ compile 'com.android.support:multidex:1.0.1'
          .idea/vcs.xml
          app/libs/
 compile 'com.itextpdf:itextg:5.5.10'
+
+/*Call<JsonObject> jsonObjectCall = apiInterface.getMoviesJSON(getResources().getString(R.string.MovieDB_API_KEY), "en-US", page.getText().toString(), region.getText().toString());
+
+            jsonObjectCall.enqueue(new Callback<JsonObject>() {
+                @Override
+                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    closeProgressDialog();
+                    JsonObject json = response.body();
+
+                    Log.e("moviejson", ""+json);
+
+                }
+
+                @Override
+                public void onFailure(Call<JsonObject> call, Throwable t) {
+                    closeProgressDialog();
+
+                    Log.e("movieexcep", t.toString());
+                }
+            });*/

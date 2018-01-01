@@ -3,14 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.rakeshvasal.myapplication.Activity.CricInfoAPI">
+    tools:context="com.example.rakeshvasal.myapplication.Fragments.CricketAPIFragments.CricketMatchesFragment">
 
 
-    <include
+    <!--<include
         android:id="@+id/toolbar"
         layout="@layout/header_layout">
-
-    </include>
+    </include>-->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/match_recycler"
         android:layout_width="match_parent"

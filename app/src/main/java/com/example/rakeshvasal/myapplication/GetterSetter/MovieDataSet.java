@@ -1,5 +1,7 @@
 package com.example.rakeshvasal.myapplication.GetterSetter;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -7,11 +9,29 @@ import java.util.List;
  */
 
 public class MovieDataSet {
-
+    @SerializedName("original_title")
     private String name;
+    @SerializedName("vote_average")
     private String rating;
+    @SerializedName("id")
     private String id;
+    @SerializedName("title")
     private String title;
+    /*@SerializedName("team-1")
+    @SerializedName("team-1")
+    @SerializedName("team-1")
+    @SerializedName("team-1")
+    @SerializedName("team-1")
+    @SerializedName("team-1")*/
+
+    public MovieDataSet(String name, String rating, String id, String title, String posterurl) {
+        this.name = name;
+        this.rating = rating;
+        this.id = id;
+        this.title = title;
+        this.posterurl = posterurl;
+    }
+
 
     public String getPosterurl() {
         return posterurl;
@@ -42,8 +62,6 @@ public class MovieDataSet {
         this.id = id;
     }
 
-
-
     public String getName() {
         return name;
     }
@@ -60,9 +78,5 @@ public class MovieDataSet {
         this.rating = rating;
     }
 
-    public MovieDataSet(String name, String rating) {
 
-        this.name = name;
-        this.rating = rating;
-    }
 }

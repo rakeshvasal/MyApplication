@@ -56,7 +56,7 @@ public class PosterActivity extends BaseActivity {
                 .into(new SimpleTarget<Bitmap>(680, 720) {
                     @Override
                     public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
-                        
+
                         imageView.setImageBitmap(bitmap);
                     }
                 });

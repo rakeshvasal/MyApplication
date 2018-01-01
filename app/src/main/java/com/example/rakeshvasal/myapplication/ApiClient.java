@@ -9,14 +9,33 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    public static String BASE_URL = "http://cricapi.com/api/";
+    public static String CRIC_INFO_BASE_URL = "http://cricapi.com/api/";
+
     public static Retrofit retrofit = null;
+
 
     public static Retrofit getApiClient() {
         if (retrofit == null) {
-            retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
+            retrofit = new Retrofit.Builder().baseUrl(CRIC_INFO_BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
 
         }
         return retrofit;
+    }
+    /*public static Retrofit getMovieDBApiClient() {
+        if (retrofit == null) {
+            retrofit = new Retrofit.Builder().baseUrl(MOVIE_DB_BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
+
+        }
+        return retrofit;
+    }*/
+
+
+    public static Retrofit changeBaseURL(String newBaseURL) {
+        {
+            if (retrofit != null) {
+                retrofit = new Retrofit.Builder().baseUrl(newBaseURL).addConverterFactory(GsonConverterFactory.create()).build();
+            }
+            return retrofit;
+        }
     }
 }

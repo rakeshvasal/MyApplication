@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rakeshvasal.myapplication.BaseActivity;
-import com.example.rakeshvasal.myapplication.Fragments.SplashScreen;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Services.UserLocation;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
@@ -157,7 +156,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
         cricketAPI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Dashboard.this, CricInfoAPI.class);
+                Intent intent = new Intent(Dashboard.this, MatchDetailsActivity.class);
                 startActivity(intent);
             }
         });

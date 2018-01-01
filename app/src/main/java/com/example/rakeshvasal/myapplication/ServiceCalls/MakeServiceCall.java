@@ -25,7 +25,7 @@ public class MakeServiceCall {
             URL url1 = new URL(url);
             urlConnection = (HttpURLConnection) url1.openConnection();
             urlConnection.setRequestProperty("Content-Type", "application/json");
-            urlConnection.setRequestProperty("user-key","905eec17a259d75ba116b8467219d657");
+            //urlConnection.setRequestProperty("user-key","905eec17a259d75ba116b8467219d657");
             urlConnection.setRequestMethod("POST");
 
 

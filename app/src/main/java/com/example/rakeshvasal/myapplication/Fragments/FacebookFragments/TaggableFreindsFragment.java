@@ -39,7 +39,7 @@ public class TaggableFreindsFragment extends BaseFragment {
 
     ListView text_list_view;
     List<FBFreinds> freindlistarray;
-    String nextstring = "";
+    String nextstring = "",previousstring="";
 
     public TaggableFreindsFragment() {
         // Required empty public constructor
@@ -67,7 +67,7 @@ public class TaggableFreindsFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 showProgressDialog();
-                new getNext(TaggableFreindsFragment.this).execute();
+                new getNextorPrevious(TaggableFreindsFragment.this).execute();
 
             }
         });
@@ -112,6 +112,12 @@ public class TaggableFreindsFragment extends BaseFragment {
                 JSONObject jsonObject1 = jsonObject.getJSONObject("paging");
                 if (jsonObject1.has("next")) {
                     nextstring = jsonObject1.getString("next");
+                }
+            }
+            if (jsonObject.has("paging")) {
+                JSONObject jsonObject1 = jsonObject.getJSONObject("paging");
+                if (jsonObject1.has("previous")) {
+                    previousstring = jsonObject1.getString("previous");
                 }
             }
             ArrayAdapter adapter = new ArrayAdapter<>(getActivity(), R.layout.fbphotoslistitem, R.id.photo_id, dataarray);
@@ -281,7 +287,6 @@ public class TaggableFreindsFragment extends BaseFragment {
 
     }
 
-
     public void getIndividualdetails(String userid) {
 
         GraphRequest request = GraphRequest.newGraphPathRequest(
@@ -301,11 +306,11 @@ public class TaggableFreindsFragment extends BaseFragment {
         request.executeAsync();
     }
 
-    public class getNext extends AsyncTask<String, String, String> {
+    public class getNextorPrevious extends AsyncTask<String, String, String> {
         String data;
         TaggableFreindsFragment caller;
 
-        getNext(TaggableFreindsFragment caller) {
+        getNextorPrevious(TaggableFreindsFragment caller) {
             this.caller = caller;
         }
 

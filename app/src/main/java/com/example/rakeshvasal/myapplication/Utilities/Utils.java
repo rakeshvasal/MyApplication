@@ -18,6 +18,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.StatFs;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,10 @@ import android.widget.Toast;
 
 import com.example.rakeshvasal.myapplication.Activity.Dashboard;
 import com.example.rakeshvasal.myapplication.Activity.MainActivity;
+import com.example.rakeshvasal.myapplication.R;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -65,8 +70,9 @@ public class Utils {
     public static ArrayList<String> vehicle_model_name_array_list = new ArrayList<>();
     public static ArrayList<String> json_model_id = new ArrayList<>();
     public static ArrayList<String> chk_value_lead_id = new ArrayList<>();
-    //public static String TYPE=
-    public static String MOVIEDB_BASE_URL = "https://api.themoviedb.org/3";
+    public static String API_KEY = "";
+    public static String MOVIEDB_BASE_URL = "https://api.themoviedb.org/3/";
+    public static String CRIC_INFO_BASE_URL = "http://cricapi.com/api/";
     public static String MOVIEDB_PIC_BASE_URL = "https://image.tmdb.org/t/p/w780";
     public static String ADD_TASK = "ADD";
     public static String UPDATE_TASK = "UPDATE";
@@ -104,7 +110,7 @@ public class Utils {
         return false;
     }
 
-    public static String getSystemTime(){
+    public static String getSystemTime() {
         String timeStamp = new SimpleDateFormat("dd/MM/yyyy")
                 .format(new Date());
         return timeStamp;
@@ -131,9 +137,9 @@ public class Utils {
         return tFileList;
     }
 
-    public static void openSourceFile(Activity activity,String filename,String filetype){
+    public static void openSourceFile(Activity activity, String filename, String filetype) {
         //File file = new File(Environment.getExternalStorageDirectory(), "test.txt");
-        Uri uri = Uri.parse("file:///android_asset/"+ filetype +"/"+ filename +".txt");
+        Uri uri = Uri.parse("file:///android_asset/" + filetype + "/" + filename + ".txt");
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(uri);
         activity.startActivity(intent);
@@ -362,6 +368,15 @@ public class Utils {
         return fullAddress;
     }
 
+    private String ListtoJson(List<Object> list) {
+
+        String json = new Gson().toJson(list);
+
+        return json;
+
+    }
+
+
     public static void setupUI(View view, final Activity activity) {
 
         //Set up touch listener for non-text box views to hide keyboard.
@@ -456,12 +471,12 @@ public class Utils {
     public static void updateUI(Activity activity, boolean signedIn) {
         if (signedIn) {
             //findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-            Intent intent = new Intent(activity,Dashboard.class);
+            Intent intent = new Intent(activity, Dashboard.class);
             activity.startActivity(intent);
             activity.finish();
             //findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
         } else {
-            Intent intent = new Intent(activity,MainActivity.class);
+            Intent intent = new Intent(activity, MainActivity.class);
             activity.startActivity(intent);
             activity.finish();
         }
@@ -469,7 +484,7 @@ public class Utils {
 
     public static String bytesToHex(byte[] bytes) {
         StringBuilder sbuf = new StringBuilder();
-        for(int idx=0; idx < bytes.length; idx++) {
+        for (int idx = 0; idx < bytes.length; idx++) {
             int intVal = bytes[idx] & 0xff;
             if (intVal < 0x10) sbuf.append("0");
             sbuf.append(Integer.toHexString(intVal).toUpperCase());
@@ -478,29 +493,36 @@ public class Utils {
     }
 
     public static byte[] getUTF8Bytes(String str) {
-        try { return str.getBytes("UTF-8"); } catch (Exception ex) { return null; }
+        try {
+            return str.getBytes("UTF-8");
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     public static String loadFileAsString(String filename) throws java.io.IOException {
-        final int BUFLEN=1024;
+        final int BUFLEN = 1024;
         BufferedInputStream is = new BufferedInputStream(new FileInputStream(filename), BUFLEN);
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream(BUFLEN);
             byte[] bytes = new byte[BUFLEN];
-            boolean isUTF8=false;
-            int read,count=0;
-            while((read=is.read(bytes)) != -1) {
-                if (count==0 && bytes[0]==(byte)0xEF && bytes[1]==(byte)0xBB && bytes[2]==(byte)0xBF ) {
-                    isUTF8=true;
-                    baos.write(bytes, 3, read-3); // drop UTF8 bom marker
+            boolean isUTF8 = false;
+            int read, count = 0;
+            while ((read = is.read(bytes)) != -1) {
+                if (count == 0 && bytes[0] == (byte) 0xEF && bytes[1] == (byte) 0xBB && bytes[2] == (byte) 0xBF) {
+                    isUTF8 = true;
+                    baos.write(bytes, 3, read - 3); // drop UTF8 bom marker
                 } else {
                     baos.write(bytes, 0, read);
                 }
-                count+=read;
+                count += read;
             }
             return isUTF8 ? new String(baos.toByteArray(), "UTF-8") : new String(baos.toByteArray());
         } finally {
-            try{ is.close(); } catch(Exception ex){}
+            try {
+                is.close();
+            } catch (Exception ex) {
+            }
         }
     }
 
@@ -512,14 +534,15 @@ public class Utils {
                     if (!intf.getName().equalsIgnoreCase(interfaceName)) continue;
                 }
                 byte[] mac = intf.getHardwareAddress();
-                if (mac==null) return "";
+                if (mac == null) return "";
                 StringBuilder buf = new StringBuilder();
-                for (int idx=0; idx<mac.length; idx++)
+                for (int idx = 0; idx < mac.length; idx++)
                     buf.append(String.format("%02X:", mac[idx]));
-                if (buf.length()>0) buf.deleteCharAt(buf.length()-1);
+                if (buf.length() > 0) buf.deleteCharAt(buf.length() - 1);
                 return buf.toString();
             }
-        } catch (Exception ex) { } // for now eat exceptions
+        } catch (Exception ex) {
+        } // for now eat exceptions
         return "";
 
     }
@@ -534,7 +557,7 @@ public class Utils {
                     if (!addr.isLoopbackAddress()) {
                         String sAddr = addr.getHostAddress();
                         //boolean isIPv4 = InetAddressUtils.isIPv4Address(sAddr);
-                        boolean isIPv4 = sAddr.indexOf(':')<0;
+                        boolean isIPv4 = sAddr.indexOf(':') < 0;
 
                         if (useIPv4) {
                             if (isIPv4)
@@ -542,17 +565,18 @@ public class Utils {
                         } else {
                             if (!isIPv4) {
                                 int delim = sAddr.indexOf('%'); // drop ip6 zone suffix
-                                return delim<0 ? sAddr.toUpperCase() : sAddr.substring(0, delim).toUpperCase();
+                                return delim < 0 ? sAddr.toUpperCase() : sAddr.substring(0, delim).toUpperCase();
                             }
                         }
                     }
                 }
             }
-        } catch (Exception ex) { } // for now eat exceptions
+        } catch (Exception ex) {
+        } // for now eat exceptions
         return "";
     }
 
-    public static void showProgressDialog(Activity activity,String msg) {
+    public static void showProgressDialog(Activity activity, String msg) {
         progressDialog = ProgressDialog.show(activity, "Please wait", msg,
                 true, true);
         progressDialog.setCanceledOnTouchOutside(false);
