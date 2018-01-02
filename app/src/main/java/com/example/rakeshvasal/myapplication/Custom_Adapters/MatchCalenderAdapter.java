@@ -21,7 +21,7 @@ public class MatchCalenderAdapter extends RecyclerView.Adapter<MatchCalenderAdap
 
     List<CalenderMatch> calenderMatches = new ArrayList<>();
     Context context;
-    String temp="";
+    String temp = "";
 
     public MatchCalenderAdapter(Context context, List<CalenderMatch> calenderMatches) {
         this.context = context;
@@ -41,8 +41,28 @@ public class MatchCalenderAdapter extends RecyclerView.Adapter<MatchCalenderAdap
         if (calenderMatches.size() > 0) {
 
             CalenderMatch calenderMatch = calenderMatches.get(position);
+
             holder.header.setText(calenderMatch.getDate());
-            holder.name.setText(calenderMatch.getName());
+            if (position==0){
+                holder.header.setVisibility(View.VISIBLE);
+            }
+            if (position > 0) {
+                if (calenderMatches.get(position).getDate().equalsIgnoreCase(calenderMatches.get(position - 1).getDate())) {
+                    holder.header.setVisibility(View.GONE);
+                } else {
+                    holder.header.setVisibility(View.VISIBLE);
+                }
+            }
+
+            String matchname = calenderMatch.getName();
+            int pos = matchname.indexOf("at");
+            String match = matchname.substring(0, pos - 1);
+            String place = matchname.substring(pos + 3, matchname.length());
+            pos = place.indexOf(",");
+            String details = place.substring(pos + 2, place.length());
+            place = place.substring(0, pos);
+            holder.name.setText("Match Details : \n" + match + " " + details);
+            holder.venue.setText("Venue : " + place);
         }
     }
 
@@ -53,12 +73,13 @@ public class MatchCalenderAdapter extends RecyclerView.Adapter<MatchCalenderAdap
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView header, name;
+        TextView header, name, venue;
 
         public ViewHolder(View itemView) {
             super(itemView);
             header = (TextView) itemView.findViewById(R.id.header);
             name = (TextView) itemView.findViewById(R.id.name);
+            venue = (TextView) itemView.findViewById(R.id.venue);
         }
     }
 }

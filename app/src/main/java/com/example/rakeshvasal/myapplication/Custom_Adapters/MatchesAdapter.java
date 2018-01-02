@@ -67,17 +67,20 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MyViewHo
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
         final CricketMatch cricketMatch = matchesList.get(position);
-        holder.type.setText("Match Type : " + cricketMatch.getType());
+        holder.type.setText("Match Type : " + cricketMatch.getType() + " " +cricketMatch.getUniqueId());
         String date = cricketMatch.getDate();
         date = date.substring(0, date.indexOf("T"));
         Log.d("date", date);
         DateFormattingClass formattingClass = new DateFormattingClass();
         try {
-            date = formattingClass.formatDate(mContext, date, "yyyy-MM-dd", "dd-MM-yyyy");
+            date = formattingClass.formatDate(mContext, date, "yyyy-MM-dd", "dd/MM/yyyy");
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        holder.winnerteam.setText("Winner Team : " + cricketMatch.getWinnerteam() +" "+cricketMatch.getUniqueId());
+        if (cricketMatch.getWinnerteam()==null){
+            cricketMatch.setWinnerteam("");
+        }
+        holder.winnerteam.setText("Winner Team : " + cricketMatch.getWinnerteam());
         holder.date.setText("Match Date : " + date);
         holder.team1.setText("Team 1 : " + cricketMatch.getTeam1());
         holder.team2.setText("Team 2 : " + cricketMatch.getTeam2());

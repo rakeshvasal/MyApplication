@@ -38,7 +38,7 @@ public interface ApiInterface {
 
     @Headers({"Accept: application/json"})
     @GET("movie/{id}")
-    Call<JsonObject> getMovieDetails(@Path("id") String id,@Query("api_key") String apiKey, @Query("language") String language);
+    Call<JsonObject> getMovieDetails(@Path("id") String id,@Query("api_key") String apiKey, @Query ("language") String language);
     /*@POST("cricketScore/")
     Call<MatchDetails> getMatchDetails(@Query("apikey") String apiKey, @Query("unique_id") String unique_id);*/
 
@@ -49,17 +49,20 @@ public interface ApiInterface {
     );*/
 
 
-    @POST("cricketScore/}")
-    Call<JsonObject> getScore(@Query("apikey") String apiKey,@Query("unique_id") String unique_id);
+    @POST("cricketScore/")
+    Call<JsonObject> getScore(@Query ("apikey") String apiKey, @Query ("unique_id") String unique_id);
 
     /*@POST("cricketScore}")
     Call<String> getScore(@Body JsonObject object);
 */
-    @POST("cricketScore/}")
+    @POST("cricketScore/")
     Call<JsonObject> getScore(@Body JsonObject object);
 
-    @POST("matchCalendar/}")
+    @POST("matchCalendar/")
     Call<JsonObject> getMatchCalender(@Body JsonObject object);
+
+    @POST("playerFinder/")
+    Call<JsonObject> getPlayerList(@Query ("apikey") String apikey, @Query ("name") String name);
 
 
 }

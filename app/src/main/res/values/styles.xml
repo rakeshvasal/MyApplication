@@ -11,6 +11,12 @@
         <item name="android:layout_margin">8dp</item>
 
     </style>
+    <style name="MyTextViewListStyle" parent="MyAppTheme">
+        <item name="android:background">@color/white</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:layout_margin">8dp</item>
+
+    </style>
     <style name="MyLinearayoutStylewithcurves" parent="MyAppTheme">
         <item name="android:background">@color/blur_background</item>
         <item name="android:padding">12dp</item>
