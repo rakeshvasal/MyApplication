@@ -1,13 +1,20 @@
 package com.example.rakeshvasal.myapplication.Custom_Adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
+import com.example.rakeshvasal.myapplication.Activity.PosterActivity;
 import com.example.rakeshvasal.myapplication.GetterSetter.FBPhotos;
 import com.example.rakeshvasal.myapplication.GetterSetter.MovieDataSet;
 import com.example.rakeshvasal.myapplication.R;
@@ -37,7 +44,7 @@ public class FBPhotoCustomAdapter extends RecyclerView.Adapter<FBPhotoCustomAdap
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
         if (datalist!=null){
             FBPhotos fbPhotos = datalist.get(position);
@@ -46,6 +53,16 @@ public class FBPhotoCustomAdapter extends RecyclerView.Adapter<FBPhotoCustomAdap
            // holder.poster.setText(Html.fromHtml(htmlString));
             holder.photourl.setText(Html.fromHtml(htmlString));
 
+            Glide.with(context)
+                    .load(fbPhotos.getPictureurl())
+                    .asBitmap()
+                    .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+                        @Override
+                        public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
+
+                            holder.bit_img.setImageBitmap(bitmap);
+                        }
+                    });
         }
 
         holder.photourl.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +70,7 @@ public class FBPhotoCustomAdapter extends RecyclerView.Adapter<FBPhotoCustomAdap
             public void onClick(View view) {
                 FBPhotos dataSet = datalist.get(position);
                 if (dataSet.getPictureurl()!=null)
-                mCallback.ShareClicked(dataSet.getPictureurl());
+                mCallback.ShareClicked(dataSet.getPictureurl(),dataSet.getId());
             }
         });
 
@@ -67,18 +84,20 @@ public class FBPhotoCustomAdapter extends RecyclerView.Adapter<FBPhotoCustomAdap
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView photoid,photourl;
+        public ImageView bit_img;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
             photoid = (TextView) itemView.findViewById(R.id.photo_id);
             photourl = (TextView) itemView.findViewById(R.id.photo_url);
+            bit_img = (ImageView) itemView.findViewById(R.id.bit_img);
         }
     }
 
     public interface OnShareClickedListener {
-        public void ShareClicked(String url);
-        public void getDetails(String id);
+        public void ShareClicked(String url,String id);
+
     }
 
     public void setOnShareClickedListener(OnShareClickedListener mCallback) {

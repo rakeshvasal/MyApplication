@@ -64,5 +64,7 @@ public interface ApiInterface {
     @POST("playerFinder/")
     Call<JsonObject> getPlayerList(@Query ("apikey") String apikey, @Query ("name") String name);
 
+    @POST("playerStats/")
+    Call<JsonObject> getPlayerDetails(@Query ("apikey") String apikey, @Query ("pid") String pid);
 
 }

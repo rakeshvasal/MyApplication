@@ -84,7 +84,6 @@ public class AddUpdateUserFragment extends BaseFragment {
         task = getArguments().getString(Utils.TASK);
         if (task.equalsIgnoreCase(Utils.UPDATE_TASK)) {
             submit.setText("Update");
-
         } else {
             submit.setText("Add");
         }
@@ -236,7 +235,6 @@ public class AddUpdateUserFragment extends BaseFragment {
                     Log.d("usermasterdatabaseerror", databaseError.getMessage());
                 }
             });
-
 
         } catch (Exception e) {
             closeProgressDialog();

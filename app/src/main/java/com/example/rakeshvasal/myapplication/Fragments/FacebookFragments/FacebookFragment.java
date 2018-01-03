@@ -176,9 +176,7 @@ public class FacebookFragment extends Fragment {
 
     private void setProfileData(Profile profile) {
         name.setText(profile.getName());
-        email.setText(AccessToken.getCurrentAccessToken().getToken().toString());
-        Log.d("act",AccessToken.getCurrentAccessToken().getToken().toString());
-        frnds.setText("" + profile.getProfilePictureUri(100, 100));
+        email.setText(profile.getLinkUri().toString());
 
         try {
             new LoadProfileImage(profile_pic).execute(profile.getProfilePictureUri(100, 100).toString());

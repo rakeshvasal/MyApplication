@@ -72,6 +72,7 @@ public class FacebookHomeDashboard extends BaseFragment {
                 }
             };
         }
+        shortToast("Welcome "+profile.getName());
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(mLayoutManager);

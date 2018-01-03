@@ -20,17 +20,26 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.animation.ViewPropertyAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.List;
+import java.util.Set;
 
 public class PosterActivity extends BaseActivity {
 
     ImageView imageView;
-    String image_url, url;
+    String image_url, url,id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,20 +57,49 @@ public class PosterActivity extends BaseActivity {
             image_url = Utils.MOVIEDB_PIC_BASE_URL + url;
         } else if (type.equalsIgnoreCase("2")) {
             image_url = bundle.getString("poster_url");
+            id = bundle.getString("photo_id");
         }
         Glide.with(PosterActivity.this)
                 .load(image_url)
                 .asBitmap()
                 .animate(animationObject)
-                .into(new SimpleTarget<Bitmap>(680, 720) {
+                .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                     @Override
                     public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
 
                         imageView.setImageBitmap(bitmap);
                     }
                 });
-        //showProgressDialog();
-        // new DownloadImage(PosterActivity.this, image_url).execute();
+        Set<String> permissions = AccessToken.getCurrentAccessToken().getDeclinedPermissions();
+        logInfo(permissions.toString());
+        /*GraphRequest request = GraphRequest.newGraphPathRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/" + id +"/likes",
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    @Override
+                    public void onCompleted(GraphResponse response) {
+                        Log.e("photodata", response.toString());
+
+                    }
+                });
+                Bundle parameters = new Bundle();
+        //parameters.putString("fields", "id,album,address,cover,gender,favorite_teams");
+        //request.setParameters(parameters);
+        request.executeAsync();*/
+        new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/"+id+"/likes",
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        Log.e("photodata", response.toString());
+                    }
+                }
+        ).executeAsync();
+
 
     }
 
@@ -79,56 +117,7 @@ public class PosterActivity extends BaseActivity {
         }
     };
 
-    class DownloadImage extends AsyncTask<String, Void, Bitmap> {
 
-        Context context;
-        String image_url;
-        Bitmap img;
-
-        DownloadImage(Context context, String image_url) {
-            this.context = context;
-            this.image_url = image_url;
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            try {
-                InputStream in = new java.net.URL(image_url).openStream();
-                img = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-
-            return img;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showProgressDialog();
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            super.onPostExecute(bitmap);
-            ByteArrayOutputStream os = new ByteArrayOutputStream();
-
-            byte[] bytes = os.toByteArray();
-            String image = Base64.encodeToString(bytes, Base64.DEFAULT);
-            byte[] bytesImage = Base64.decode(image, Base64.DEFAULT);
-            Glide.with(PosterActivity.this)
-                    .load(image_url)
-                    .asBitmap()
-                    .into(new SimpleTarget<Bitmap>(680, 720) {
-                        @Override
-                        public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
-                            imageView.setImageBitmap(bitmap);
-                        }
-                    });
-            closeProgressDialog();
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

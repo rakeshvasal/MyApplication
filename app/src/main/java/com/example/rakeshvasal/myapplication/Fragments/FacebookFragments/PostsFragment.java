@@ -2,6 +2,7 @@ package com.example.rakeshvasal.myapplication.Fragments.FacebookFragments;
 
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,14 +12,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.example.rakeshvasal.myapplication.Activity.PosterActivity;
 import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.FBPhotoCustomAdapter;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.FBPostsCustomAdapter;
+import com.example.rakeshvasal.myapplication.GetterSetter.FBFreinds;
 import com.example.rakeshvasal.myapplication.GetterSetter.FBPhotos;
 import com.example.rakeshvasal.myapplication.GetterSetter.FBPosts;
 import com.example.rakeshvasal.myapplication.R;
+import com.example.rakeshvasal.myapplication.Utilities.makeServiceCall;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -36,6 +41,7 @@ import java.util.List;
 public class PostsFragment extends BaseFragment implements FBPhotoCustomAdapter.OnShareClickedListener {
 
     RecyclerView recyclerView;
+    String nextstring="", previousstring="";
 
     public PostsFragment() {
         // Required empty public constructor
@@ -47,6 +53,33 @@ public class PostsFragment extends BaseFragment implements FBPhotoCustomAdapter.
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_posts, container, false);
+        TextView nextpages = (TextView) v.findViewById(R.id.nextpages);
+        nextpages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (!nextstring.equalsIgnoreCase("")) {
+                    showProgressDialog();
+                    new getNextorPrevious(PostsFragment.this, nextstring).execute();
+                }else {
+                    shortToast("No Url");
+                }
+
+            }
+        });
+        TextView previouspages = (TextView) v.findViewById(R.id.previous);
+        previouspages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!previousstring.equalsIgnoreCase("")) {
+                    showProgressDialog();
+                    new getNextorPrevious(PostsFragment.this, previousstring).execute();
+                }else {
+                    shortToast("No Url");
+                }
+
+            }
+        });
         String type = getArguments().getString("type");
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 1);
@@ -55,11 +88,12 @@ public class PostsFragment extends BaseFragment implements FBPhotoCustomAdapter.
         showProgressDialog();
         if (type.equalsIgnoreCase("1")) {
             getThreads();
-        }else if (type.equalsIgnoreCase("2")){
+        } else if (type.equalsIgnoreCase("2")) {
             getPhotos();
         }
         return v;
     }
+
     private void getThreads() {
 
         GraphRequest request = GraphRequest.newGraphPathRequest(
@@ -90,12 +124,16 @@ public class PostsFragment extends BaseFragment implements FBPhotoCustomAdapter.
                                 FBPosts fbPosts = new FBPosts(message, story, createdtime, id);
                                 dataarray.add(fbPosts);
                             }
-
+                            if (jsonObject.has("paging")) {
+                                JSONObject jsonObject1 = jsonObject.getJSONObject("paging");
+                                if (jsonObject1.has("next")) {
+                                    nextstring = jsonObject1.getString("next");
+                                }
+                            }
 
                             FBPostsCustomAdapter adapter = new FBPostsCustomAdapter(getActivity(), dataarray);
                             recyclerView.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
-
 
 
                         } catch (JSONException e) {
@@ -157,7 +195,6 @@ public class PostsFragment extends BaseFragment implements FBPhotoCustomAdapter.
                             adapter.notifyDataSetChanged();
 
 
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -173,16 +210,80 @@ public class PostsFragment extends BaseFragment implements FBPhotoCustomAdapter.
     }
 
     @Override
-    public void ShareClicked(String url) {
+    public void ShareClicked(String url, String id) {
         Intent intent = new Intent(getActivity(), PosterActivity.class);
-        intent.putExtra("type","2");
+        intent.putExtra("type", "2");
         intent.putExtra("poster_url", url);
+        intent.putExtra("photo_id", id);
         startActivityForResult(intent, 1);
     }
 
-    @Override
-    public void getDetails(String id) {
+    public void onBackgroundTaskCompleted(String s) {
+        Log.d("nextdata", s);
+        closeProgressDialog();
+        try {
+            JSONObject jsonObject = new JSONObject(s.toString());
+            JSONArray jsonArray = jsonObject.getJSONArray("data");
+            List<FBPosts> dataarray = new ArrayList<>(jsonArray.length());
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                // dataarray.add(i,jsonObject1.getString("story"));
+                String id = jsonObject1.getString("id");
+                String createdtime = jsonObject1.getString("created_time");
+                String story = jsonObject1.getString("story");
+                String message = "";
+                if (jsonObject1.has("message")) {
+                    message = jsonObject1.getString("message");
+                }
+                FBPosts fbPosts = new FBPosts(message, story, createdtime, id);
+                dataarray.add(fbPosts);
+            }
 
+            if (jsonObject.has("paging")) {
+                JSONObject jsonObject1 = jsonObject.getJSONObject("paging");
+                if (jsonObject1.has("next")) {
+                    nextstring = jsonObject1.getString("next");
+                }
+            }
+            if (jsonObject.has("paging")) {
+                JSONObject jsonObject1 = jsonObject.getJSONObject("paging");
+                if (jsonObject1.has("previous")) {
+                    previousstring = jsonObject1.getString("previous");
+                }
+            }
+            FBPostsCustomAdapter adapter = new FBPostsCustomAdapter(getActivity(), dataarray);
+            recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public class getNextorPrevious extends AsyncTask<String, String, String> {
+        String data, url;
+        PostsFragment caller;
+
+        getNextorPrevious(PostsFragment caller, String url) {
+            this.caller = caller;
+            this.url = url;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                data = new makeServiceCall().makeServiceGETCall(url);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            caller.onBackgroundTaskCompleted(s);
+        }
     }
 
 }

@@ -14,6 +14,8 @@
     <color name="indigo">#3F51B5</color>
     <color name="green">#4CAF50</color>
     <color name="blue">#2196F3</color>
+    <color name="background_green">#66BB6A</color>
     <color name="background_blue">#81D4FA</color>
     <color name="yellow">#FFEB3B</color>
+    <color name="background_indigo">#7986CB</color>
 </resources>

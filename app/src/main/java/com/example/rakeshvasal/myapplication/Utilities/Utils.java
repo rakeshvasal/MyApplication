@@ -72,7 +72,7 @@ public class Utils {
     public static ArrayList<String> chk_value_lead_id = new ArrayList<>();
     public static String API_KEY = "";
     public static String MOVIEDB_BASE_URL = "https://api.themoviedb.org/3/";
-    public static String CRIC_INFO_BASE_URL = "http://cricapi.com/api/";
+        public static String CRIC_INFO_BASE_URL = "http://cricapi.com/api/";
     public static String MOVIEDB_PIC_BASE_URL = "https://image.tmdb.org/t/p/w780";
     public static String ADD_TASK = "ADD";
     public static String UPDATE_TASK = "UPDATE";
