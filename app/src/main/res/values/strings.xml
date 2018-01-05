@@ -48,6 +48,7 @@ Samsung is also looking to leverage its IoT platform to push its Bixby assistant
     <string name="cricapikey">DfAS5xV7u3RgITe5A2IdA0IXm582</string>
     <string name="censusapikey">21d52e288f02c871563b4fa19b98622f717e508b</string>
     <string name="facebook_app_id">365753337213671</string>
+    <string name="twitter_api_key">kkv8pCzegKbuxRuKcuIm6F5YY</string>
     <string name="fb_login_protocol_scheme">fb365753337213671</string>
     <string name="Full_Contact_API">7bf6dc06cd2a1c4e</string>
     <string name="Api_Key">905eec17a259d75ba116b8467219d657</string>

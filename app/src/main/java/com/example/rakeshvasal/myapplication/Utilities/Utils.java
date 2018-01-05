@@ -18,6 +18,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.StatFs;
 import android.provider.Settings;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -38,6 +39,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -74,6 +76,7 @@ public class Utils {
     public static String MOVIEDB_BASE_URL = "https://api.themoviedb.org/3/";
         public static String CRIC_INFO_BASE_URL = "http://cricapi.com/api/";
     public static String MOVIEDB_PIC_BASE_URL = "https://image.tmdb.org/t/p/w780";
+    public static String TWITTER_BASE_URL = "https://api.twitter.com/";
     public static String ADD_TASK = "ADD";
     public static String UPDATE_TASK = "UPDATE";
     public static String TASK = "TASK";
@@ -81,11 +84,23 @@ public class Utils {
     public static String GOOGLE_LOGIN_DATA = "GoogleAccountDetails";
     public static String Imagga_API_URL = "https://api.imagga.com";
 
+    public final static String CONSUMER_KEY = "kkv8pCzegKbuxRuKcuIm6F5YY"; // HIDDEN, please obtain your one on twitter developers
+
+    public	final static String CONSUMER_SECRET = "nFHL7jVsSRafRpTOPCBlnfRJgtkoqDAd3YbdBMWnL2KYFBPzGY\n";  // HIDDEN, please obtain your one on twitter developers
+
+    public final static String TWITTER_SEARCH_URL = "https://api.twitter.com";
+
+    public static final String BEARER_TOKEN_CREDENTIALS = CONSUMER_KEY + ":" + CONSUMER_SECRET;
+
+    public final static String TWITTER_HASHTAG_SEARCH_CODE = "/1.1/search/tweets.json";
+
     public static boolean isLoggedIn(Context context) {
         pref = context.getSharedPreferences("LoginStatus", Context.MODE_PRIVATE);
         return pref.getBoolean("isLoggedIn", false);
     }
-
+    public static String getBase64String(String value) throws UnsupportedEncodingException {
+        return Base64.encodeToString(value.getBytes("UTF-8"), Base64.NO_WRAP);
+    }
     public static void logOut(Context context) {
         pref = context.getSharedPreferences("LoginStatus", Context.MODE_PRIVATE);
         pref.edit().putBoolean("isLoggedIn", false).apply();

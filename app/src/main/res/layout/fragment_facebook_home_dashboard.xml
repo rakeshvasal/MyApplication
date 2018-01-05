@@ -21,14 +21,22 @@
                 style="@style/MyLinearayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Search FreindList"
+                android:text="Get FreindList"
                 android:textSize="@dimen/activity_text_size" />
+
+            <TextView
+                android:id="@+id/feed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Get Feeds"
+                android:textSize="@dimen/activity_text_size"
+                style="@style/MyLinearayoutStyle"/>
 
             <TextView
                 android:id="@+id/post"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Search Posts"
+                android:text="Get Posts"
                 android:textSize="@dimen/activity_text_size"
                 style="@style/MyLinearayoutStyle"/>
 
@@ -36,7 +44,7 @@
                 android:id="@+id/photos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Search Photos"
+                android:text="Get Photos"
                 android:textSize="@dimen/activity_text_size"
                 style="@style/MyLinearayoutStyle"/>
 
@@ -45,7 +53,7 @@
                 style="@style/MyLinearayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Search Taggable Freinds"
+                android:text="Get Taggable Freinds"
                 android:textSize="@dimen/activity_text_size" />
 
             <TextView
@@ -53,7 +61,7 @@
                 style="@style/MyLinearayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Search Freinds on App"
+                android:text="Get Freinds on App"
                 android:textSize="@dimen/activity_text_size" />
 
             <TextView

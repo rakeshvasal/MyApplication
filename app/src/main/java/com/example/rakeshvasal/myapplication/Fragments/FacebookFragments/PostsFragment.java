@@ -12,23 +12,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.rakeshvasal.myapplication.Activity.PosterActivity;
 import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.FBPhotoCustomAdapter;
-import com.example.rakeshvasal.myapplication.Custom_Adapters.FBPostsCustomAdapter;
-import com.example.rakeshvasal.myapplication.GetterSetter.FBFreinds;
+import com.example.rakeshvasal.myapplication.Custom_Adapters.FBFeedsCustomAdapter;
+import com.example.rakeshvasal.myapplication.GetterSetter.FBFeeds;
 import com.example.rakeshvasal.myapplication.GetterSetter.FBPhotos;
-import com.example.rakeshvasal.myapplication.GetterSetter.FBPosts;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.makeServiceCall;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
-import com.facebook.Profile;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,7 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PostsFragment extends BaseFragment implements FBPhotoCustomAdapter.OnShareClickedListener {
+public class PostsFragment extends BaseFragment implements FBPhotoCustomAdapter.OnShareClickedListener, FBFeedsCustomAdapter.OnShareClickedListener {
 
     RecyclerView recyclerView;
     String nextstring = "", previousstring = "";
@@ -55,6 +53,7 @@ public class PostsFragment extends BaseFragment implements FBPhotoCustomAdapter.
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_posts, container, false);
         TextView nextpages = (TextView) v.findViewById(R.id.nextpages);
+
         nextpages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,14 +87,16 @@ public class PostsFragment extends BaseFragment implements FBPhotoCustomAdapter.
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         showProgressDialog();
         if (type.equalsIgnoreCase("1")) {
-            getThreads();
+            getFeed();
         } else if (type.equalsIgnoreCase("2")) {
             getPhotos();
+        } else if (type.equalsIgnoreCase("3")) {
+            getPostsByUser();
         }
         return v;
     }
 
-    private void getThreads() {
+    private void getFeed() {
 
         GraphRequest request = GraphRequest.newGraphPathRequest(
                 AccessToken.getCurrentAccessToken(),
@@ -111,28 +112,50 @@ public class PostsFragment extends BaseFragment implements FBPhotoCustomAdapter.
                             closeProgressDialog();
                             JSONObject jsonObject = new JSONObject(data.toString());
                             JSONArray jsonArray = jsonObject.getJSONArray("data");
-                            List<FBPosts> dataarray = new ArrayList<>(jsonArray.length());
+                            List<FBFeeds> dataarray = new ArrayList<>(jsonArray.length());
                             for (int i = 0; i < jsonArray.length(); i++) {
+                                log("Feed"+ jsonArray.getJSONObject(i).toString());
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                 // dataarray.add(i,jsonObject1.getString("story"));
                                 String id = jsonObject1.getString("id");
                                 String createdtime = jsonObject1.getString("created_time");
                                 String story = jsonObject1.getString("story");
-                                String message = "";
+                                String message = "", story_tags = "", full_picture = "", likes = "", reactions = "";
                                 if (jsonObject1.has("message")) {
                                     message = jsonObject1.getString("message");
+                                } else {
+                                    message = "";
                                 }
-                                FBPosts fbPosts = new FBPosts(message, story, createdtime, id);
+                                if (jsonObject1.has("story_tags")) {
+                                    story_tags = jsonObject1.getString("story_tags");
+                                } else {
+                                    story_tags = "";
+                                }
+                                if (jsonObject1.has("full_picture")) {
+                                    full_picture = jsonObject1.getString("full_picture");
+                                } else {
+                                    full_picture = "";
+                                }
+                                if (jsonObject1.has("reactions")) {
+                                    log("Reactions : " +jsonObject1.getString("reactions"));
+                                    reactions = jsonObject1.getString("reactions");
+                                }
+
+
+                                FBFeeds fbPosts = new FBFeeds(message, i+1+" "+story, createdtime, id, story_tags, full_picture, likes, reactions);
                                 dataarray.add(fbPosts);
+
                             }
                             if (jsonObject.has("paging")) {
                                 JSONObject jsonObject1 = jsonObject.getJSONObject("paging");
                                 if (jsonObject1.has("next")) {
                                     nextstring = jsonObject1.getString("next");
+                                    logInfo(jsonObject1.getString("next"));
                                 }
                             }
 
-                            FBPostsCustomAdapter adapter = new FBPostsCustomAdapter(getActivity(), dataarray);
+                            FBFeedsCustomAdapter adapter = new FBFeedsCustomAdapter(getActivity(), dataarray);
+                            adapter.setOnShareClickedListener(PostsFragment.this);
                             recyclerView.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
 
@@ -148,6 +171,8 @@ public class PostsFragment extends BaseFragment implements FBPhotoCustomAdapter.
         Bundle parameters = new Bundle();
         parameters.putString("since", "1 january 2016");
         parameters.putString("until", "now");
+        //parameters.putString("fields", "id,message,full_picture,created_time,story");
+        parameters.putString("fields", "id,message,story_tags,full_picture,likes,reactions,created_time,story");
         request.setParameters(parameters);
         request.executeAsync();
     }
@@ -216,6 +241,66 @@ public class PostsFragment extends BaseFragment implements FBPhotoCustomAdapter.
         request.executeAsync();
     }
 
+    private void getPostsByUser() {
+
+        GraphRequest request = GraphRequest.newGraphPathRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/me/posts",
+                new GraphRequest.Callback() {
+                    @Override
+                    public void onCompleted(GraphResponse response) {
+                        Log.e("Responseposts", response.toString());
+                        JSONObject data = response.getJSONObject();
+                        // posts.setText("Feed : " +data.toString());
+
+                        try {
+                            closeProgressDialog();
+                            JSONObject jsonObject = new JSONObject(data.toString());
+                            JSONArray jsonArray = jsonObject.getJSONArray("data");
+                            List<FBFeeds> dataarray = new ArrayList<>(jsonArray.length());
+                            for (int i = 0; i < jsonArray.length(); i++) {
+
+                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                // dataarray.add(i,jsonObject1.getString("story"));
+                                String id = jsonObject1.getString("id");
+                                String createdtime = jsonObject1.getString("created_time");
+                                String story = jsonObject1.getString("story");
+                                String message = "";
+                                if (jsonObject1.has("message")) {
+                                    message = jsonObject1.getString("message");
+                                }
+                                FBFeeds fbPosts = new FBFeeds(message, i+1+" "+story, createdtime, id);
+                                dataarray.add(fbPosts);
+                            }
+                            if (jsonObject.has("paging")) {
+                                JSONObject jsonObject1 = jsonObject.getJSONObject("paging");
+                                if (jsonObject1.has("next")) {
+                                    nextstring = jsonObject1.getString("next");
+                                }
+                            }
+
+                            FBFeedsCustomAdapter adapter = new FBFeedsCustomAdapter(getActivity(), dataarray);
+                            recyclerView.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            shortToast(e.getMessage());
+                        }
+
+                    }
+                });
+
+        Bundle parameters = new Bundle();
+        parameters.putString("since", "1 january 2016");
+        parameters.putString("until", "now");
+        parameters.putString("fields", "id,created_time,story,link,likes,reactions,caption,full_picture");
+        request.setParameters(parameters);
+        request.executeAsync();
+    }
+
+
     @Override
     public void ShareClicked(String url, String id) {
         Intent intent = new Intent(getActivity(), PosterActivity.class);
@@ -231,40 +316,58 @@ public class PostsFragment extends BaseFragment implements FBPhotoCustomAdapter.
 
         if (type.equalsIgnoreCase("1")) {
             try {
+                closeProgressDialog();
                 JSONObject jsonObject = new JSONObject(s.toString());
                 JSONArray jsonArray = jsonObject.getJSONArray("data");
-                List<FBPosts> dataarray = new ArrayList<>(jsonArray.length());
+                List<FBFeeds> dataarray = new ArrayList<>(jsonArray.length());
                 for (int i = 0; i < jsonArray.length(); i++) {
+                    log(jsonArray.getJSONObject(i).toString());
                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                     // dataarray.add(i,jsonObject1.getString("story"));
                     String id = jsonObject1.getString("id");
                     String createdtime = jsonObject1.getString("created_time");
                     String story = jsonObject1.getString("story");
-                    String message = "";
+                    String message = "", story_tags = "", full_picture = "", likes = "", reactions = "";
                     if (jsonObject1.has("message")) {
                         message = jsonObject1.getString("message");
+                    } else {
+                        message = "";
                     }
-                    FBPosts fbPosts = new FBPosts(message, story, createdtime, id);
+                    if (jsonObject1.has("story_tags")) {
+                        story_tags = jsonObject1.getString("story_tags");
+                    } else {
+                        story_tags = "";
+                    }
+                    if (jsonObject1.has("full_picture")) {
+                        full_picture = jsonObject1.getString("full_picture");
+                    } else {
+                        full_picture = "";
+                    }
+                    if (jsonObject1.has("reactions")) {
+                        log("Reactions : " +jsonObject1.getString("reactions"));
+                        reactions = jsonObject1.getString("reactions");
+                    }
+                    FBFeeds fbPosts = new FBFeeds(message, story, createdtime, id, story_tags, full_picture, likes, reactions);
                     dataarray.add(fbPosts);
-                }
 
+                }
                 if (jsonObject.has("paging")) {
                     JSONObject jsonObject1 = jsonObject.getJSONObject("paging");
                     if (jsonObject1.has("next")) {
                         nextstring = jsonObject1.getString("next");
+
                     }
                 }
-                if (jsonObject.has("paging")) {
-                    JSONObject jsonObject1 = jsonObject.getJSONObject("paging");
-                    if (jsonObject1.has("previous")) {
-                        previousstring = jsonObject1.getString("previous");
-                    }
-                }
-                FBPostsCustomAdapter adapter = new FBPostsCustomAdapter(getActivity(), dataarray);
+
+                FBFeedsCustomAdapter adapter = new FBFeedsCustomAdapter(getActivity(), dataarray);
+                adapter.setOnShareClickedListener(PostsFragment.this);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
-            } catch (Exception e) {
+
+
+            } catch (JSONException e) {
                 e.printStackTrace();
+                shortToast(e.getMessage());
             }
         } else if (type.equalsIgnoreCase("2")) {
             try {

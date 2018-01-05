@@ -3,7 +3,6 @@ package com.example.rakeshvasal.myapplication.Fragments.FacebookFragments;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,34 +12,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 
 import com.example.rakeshvasal.myapplication.BaseFragment;
-import com.example.rakeshvasal.myapplication.Custom_Adapters.FBPhotoCustomAdapter;
-import com.example.rakeshvasal.myapplication.Custom_Adapters.FBPostsCustomAdapter;
-import com.example.rakeshvasal.myapplication.GetterSetter.FBPhotos;
-import com.example.rakeshvasal.myapplication.GetterSetter.FBPosts;
 import com.example.rakeshvasal.myapplication.R;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class FacebookHomeDashboard extends BaseFragment {
 
-    TextView freindlist, posts, photos, tagfreind, appfreinds,userbio;
+    TextView freindlist, feed,posts, photos, tagfreind, appfreinds,userbio;
     RecyclerView recyclerView;
     ProfileTracker mProfileTracker;
 
@@ -56,6 +41,7 @@ public class FacebookHomeDashboard extends BaseFragment {
         View v = inflater.inflate(R.layout.fragment_facebook_home_dashboard, container, false);
 
         freindlist = (TextView) v.findViewById(R.id.freindlist);
+        feed = (TextView) v.findViewById(R.id.feed);
         posts = (TextView) v.findViewById(R.id.post);
         photos = (TextView) v.findViewById(R.id.photos);
         tagfreind = (TextView) v.findViewById(R.id.tagfreind);
@@ -77,7 +63,8 @@ public class FacebookHomeDashboard extends BaseFragment {
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        posts.setOnClickListener(new View.OnClickListener() {
+
+        feed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle arg = new Bundle();
@@ -90,6 +77,21 @@ public class FacebookHomeDashboard extends BaseFragment {
                 transaction.commit();
             }
         });
+
+        posts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle arg = new Bundle();
+                arg.putString("type", "3");
+                FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
+                Fragment fragment = new PostsFragment();
+                transaction.replace(((ViewGroup) getView().getParent()).getId(), fragment);
+                fragment.setArguments(arg);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
         photos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
