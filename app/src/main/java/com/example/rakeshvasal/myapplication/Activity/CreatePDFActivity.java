@@ -32,7 +32,7 @@ public class CreatePDFActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_pdf);
-        apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        /*apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         apiInterface = ApiClient.changeBaseURL(Utils.TWITTER_BASE_URL).create(ApiInterface.class);
         try {
              apiInterface.getToken("Basic " + getBase64String(Utils.BEARER_TOKEN_CREDENTIALS), "client_credentials", new Callback<TwitterTokenType>() {
@@ -62,7 +62,7 @@ public class CreatePDFActivity extends BaseActivity {
             }
 
 
-        });
+        });*/
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         Fragment fragment = new ItextFragment();
         transaction.add(R.id.fragment_container, fragment);

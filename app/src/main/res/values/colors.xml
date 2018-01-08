@@ -18,4 +18,5 @@
     <color name="background_blue">#81D4FA</color>
     <color name="yellow">#FFEB3B</color>
     <color name="background_indigo">#7986CB</color>
+    <color name="errorText">#ff7878</color>
 </resources>

@@ -11,90 +11,7 @@
         android:id="@+id/toolbar"
         layout="@layout/header_layout"/>
 
-   <!-- <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="25dp"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <ImageView
-                android:id="@+id/photo_location"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:layout_gravity="center"
-                android:src="@drawable/photo_camera"/>
-
-            <ImageView
-                android:id="@+id/location_search"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:src="@drawable/placeholder"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="25dp"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <ImageView
-                android:id="@+id/zomato"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:layout_gravity="center"
-                android:src="@drawable/restaurant"/>
-
-            <ImageView
-                android:id="@+id/college_fest"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:src="@drawable/rock"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="25dp"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <ImageView
-                android:id="@+id/Device_Info"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:layout_gravity="center"
-                android:src="@drawable/smartphone"/>
-
-            <ImageView
-                android:id="@+id/Facebook"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:layout_gravity="center"
-                android:src="@drawable/facebook"/>
-
-
-        </LinearLayout>
-
-
-    </LinearLayout>-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -202,6 +119,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Create PDF"
+                    android:textSize="@dimen/activity_text_size"
+                    style="@style/MyLinearayoutStyle"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_fingerprint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="FingerPrint"
+                    android:textSize="@dimen/activity_text_size"
+                    style="@style/MyLinearayoutStyle"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_test"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Test"
                     android:textSize="@dimen/activity_text_size"
                     style="@style/MyLinearayoutStyle"
                     />

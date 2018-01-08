@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -88,15 +91,19 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void onBindViewHolder(final Image_Adapter.MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final Image_Adapter.MyViewHolder holder,int position) {
 
-            try {
-                holder.title.setText("Name "+Utils.Images_name_Array_List.get(position).toString());
-                holder.latitude.setText("Lat "+Utils.Images_latitude_Array_List.get(position).toString());
-                holder.longitude.setText("Long "+Utils.Images_longitude_Array_List.get(position).toString());
+        final int pos=position;
+        try {
+            holder.title.setText("Name " + Utils.Images_name_Array_List.get(position));
+            holder.latitude.setText("Lat " + Utils.Images_latitude_Array_List.get(position));
+            holder.longitude.setText("Long " + Utils.Images_longitude_Array_List.get(position));
+            String url = Utils.Images_url_Array_List.get(position);
+            if (!url.equalsIgnoreCase("")) {
                 Glide.with(context)
-                        .load(Utils.Images_url_Array_List.get(position).toString())
+                        .load(url)
                         .asBitmap()
                         .into(new SimpleTarget<Bitmap>(100, 100) {
                             @Override
@@ -104,19 +111,28 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
                                 holder.thumbnail.setImageBitmap(bitmap);
                             }
                         });
-            } catch (Exception e) {
-                e.printStackTrace();
+            }else{
+                holder.thumbnail.setImageDrawable(context.getDrawable(R.drawable.locations));
             }
-            holder.card_item.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(context, ImageActivity.class);
-                    intent.putExtra("source","googleurl");
-                    intent.putExtra("image_path",Utils.Images_url_Array_List.get(position).toString());
-                    context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        holder.card_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = Utils.Images_url_Array_List.get(pos);
+                if (!url.equalsIgnoreCase("")) {
+                    Intent intent = new Intent(context, ImageActivity.class);
+                    intent.putExtra("source", "googleurl");
+                    intent.putExtra("image_path", url);
+                    context.startActivity(intent);
+                }else {
+                    Toast.makeText(context,"No Url",Toast.LENGTH_SHORT).show();
                 }
-            });
+
+            }
+        });
 
     }
 

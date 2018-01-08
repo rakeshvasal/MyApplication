@@ -189,8 +189,8 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
 
             }
         });
-        TextView source_code = (TextView) findViewById(R.id.create_pdf);
-        source_code.setOnClickListener(new View.OnClickListener() {
+        TextView create_pdf = (TextView) findViewById(R.id.create_pdf);
+        create_pdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Dashboard.this, CreatePDFActivity.class);
@@ -199,7 +199,27 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
 
             }
         });
+        TextView tv_fingerprint = (TextView) findViewById(R.id.tv_fingerprint);
+        tv_fingerprint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Dashboard.this, Fingerprint_Activity.class);
 
+                startActivity(intent);
+
+            }
+        });
+
+        TextView test = (TextView) findViewById(R.id.tv_test);
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Dashboard.this, TestActivity.class);
+
+                startActivity(intent);
+
+            }
+        });
 
         sign_out.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -234,7 +254,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
         int write_contacts = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CONTACTS);
         int sms = ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);
         int phone_state = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
-
+        int finger_print = ContextCompat.checkSelfPermission(this, Manifest.permission.USE_FINGERPRINT);
         List<String> listPermissionsNeeded = new ArrayList<>();
 
         if (camera != PackageManager.PERMISSION_GRANTED) {
@@ -263,6 +283,9 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
         }
         if (phone_state != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(Manifest.permission.READ_PHONE_STATE);
+        }
+        if (finger_print != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.USE_FINGERPRINT);
         }
         if (!listPermissionsNeeded.isEmpty()) {
             ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray

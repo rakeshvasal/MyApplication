@@ -30,16 +30,16 @@
     <string name="no_internet_connection">Please check your Internet connection!</string>
 
     <string name="football_json">https://raw.githubusercontent.com/opendatajson/football.json/master/2015-16/en.1.clubs.json</string>
-    <string name="dummy_text">The Internet of Things (IoT) is growing at an unbelievable rate. In fact, some estimates have IoT devices outnumbering humans by the end of 2017. We generally experience the internet in human-to-device connections like visiting your favorite Android site on your phone or opening up your laptop and watching a video. But, the Internet of Things goes far beyond that. It’s the network that lets your car connect to the manufacturer to transmit sensor data or the temperature sensor that communicates with your smart thermostat.
-
-See also: What is the Internet of Things?
-
-Today, Samsung announced that it is simplifying its Internet of Things platform, and it’s doing so by combining its three existing IoT services into one central platform. Currently, Samsung supports SmartThings, Samsung Connect, and ARTIK platforms to help devices communicate. Those standards will all combine into the new platform called SmartThings Cloud.
-
-SmartThings Cloud, which will provide a single, powerful cloud-based hub that can seamlessly connect and control IoT-enabled products and services from a unified touchpoint. SmartThings Cloud will build one of the world’s largest IoT ecosystems, and will provide the infrastructure for a connected consumer experience that is innovative, versatile and holistic.
-SmartThings Cloud will give developers access to one cloud API across all SmartThings-compatible products. This should allow developers to build products and programs quicker and cheaper since it only has to account for one platform instead of three for Samsung devices. Samsung also says that SmartThings Cloud will provide “secure interoperability and services for business developing commercial and industrial IoT solutions.”
-
-Samsung is also looking to leverage its IoT platform to push its Bixby assistant. Bixby launched earlier this year on Samsung Galaxy S phones to a bit of a tepid response. But, Samsung hasn’t been deterred. It has continued to roll out new features and functionality for the assistant and will now launch Bixby 2.0. You can read more about it here.</string>
+    <string name="title_fingerprint">One-touch Sign In</string>
+    <string name="desc_fingerprint">Please place your fingertip on the scanner to verify your identity</string>
+    <string name="note">(Fingerprint sign in makes your app login much faster. Your device should have at least one fingerprint registered in device settings)</string>
+    <string name="title_activity_home">Fingerprint</string>
+    <string name="activity_home_desc">You have successfully logged in with fingerprint authentication</string>
+    <string name="activity_home_note">Close and re-open the app to see the fingerprint auth screen again</string>
+    <string name="dummy_text">The Internet of Things (IoT) is growing at an unbelievable rate. In fact, some estimates have IoT devices outnumbering humans by the end of 2017.
+        We generally experience the internet in human-to-device connections like visiting your favorite Android site on your phone or opening up your laptop and watching a video.
+        But, the Internet of Things goes far beyond that.
+        It’s the network that lets your car connect to the manufacturer to transmit sensor data or the temperature sensor that communicates with your smart thermostat.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -69,5 +69,9 @@ Samsung is also looking to leverage its IoT platform to push its Bixby assistant
     <string name="Clairify_API_KEY">e7bacabd17b640e0a0d4b263b936fe4f</string>
     <string name="MovieDB_API_KEY">51c6606ded4215822559a4faa5cc8a84</string>
     <string name="OCR_API_key">f6376a7b7288957</string>
+    <string name="Bitly_key">a4f178e7fc2fbdb29112e19a1365baffb61f12a5</string>
+    <string name="Bitly_Reg_code">xA5d2ElmTteAKT88zKeAyQ</string>
+    <string name="Bitly_client_id">96fb51df940647348c4a37d0434088f4ec0e1cc6</string>
+    <string name="Bitly_client_secret">c0d96a3a85c6221b62e8a75384b8a04d20b540c5</string>
     <string name="MovieDB_Read_Access_Token">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1MWM2NjA2ZGVkNDIxNTgyMjU1OWE0ZmFhNWNjOGE4NCIsInN1YiI6IjVhMWZiNWJhMGUwYTI2NGNjODA4ZGU4YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.44KImEQBt60I6tPALiNkztCwjppnHg7RajkqSZvXDZo</string>
 </resources>

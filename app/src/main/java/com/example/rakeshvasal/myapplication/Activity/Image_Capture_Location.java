@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Environment;
@@ -33,6 +35,7 @@ import com.example.rakeshvasal.myapplication.GetterSetter.Image_Items;
 import com.example.rakeshvasal.myapplication.GetterSetter.User;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Services.UserLocation;
+import com.example.rakeshvasal.myapplication.URLModifiers;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -55,6 +58,8 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -64,7 +69,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Image_Capture_Location extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class Image_Capture_Location extends BaseActivity implements URLModifiers.getValue {
 
     double latitude, longitude;
 
@@ -105,7 +110,7 @@ public class Image_Capture_Location extends BaseActivity implements SwipeRefresh
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
+        //recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
@@ -122,6 +127,7 @@ public class Image_Capture_Location extends BaseActivity implements SwipeRefresh
         Utils.Images_url_Array_List.clear();
 
         FetchAllImageDetails();
+
         click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -219,16 +225,21 @@ public class Image_Capture_Location extends BaseActivity implements SwipeRefresh
     private void AddtoFirebase(final Double lat, final Double longt, final String name, final String time) {
 
         showProgressDialog("Uploading Image Please Wait");
-        //used to store in the parent/root directory
-        StorageReference images = storageRef.child("mountains.jpg");
+
         //used to store in the folder that u define directory
         StorageReference ImagesRef = storageRef.child("images/" + name);
-
-        String path = listOfImagesPath.get(0);
+        listOfImagesPath = new Utils().RetriveCapturedImagePath(ImagePath);
+        int size = listOfImagesPath.size();
+        String path = listOfImagesPath.get(size-1);
 
         try {
-            InputStream stream = new FileInputStream(new File(path));
-            UploadTask uploadTask = ImagesRef.putStream(stream);
+            //InputStream stream = new FileInputStream(new File(path));
+            Bitmap bmp = BitmapFactory.decodeFile(path);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.JPEG, 70, bos);
+            InputStream in = new ByteArrayInputStream(bos.toByteArray());
+            //ContentBody foto = new InputStreamBody(in, "image/jpeg", "filename");
+            UploadTask uploadTask = ImagesRef.putStream(in);
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
@@ -240,6 +251,9 @@ public class Image_Capture_Location extends BaseActivity implements SwipeRefresh
                     // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                     Uri downloadUrl = taskSnapshot.getDownloadUrl();
                     String downloadlink = downloadUrl.toString();
+                    URLModifiers modifiers = new URLModifiers(Image_Capture_Location.this);
+                    modifiers.setValueListener(Image_Capture_Location.this);
+                    modifiers.shortenUrl(downloadlink);
                     try {
                         Image_Items image_items = new Image_Items(name, time, downloadlink, lat, longt);
 
@@ -271,14 +285,20 @@ public class Image_Capture_Location extends BaseActivity implements SwipeRefresh
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot eventsnapshot : dataSnapshot.getChildren()) {
-
+                        //closeProgressDialog();
                         Image_Items image_items = eventsnapshot.getValue(Image_Items.class);
                         String key  = eventsnapshot.getKey();
                         Utils.Images_name_Array_List.add(image_items.getName());
                         Utils.Images_latitude_Array_List.add(image_items.getLatitude());
                         Utils.Images_longitude_Array_List.add(image_items.getLongitude());
                         Utils.Images_time_arraylist.add(image_items.getTime());
-                        Utils.Images_url_Array_List.add(image_items.getDownload_url());
+                        String img_url = image_items.getDownload_url();
+                        if (img_url==null || img_url.equalsIgnoreCase(" ")) {
+                            Utils.Images_url_Array_List.add("");
+                        }else {
+                            Utils.Images_url_Array_List.add(image_items.getDownload_url());
+                        }
+
                         mImageEntries.add(image_items);
 
                     }
@@ -311,10 +331,11 @@ public class Image_Capture_Location extends BaseActivity implements SwipeRefresh
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 
-    @Override
-    public void onRefresh() {
 
-        FetchAllImageDetails();
+
+    @Override
+    public void setData(String data) {
+        logInfo("img_shot_links "+data);
     }
 
     public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {

@@ -72,22 +72,7 @@ public class PosterActivity extends BaseActivity {
                 });
         Set<String> permissions = AccessToken.getCurrentAccessToken().getDeclinedPermissions();
         logInfo(permissions.toString());
-        /*GraphRequest request = GraphRequest.newGraphPathRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/" + id +"/likes",
-                null,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    @Override
-                    public void onCompleted(GraphResponse response) {
-                        Log.e("photodata", response.toString());
 
-                    }
-                });
-                Bundle parameters = new Bundle();
-        //parameters.putString("fields", "id,album,address,cover,gender,favorite_teams");
-        //request.setParameters(parameters);
-        request.executeAsync();*/
         new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
                 "/"+id+"/likes",
