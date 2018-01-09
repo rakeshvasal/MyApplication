@@ -30,6 +30,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -37,6 +40,8 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import org.json.JSONObject;
 
 import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.util.Collections;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
@@ -54,10 +59,13 @@ public class MainActivity extends BaseActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FirebaseApp.initializeApp(this);
+        String serverClientId = getResources().getString(R.string.google_server_client_id);
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
+                .requestIdToken(serverClientId)
+                .requestServerAuthCode(serverClientId, false)
                 .build();
         // [START build_client]
         // Build a GoogleApiClient with access to the Google Sign-In API and the
@@ -101,6 +109,7 @@ public class MainActivity extends BaseActivity implements
             }
         };
 
+
         if (!Utils.isServiceRunning(MainActivity.this, "FusedLocationService")) {
             Intent intent = new Intent(MainActivity.this, FusedLocationService.class);
             startService(intent);
@@ -108,7 +117,18 @@ public class MainActivity extends BaseActivity implements
 
         //displayFirebaseRegId();
     }
-
+    /*private static Credential authorize() throws Exception {
+        // load client secrets
+        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY,
+                new InputStreamReader(CalendarSample.class.getResourceAsStream("/client_secrets.json")));
+        // set up authorization code flow
+        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+                httpTransport, JSON_FACTORY, clientSecrets,
+                Collections.singleton(CalendarScopes.CALENDAR)).setDataStoreFactory(dataStoreFactory)
+                .build();
+        // authorize
+        return new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
+    }*/
     private void displayFirebaseRegId() {
         SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
         String regId = pref.getString("regId", null);
@@ -167,6 +187,10 @@ public class MainActivity extends BaseActivity implements
             // Signed in successfully, show authenticated UI.
             try {
                 GoogleSignInAccount acct = result.getSignInAccount();
+                String code = acct.getServerAuthCode();
+                String token = acct.getIdToken();
+                Log.d("google_token",token);
+                Log.d("google_code",code);
                 Toast.makeText(this, "Welcome " + acct.getDisplayName(), Toast.LENGTH_SHORT).show();
                 String personName = acct.getDisplayName();
                 String personGivenName = acct.getGivenName();

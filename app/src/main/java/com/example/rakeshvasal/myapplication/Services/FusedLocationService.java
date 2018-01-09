@@ -192,43 +192,5 @@ public class FusedLocationService extends Service implements LocationListener, G
         return longitude;
     }
 
-    /*class SendAgentLocation extends AsyncTask<String, String, String> {
 
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            JSONObject json = new JSONObject();
-            try {
-                json.put("SetMethod", setmethod);
-                json.put("CreatedDate", createddate);
-                json.put("UserID", userid);
-                json.put("UserName", username);
-                json.put("Latitude", agentLat);
-                json.put("Longitude", agentLng);
-                Log.d("locationdata", json.toString());
-                //Todo add company id agent id
-                result = new makeServiceCall().makeServiceCall(server_Url.Api_Url + "Location/PostLocation", json.toString());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            Log.d("location result", result);
-            return null;
-
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            SharedPreferences pref = getSharedPreferences("LoginStatus", Context.MODE_PRIVATE);
-            username = pref.getString("user_name", "");
-            userid = pref.getString("user_id", "");
-            createddate = Generic_class.get_Date_Time();
-            SharedPreferences preferences = getSharedPreferences("userLocation", Context.MODE_PRIVATE);
-            agentLat = Float.parseFloat(preferences.getString("userlat", "0.0"));
-            agentLng = Float.parseFloat(preferences.getString("userlng", "0.0"));
-            setmethod = "POST";
-
-        }
-    }*/
 }

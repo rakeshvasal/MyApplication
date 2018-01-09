@@ -28,7 +28,7 @@
 
     <string name="exception">Exception: %1$s</string>
     <string name="no_internet_connection">Please check your Internet connection!</string>
-
+    <string name="google_server_client_id">823153286753-hljqdremiuo039qb3ut2act2mt9f9f3d.apps.googleusercontent.com</string>
     <string name="football_json">https://raw.githubusercontent.com/opendatajson/football.json/master/2015-16/en.1.clubs.json</string>
     <string name="title_fingerprint">One-touch Sign In</string>
     <string name="desc_fingerprint">Please place your fingertip on the scanner to verify your identity</string>
