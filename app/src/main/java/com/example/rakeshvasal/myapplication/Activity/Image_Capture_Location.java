@@ -225,7 +225,6 @@ public class Image_Capture_Location extends BaseActivity implements URLModifiers
     private void AddtoFirebase(final Double lat, final Double longt, final String name, final String time) {
 
         showProgressDialog("Uploading Image Please Wait");
-
         //used to store in the folder that u define directory
         StorageReference ImagesRef = storageRef.child("images/" + name);
         listOfImagesPath = new Utils().RetriveCapturedImagePath(ImagePath);

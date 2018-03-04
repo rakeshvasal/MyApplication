@@ -17,6 +17,8 @@ public class MovieDataSet {
     private String id;
     @SerializedName("title")
     private String title;
+    @SerializedName("poster_path")
+    private String posterurl;
     /*@SerializedName("team-1")
     @SerializedName("team-1")
     @SerializedName("team-1")
@@ -40,8 +42,6 @@ public class MovieDataSet {
     public void setPosterurl(String posterurl) {
         this.posterurl = posterurl;
     }
-
-    private String posterurl;
 
     public String getTitle() {
         return title;

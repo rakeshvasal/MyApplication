@@ -41,8 +41,8 @@ public class FusedLocationService extends Service implements LocationListener, G
     boolean canGetLocation = false;
     Context mContext;
     private static final String TAG = "LocationService";
-    private static final long INTERVAL = 1000 * 2;
-    private static final long FASTEST_INTERVAL = 1000 * 2;
+    private static final long INTERVAL = 1000 * 60;
+    private static final long FASTEST_INTERVAL = 1000 * 60;
 
     IBinder mBinder = new LocalBinder();
 

@@ -49,6 +49,7 @@ public class MakeServiceCall {
         }
         return data;
     }
+
     public String makeServiceCall(String url, String jsonObject) {
 
         String status="";
@@ -98,4 +99,36 @@ public class MakeServiceCall {
         return status;
     }
 
+    public String makeGetServiceCall(String url) throws IOException {
+        String data = "";
+        InputStream iStream = null;
+        HttpURLConnection urlConnection = null;
+        try {
+            URL url1 = new URL(url);
+            urlConnection = (HttpURLConnection) url1.openConnection();
+            urlConnection.setRequestProperty("Content-Type", "application/json");
+            //urlConnection.setRequestProperty("user-key","905eec17a259d75ba116b8467219d657");
+            urlConnection.setRequestMethod("GET");
+
+
+            urlConnection.connect();
+
+            iStream = urlConnection.getInputStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    iStream));
+            StringBuffer sb = new StringBuffer();
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+            data = sb.toString();
+            br.close();
+        } catch (Exception e) {
+            Log.d("Exceptionreadingurl", e.toString());
+        } finally {
+            iStream.close();
+            urlConnection.disconnect();
+        }
+        return data;
+    }
 }

@@ -73,19 +73,21 @@ public interface ApiInterface {
     @POST("playerStats/")
     Call<JsonObject> getPlayerDetails(@Query ("apikey") String apikey, @Query ("pid") String pid);
 
+
     @GET(Utils.TWITTER_HASHTAG_SEARCH_CODE )
-    void getTweetList(
+    Call<TweetList> getTweetList(
             @Header("Authorization") String authorization,
-            @Query("q") String hashtag,
-            Callback<TweetList> callback
+            @Query("q") String hashtag
+
     );
 
     @FormUrlEncoded
     @POST("/oauth2/token")
-    void getToken(
+    Call<TwitterTokenType> getToken(
             @Header("Authorization") String authorization,
-            @Field("grant_type") String grantType,
-            Callback<TwitterTokenType>response
+            //@Header("Content-Type") String content_type,
+            @Field("grant_type") String grantType
+            //Callback<TwitterTokenType>response
     );
 
 }

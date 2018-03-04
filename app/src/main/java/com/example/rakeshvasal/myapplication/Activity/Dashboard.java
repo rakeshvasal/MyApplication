@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rakeshvasal.myapplication.BaseActivity;
+import com.example.rakeshvasal.myapplication.ContactsActivity;
+import com.example.rakeshvasal.myapplication.ErrorHandlingClass;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Services.UserLocation;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
@@ -46,6 +48,9 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(!(Thread.getDefaultUncaughtExceptionHandler() instanceof ErrorHandlingClass)) {
+            Thread.setDefaultUncaughtExceptionHandler(new ErrorHandlingClass(this));
+        }
         setContentView(R.layout.activity_dashboard);
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -62,31 +67,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
                 .build();
         // [END build_client]
         // Here, thisActivity is the current activity
-        /*if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
 
-            // Should we show an explanation?
-           *//* if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION && Manifest.permission.CAMERA)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-            } else {
-
-                // No explanation needed, we can request the permission.
-
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }*//*
-        }*/
         UserLocation loc = new UserLocation(Dashboard.this);
         location = loc.getLocation();
 
@@ -204,6 +185,17 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Dashboard.this, Fingerprint_Activity.class);
+
+                startActivity(intent);
+
+            }
+        });
+
+        TextView tv_twitter = (TextView) findViewById(R.id.tv_twitter);
+        tv_twitter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Dashboard.this, TwitterAPIActivity.class);
 
                 startActivity(intent);
 

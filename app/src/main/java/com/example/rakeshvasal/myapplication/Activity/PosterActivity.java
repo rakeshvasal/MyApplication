@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -39,7 +40,7 @@ import java.util.Set;
 public class PosterActivity extends BaseActivity {
 
     ImageView imageView;
-    String image_url, url,id;
+    String image_url, url, id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,22 +71,22 @@ public class PosterActivity extends BaseActivity {
                         imageView.setImageBitmap(bitmap);
                     }
                 });
-        Set<String> permissions = AccessToken.getCurrentAccessToken().getDeclinedPermissions();
-        logInfo(permissions.toString());
+        if (type.equalsIgnoreCase("2")) {
+            Set<String> permissions = AccessToken.getCurrentAccessToken().getDeclinedPermissions();
+            logInfo(permissions.toString());
 
-        new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/"+id+"/likes",
-                null,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-                        Log.e("photodata", response.toString());
+            new GraphRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    "/" + id + "/likes",
+                    null,
+                    HttpMethod.GET,
+                    new GraphRequest.Callback() {
+                        public void onCompleted(GraphResponse response) {
+                            Log.e("photodata", response.toString());
+                        }
                     }
-                }
-        ).executeAsync();
-
-
+            ).executeAsync();
+        }
     }
 
     ViewPropertyAnimation.Animator animationObject = new ViewPropertyAnimation.Animator() {
@@ -101,7 +102,6 @@ public class PosterActivity extends BaseActivity {
             fadeAnim.start();
         }
     };
-
 
 
     @Override
