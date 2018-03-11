@@ -1,263 +1,225 @@
 package com.example.rakeshvasal.myapplication.Activity;
 
+import android.accounts.Account;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.net.Uri;
+
+import android.app.Fragment;
+import android.content.Intent;
+import android.content.SharedPreferences;
+
 import android.os.AsyncTask;
-import android.os.Build;
-import android.provider.ContactsContract;
-import android.support.annotation.RequiresApi;
+
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.ArrayAdapter;
+
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.example.rakeshvasal.myapplication.GetAccessToken;
-import com.example.rakeshvasal.myapplication.GetterSetter.Contact;
-import com.example.rakeshvasal.myapplication.GoogleConstants;
+
+import com.example.rakeshvasal.myapplication.BaseActivity;
+import com.example.rakeshvasal.myapplication.Custom_Adapters.GoogleContactsAdapter;
+import com.example.rakeshvasal.myapplication.Fragments.ContactsHomeFragment;
+import com.example.rakeshvasal.myapplication.Fragments.CricketAPIFragments.CricAPIHome;
+import com.example.rakeshvasal.myapplication.Fragments.FacebookFragments.FacebookFragment;
+import com.example.rakeshvasal.myapplication.GetterSetter.GPeople;
+import com.example.rakeshvasal.myapplication.GetterSetter.MatchDetails;
+import com.example.rakeshvasal.myapplication.Manifest;
 import com.example.rakeshvasal.myapplication.R;
-import com.google.android.gms.plus.model.people.Person;
-import com.google.gdata.client.contacts.ContactsService;
-import com.google.gdata.data.contacts.ContactEntry;
-import com.google.gdata.data.contacts.ContactFeed;
-import com.google.gdata.data.extensions.Email;
-import com.google.gdata.data.extensions.Name;
+import com.example.rakeshvasal.myapplication.Utilities.Utils;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.common.Scopes;
+import com.google.android.gms.common.api.Scope;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.services.people.v1.People;
+import com.google.api.services.people.v1.model.ListConnectionsResponse;
+import com.google.api.services.people.v1.model.Person;
+import com.google.gdata.client.contacts.ContactsService;
+import com.google.gson.Gson;
+
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URL;
+import java.io.IOException;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class ImportGmailContactsActivity extends AppCompatActivity {
+import retrofit2.converter.gson.GsonConverterFactory;
+
+public class ImportGmailContactsActivity extends BaseActivity implements GoogleContactsAdapter.OnShareClickedListener {
 
     final String TAG = getClass().getName();
 
-    private Dialog auth_dialog;
     private ListView list;
+    JSONObject jsonObject;
+    String accesstoken;
+    List<GPeople> gPeoplelist=new ArrayList<>();
+    public static int RC_AUTHORIZE_CONTACTS = 1;
+    public static int RC_REAUTHORIZE = 2;
+    /**
+     * Global instance of the HTTP transport.
+     */
+    private static HttpTransport HTTP_TRANSPORT = AndroidHttp.newCompatibleTransport();
+    /**
+     * Global instance of the JSON factory.
+     */
+    private static final JacksonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_import_gmail_contacts);
-        list = (ListView) findViewById(R.id.list);
-        launchAuthDialog();
+
+        SharedPreferences preferences = getSharedPreferences(Utils.GOOGLE_LOGIN_DATA, MODE_PRIVATE);
+        String logindets = preferences.getString("GoogleAccountDetails", "");
+        if (!logindets.equalsIgnoreCase("")) {
+            try {
+                jsonObject = new JSONObject(logindets);
+                accesstoken = jsonObject.getString("google_token");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        ContactsHomeFragment cricfrag = new ContactsHomeFragment();
+        android.app.FragmentManager fm = getFragmentManager();
+        android.app.FragmentTransaction transaction = fm.beginTransaction();
+        transaction.add(R.id.fragment_container, cricfrag);
+        transaction.addToBackStack(null);
+        transaction.commit();
+        //launchAuthDialog();
     }
 
-    private void setContactList(List<Contact> contacts) {
-        ArrayAdapter<Contact> adapter = new ArrayAdapter<Contact>(this,
-                android.R.layout.simple_list_item_multiple_choice, contacts);
-        list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        list.setAdapter(adapter);
-    }
+
 
     private void launchAuthDialog() {
-        final Context context = this;
-        auth_dialog = new Dialog(context);
-        auth_dialog.setTitle("WEB_VIEW");
-        auth_dialog.setCancelable(true);
-        auth_dialog.setContentView(R.layout.auth_dialog);
+        Scope SCOPE_CONTACTS_READ =
+                new Scope("https://www.googleapis.com/auth/contacts.readonly");
+        Scope SCOPE_EMAIL = new Scope(Scopes.EMAIL);
 
-        auth_dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                finish();
-            }
-        });
-
-        WebView web = (WebView) auth_dialog.findViewById(R.id.webv);
-        web.getSettings().setJavaScriptEnabled(true);
-        web.loadUrl(GoogleConstants.OAUTH_URL + "?redirect_uri="
-        + GoogleConstants.REDIRECT_URI
-                + "&response_type=code&client_id=" + GoogleConstants.CLIENT_ID
-                + "&scope=" + GoogleConstants.OAUTH_SCOPE);
-        web.setWebViewClient(new WebViewClient() {
-            boolean authComplete = false;
-
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
-            }
-
-            @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-                if (url.contains("?code=") && authComplete != true) {
-                    Uri uri = Uri.parse(url);
-                    String authCode = uri.getQueryParameter("code");
-                    authComplete = true;
-                    auth_dialog.dismiss();
-                    new GoogleAuthToken(context).execute(authCode);
-                } else if (url.contains("error=access_denied")) {
-                    Log.i("", "ACCESS_DENIED_HERE");
-                    authComplete = true;
-                    auth_dialog.dismiss();
-                }
-            }
-        });
-        auth_dialog.show();
+        if (!GoogleSignIn.hasPermissions(
+                GoogleSignIn.getLastSignedInAccount(ImportGmailContactsActivity.this),
+                SCOPE_CONTACTS_READ,
+                SCOPE_EMAIL)) {
+            GoogleSignIn.requestPermissions(
+                    ImportGmailContactsActivity.this,
+                    RC_AUTHORIZE_CONTACTS,
+                    GoogleSignIn.getLastSignedInAccount(ImportGmailContactsActivity.this),
+                    SCOPE_CONTACTS_READ,
+                    SCOPE_EMAIL);
+        } else {
+            getContacts();
+        }
     }
 
-    private class GoogleAuthToken extends AsyncTask<String, String, JSONObject> {
-        private ProgressDialog pDialog;
-        private Context context;
- 
-        public GoogleAuthToken(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new ProgressDialog(context);
-            pDialog.setMessage("Contacting Google ...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
-            pDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                    finish();
-                }
-            });
-            pDialog.show();
-        }
-
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            String authCode = args[0];
-            GetAccessToken jParser = new GetAccessToken();
-            JSONObject json = jParser.gettoken(GoogleConstants.TOKEN_URL,
-                    authCode, GoogleConstants.CLIENT_ID,
-                    GoogleConstants.CLIENT_SECRET,
-                    GoogleConstants.REDIRECT_URI, GoogleConstants.GRANT_TYPE);
-            return json;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject json) {
-            pDialog.dismiss();
-            if (json != null) {
-                try {
-                    String tok = json.getString("access_token");
-                    String expire = json.getString("expires_in");
-                    String refresh = json.getString("refresh_token");
-                    new GetGoogleContacts(context).execute(tok);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (RC_AUTHORIZE_CONTACTS == requestCode) {
+                getContacts();
             }
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.CUPCAKE)
-    private class GetGoogleContacts extends
-            AsyncTask<String, String, List<ContactEntry>> {
+    private void getContacts() {
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(ImportGmailContactsActivity.this);
+        if (account != null) {
+            GetContactsTask task = new GetContactsTask(account.getAccount());
+            task.execute();
+        }
+    }
 
-        private ProgressDialog pDialog;
-        private Context context;
- 
-        public GetGoogleContacts(Context context) {
-            this.context = context;
+    @Override
+    public void ShareClicked(int pos) {
+
+    }
+
+    private class GetContactsTask extends AsyncTask<Void, Void, List<Person>> {
+
+        Account mAccount;
+        String PeopleJson;
+
+        public GetContactsTask(Account account) {
+            mAccount = account;
         }
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new ProgressDialog(context);
-            pDialog.setMessage("Authenticated. Getting Google Contacts ...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
-            pDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                    finish();
-                }
-            });
-            pDialog.show();
-        }
-
-        @Override
-        protected List<ContactEntry> doInBackground(String... args) {
-            String accessToken = args[0];
-            ContactsService contactsService = new ContactsService(
-                    GoogleConstants.APP);
-            contactsService.setHeader("Authorization", "Bearer " + accessToken);
-            contactsService.setHeader("GData-Version", "3.0");
-            List<ContactEntry> contactEntries = null;
+        protected List<Person> doInBackground(Void... params) {
+            List<Person> result = null;
             try {
-                URL feedUrl = new URL(GoogleConstants.CONTACTS_URL);
-                ContactFeed resultFeed = contactsService.getFeed(feedUrl,
-                        ContactFeed.class);
-                contactEntries = resultFeed.getEntries();
-            } catch (Exception e) {
-                pDialog.dismiss();
-                Toast.makeText(context, "Failed to get Contacts",
-                Toast.LENGTH_SHORT).show();
+                GoogleAccountCredential credential =
+                        GoogleAccountCredential.usingOAuth2(
+                                ImportGmailContactsActivity.this,
+                                Collections.singleton(
+                                        "https://www.googleapis.com/auth/contacts.readonly")
+                        );
+                credential.setSelectedAccount(mAccount);
+                People service = new People.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
+                        .setApplicationName("myapplication-8f68b")
+                        .build();
+
+                ListConnectionsResponse connectionsResponse = service
+                        .people()
+                        .connections()
+                        .list("people/me")
+                        .set("personFields", "names,addresses,birthdays,genders,phoneNumbers,photos")
+                        .execute();
+
+
+
+                result = connectionsResponse.getConnections();
+                Gson gson = new Gson();
+                PeopleJson = gson.toJson(result);
+
+            } catch (UserRecoverableAuthIOException userRecoverableException) {
+                userRecoverableException.printStackTrace();
+                // Explain to the user again why you need these OAuth permissions
+                // And prompt the resolution to the user again:
+                startActivityForResult(userRecoverableException.getIntent(), RC_REAUTHORIZE);
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Other non-recoverable exceptions.
             }
-            return contactEntries;
+
+            return result;
         }
 
         @Override
-        protected void onPostExecute(List<ContactEntry> googleContacts) {
-            if (null != googleContacts && googleContacts.size() > 0) {
-                List<Contact> contacts = new ArrayList<Contact>();
+        protected void onCancelled() {
 
-                for (ContactEntry contactEntry : googleContacts) {
-                    String name = "";
-                    String email = "";
-
-                    if (contactEntry.hasName()) {
-                        Name tmpName = contactEntry.getName();
-                        if (tmpName.hasFullName()) {
-                            name = tmpName.getFullName().getValue();
-                        } else {
-                            if (tmpName.hasGivenName()) {
-                                name = tmpName.getGivenName().getValue();
-                                if (tmpName.getGivenName().hasYomi()) {
-                                    name += " ("
-                                    + tmpName.getGivenName().getYomi()
-                                            + ")";
-                                }
-                                if (tmpName.hasFamilyName()) {
-                                    name += tmpName.getFamilyName().getValue();
-                                    if (tmpName.getFamilyName().hasYomi()) {
-                                        name += " ("
-                                        + tmpName.getFamilyName()
-                                                .getYomi() + ")";
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    List<Email> emails = contactEntry.getEmailAddresses();
-                    if (null != emails && emails.size() > 0) {
-                        Email tempEmail = (Email) emails.get(0);
-                        email = tempEmail.getAddress();
-                    }
-                    Contact contact = new Contact(name, email
-                            /*ConstantUtil.CONTACT_TYPE_GOOGLE*/);
-                    contacts.add(contact);
-                }
-                setContactList(contacts);
-
-            } else {
-                Log.e(TAG, "No Contact Found.");
-                Toast.makeText(context, "No Contact Found.", Toast.LENGTH_SHORT)
-                        .show();
-            }
-            pDialog.dismiss();
         }
 
+        @Override
+        protected void onPostExecute(List<Person> connections) {
+            try {
+
+                logInfo(PeopleJson);
+
+                JSONArray JsonArray = new JSONArray(PeopleJson);
+                Gson gson = new Gson();
+                for (int i = 0; i < JsonArray.length(); i++) {
+                    GPeople gPeople = gson.fromJson(String.valueOf(JsonArray.getJSONObject(i)), GPeople.class);
+                    gPeoplelist.add(gPeople);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
+
 
 }

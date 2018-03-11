@@ -5,7 +5,7 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.example.rakeshvasal.myapplication"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -54,8 +54,14 @@ dependencies {
     compile 'com.itextpdf:itextg:5.5.10'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:multidex:1.0.1'
+    compile 'com.google.api-client:google-api-client:1.22.0'
+    compile 'com.google.api-client:google-api-client-android:1.22.0'
+    // Change to the API you want to access:
+    // Below is just an example for People REST API access
+    compile 'com.google.apis:google-api-services-people:v1-rev4-1.22.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.google.api-client:google-api-client:1.23.0'
-    compile group: 'com.google.gdata', name: 'core', version: '1.47.1'
+    compile 'com.google.gdata:core:1.47.1'
+    implementation 'com.google.android.gms:play-services:11.8.0'
 }
 apply plugin: 'com.google.gms.google-services'

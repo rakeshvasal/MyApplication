@@ -201,6 +201,8 @@ public class MainActivity extends BaseActivity implements
                 jsonObject.put("personEmail", personEmail);
                 jsonObject.put("personId", personId);
                 jsonObject.put("personPhoto", personPhoto);
+                jsonObject.put("google_token", token);
+                jsonObject.put("google_code", code);
 
                 SharedPreferences preferences = getSharedPreferences(Utils.GOOGLE_LOGIN_DATA,MODE_PRIVATE);
                 preferences.edit().putString("isGoogleSignedIn","true").apply();
@@ -232,7 +234,7 @@ public class MainActivity extends BaseActivity implements
             // If the user has not previously signed in on this device or the sign-in has expired,
             // this asynchronous branch will attempt to sign in the user silently.  Cross-device
             // single sign-on will occur in this branch.
-            showProgressDialog();
+//            showProgressDialog();
             opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                 @Override
                 public void onResult(GoogleSignInResult googleSignInResult) {
