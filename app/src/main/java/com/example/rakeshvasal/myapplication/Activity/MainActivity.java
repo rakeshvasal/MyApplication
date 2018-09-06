@@ -22,34 +22,34 @@ import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Services.FusedLocationService;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONObject;
 
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.util.Collections;
-
 import static android.widget.Toast.LENGTH_SHORT;
 
 public class MainActivity extends BaseActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
-
+    private GoogleSignInClient mGoogleSignInClient;
     private GoogleApiClient mGoogleApiClient;
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
@@ -63,23 +63,29 @@ public class MainActivity extends BaseActivity implements
         }
         setContentView(R.layout.activity_main);
         FirebaseApp.initializeApp(this);
-        String serverClientId = getResources().getString(R.string.google_server_client_id);
+        //String serverClientId = getResources().getString(R.string.google_server_client_id);
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         String scopes = "https://www.googleapis.com/auth/calendar https://mail.google.com/";
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        /*GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .requestProfile()
                 .requestScopes(new Scope(Scopes.DRIVE_APPFOLDER))
                 .requestIdToken(serverClientId)
                 .requestServerAuthCode(serverClientId, false)
+                .build();*/
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .requestProfile()
                 .build();
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+        /*mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this *//* FragmentActivity *//*, this *//* OnConnectionFailedListener *//*)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
+                .build();*/
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         // [END build_client]
 
         // Set the dimensions of the sign-in button.
@@ -87,6 +93,7 @@ public class MainActivity extends BaseActivity implements
         ImageView sign_out = (ImageView) findViewById(R.id.sign_out);
         sign_out.setVisibility(View.GONE);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
+        signInButton.setScopes(gso.getScopeArray());
 
         findViewById(R.id.sign_in_button).setOnClickListener(this);
 
@@ -116,10 +123,10 @@ public class MainActivity extends BaseActivity implements
         };
 
 
-        if (!Utils.isServiceRunning(MainActivity.this, "FusedLocationService")) {
+        /*if (!Utils.isServiceRunning(MainActivity.this, "FusedLocationService")) {
             Intent intent = new Intent(MainActivity.this, FusedLocationService.class);
             startService(intent);
-        }
+        }*/
 
         //displayFirebaseRegId();
     }
@@ -156,9 +163,12 @@ public class MainActivity extends BaseActivity implements
 
     private void signIn() {
         if (Utils.is_Connected_To_Internet(MainActivity.this)) {
-            Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+            /*Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+            startActivityForResult(signInIntent, RC_SIGN_IN);*/
             showProgressDialog();
+            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
             startActivityForResult(signInIntent, RC_SIGN_IN);
+
         } else {
             Toast.makeText(MainActivity.this, getResources().getString(R.string.Check_Internet), LENGTH_SHORT).show();
         }
@@ -172,17 +182,25 @@ public class MainActivity extends BaseActivity implements
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             closeProgressDialog();
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+            /*GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);*/
         }
     }
 
-    private void handleSignInResult(GoogleSignInResult result) {
-        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
-        if (result.isSuccess()) {
+    private void handleSignInResult(Task<GoogleSignInAccount> result) {
+        try {
+            GoogleSignInAccount account = result.getResult(ApiException.class);
+            Log.d(TAG, "handleSignInResult:" + account.getEmail());
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+        //Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+        if (result.isSuccessful()) {
             // Signed in successfully, show authenticated UI.
             try {
-                GoogleSignInAccount acct = result.getSignInAccount();
+                GoogleSignInAccount acct = result.getResult();
                 String code = acct.getServerAuthCode();
                 String token = acct.getIdToken();
                 Log.d("google_token",token);
@@ -219,8 +237,8 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
-    @Override
-    public void onStart() {
+    //@Override
+/*    public void onStart() {
         super.onStart();
 
         OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
@@ -243,7 +261,7 @@ public class MainActivity extends BaseActivity implements
                 }
             });
         }
-    }
+    }*/
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {

@@ -15,8 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/blur_background"
-            android:drawableEnd="@drawable/quantum_ic_keyboard_arrow_down_white_36"
-            android:drawableRight="@drawable/quantum_ic_keyboard_arrow_down_white_36"
+            android:drawableEnd="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:text="Filter" />

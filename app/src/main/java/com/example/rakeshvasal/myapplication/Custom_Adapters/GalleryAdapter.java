@@ -13,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.example.rakeshvasal.myapplication.GetterSetter.Album;
 import com.example.rakeshvasal.myapplication.R;
 
@@ -73,19 +76,23 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
        // holder.count.setText(album.getNumOfSongs() + " songs");
 
         // loading album cover using Glide library
-        String photopath = (String) album.getThumbnail();
+        String photopath = album.getThumbnail();
         try {
-            fs = new FileInputStream(new File(photopath));
-            if (fs != null) {
-                bm = BitmapFactory.decodeFileDescriptor(fs.getFD(), null, bfOptions);
-            }
+
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bm.compress(Bitmap.CompressFormat.PNG, 10, stream);
+            //bm.compress(Bitmap.CompressFormat.PNG, 10, stream);
             Glide.with(mContext)
-                    .load(stream.toByteArray())
+                    .load(photopath)
                     .asBitmap()
+                    .placeholder(R.drawable.album1)
                     .error(R.drawable.album1)
-                    .into(holder.thumbnail);
+                    .into(new SimpleTarget<Bitmap>(100, 100) {
+                        @Override
+                        public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
+
+                            holder.thumbnail.setImageBitmap(bitmap);
+                        }
+                    });
             if(i%10==0){
                 //Toast.makeText(mContext,""+i,Toast.LENGTH_SHORT).show();
             }

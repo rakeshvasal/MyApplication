@@ -24,7 +24,8 @@ import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.ContactsActivity;
 import com.example.rakeshvasal.myapplication.ErrorHandlingClass;
 import com.example.rakeshvasal.myapplication.R;
-import com.example.rakeshvasal.myapplication.Services.UserLocation;
+
+import com.example.rakeshvasal.myapplication.Services.FusedLocationService;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -68,8 +69,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
         // [END build_client]
         // Here, thisActivity is the current activity
 
-        UserLocation loc = new UserLocation(Dashboard.this);
-        location = loc.getLocation();
+
 
         TextView page_title = (TextView) findViewById(R.id.page_title);
         TextView nested_scroll_view = (TextView) findViewById(R.id.nested_scroll_view);
@@ -201,9 +201,8 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
 
             }
         });
-
-        TextView test = (TextView) findViewById(R.id.tv_test);
-        test.setOnClickListener(new View.OnClickListener() {
+        TextView tv_gContacts = (TextView) findViewById(R.id.tv_gContacts);
+        tv_gContacts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Dashboard.this, ImportGmailContactsActivity.class);
@@ -212,6 +211,18 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
 
             }
         });
+        TextView test = (TextView) findViewById(R.id.tv_test);
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Dashboard.this, YoutubeTest.class);
+
+                startActivity(intent);
+                //shortToast("No Activity Defined");
+
+            }
+        });
+
 
         sign_out.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -336,6 +347,8 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
                 intent.addCategory(Intent.CATEGORY_HOME);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                Intent intent1 = new Intent(Dashboard.this, FusedLocationService.class);
+                stopService(intent1);
                 finish();
                 System.exit(0);
 
@@ -387,6 +400,14 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+       /* Intent intent1 = new Intent(Dashboard.this, FusedLocationService.class);
+        stopService(intent1);*/
     }
 }
 

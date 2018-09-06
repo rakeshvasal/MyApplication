@@ -103,6 +103,7 @@
             android:name=".Services.FusedLocationService"
             android:enabled="true"
             android:exported="true" />
+        <service android:name=".Services.UserLocation"></service>
         <service
             android:name=".FirebaseCloudMessaging.MyFirebaseMessagingService"
             android:enabled="true"
@@ -133,32 +134,44 @@
             android:authorities="com.facebook.app.FacebookContentProvider148851038810437"
             android:exported="true" />
 
-        <activity android:name=".Activity.GalleryActivity"
+        <activity
+            android:name=".Activity.GalleryActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".Activity.MatchDetailsActivity"
+        <activity
+            android:name=".Activity.MatchDetailsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".Activity.ImageActivity"
+        <activity
+            android:name=".Activity.ImageActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".Activity.YoutubeDataActivity"
+        <activity
+            android:name=".Activity.ZomatoActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".Activity.ZomatoActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".Activity.MovieDBActivity"
+        <activity
+            android:name=".Activity.MovieDBActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.PosterActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".Activity.CreatePDFActivity"
+        <activity
+            android:name=".Activity.CreatePDFActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".Activity.Fingerprint_Activity"
+        <activity
+            android:name=".Activity.Fingerprint_Activity"
             android:screenOrientation="portrait" />
-        <activity android:name=".Activity.TestActivity"
+        <activity
+            android:name=".Activity.TestActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ContactsActivity"
+        <activity
+            android:name=".ContactsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".Activity.ImportGmailContactsActivity"
+        <activity
+            android:name=".Activity.ImportGmailContactsActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".Activity.TwitterAPIActivity" />
+
+
+
+        <activity android:name=".Activity.YoutubeTest"></activity>
     </application>
 
 </manifest>

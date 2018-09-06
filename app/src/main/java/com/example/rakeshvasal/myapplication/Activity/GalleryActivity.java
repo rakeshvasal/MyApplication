@@ -58,6 +58,7 @@ public class GalleryActivity extends BaseActivity {
         new CreateAlbumAsync(GalleryActivity.this).execute();
 
 
+
         try {
             Glide.with(this).load(R.drawable.cover).into((ImageView) findViewById(R.id.backdrop));
         } catch (Exception e) {
@@ -95,35 +96,7 @@ public class GalleryActivity extends BaseActivity {
         });
     }
 
-    private void prepareAlbums() {
 
-        String ImagePaths = Environment.getExternalStorageDirectory() + "/Images/Khalsa Gang/";
-        //String ImagePaths = Environment.getExternalStorageDirectory() + "/Instagram/";
-
-        listOfImagesPath = null;
-        listOfImagesPath = new Utils().RetriveCapturedImagePath(ImagePaths);
-
-        if(listOfImagesPath!=null){
-            int size = listOfImagesPath.size();
-            if (size>50){
-                size=50;
-            }
-            String[] coverimages=new String[size];
-            for (int i=0;i<size;i++){
-                try {
-                    //Bitmap bmp = (BitmapFactory.decodeFile(listOfImagesPath.get(i)));
-                    coverimages[i]=listOfImagesPath.get(i);
-              //      coverimages[i] = bmp;
-                    Album a = new Album("" + i, coverimages[i]);
-                    albumList.add(a);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-
-            }
-            albumdone=true;
-        }
-    }
 
 public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
@@ -205,6 +178,36 @@ public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
             prepareAlbums();
 
             return null;
+        }
+
+        private void prepareAlbums() {
+
+            String ImagePaths = Environment.getExternalStorageDirectory() + "/Images/Khalsa Gang/";
+            //String ImagePaths = Environment.getExternalStorageDirectory() + "/Instagram/";
+
+            listOfImagesPath = null;
+            listOfImagesPath = new Utils().RetriveCapturedImagePath(ImagePaths);
+
+            if(listOfImagesPath!=null){
+                int size = listOfImagesPath.size();
+            /*if (size>50){
+                size=50;
+            }*/
+                String[] coverimages=new String[size];
+                for (int i=0;i<size;i++){
+                    try {
+                        //Bitmap bmp = (BitmapFactory.decodeFile(listOfImagesPath.get(i)));
+                        coverimages[i]=listOfImagesPath.get(i);
+                        //      coverimages[i] = bmp;
+                        Album a = new Album("" + i, coverimages[i]);
+                        albumList.add(a);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                }
+                albumdone=true;
+            }
         }
     }
 

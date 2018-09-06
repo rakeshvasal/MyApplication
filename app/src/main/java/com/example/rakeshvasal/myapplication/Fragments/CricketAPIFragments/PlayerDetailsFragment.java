@@ -23,7 +23,6 @@ import com.example.rakeshvasal.myapplication.GetterSetter.Player;
 import com.example.rakeshvasal.myapplication.Interface.ApiInterface;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
-import com.google.android.gms.vision.text.Text;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 

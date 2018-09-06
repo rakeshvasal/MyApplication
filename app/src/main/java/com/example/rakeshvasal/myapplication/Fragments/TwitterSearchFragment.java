@@ -55,7 +55,7 @@ public class TwitterSearchFragment extends BaseFragment {
 
         getToken();
 
-        text_search = (EditText) view.findViewById(R.id.searchtext);
+        text_search = (EditText) view.findViewById(R.id.search_text);
         btn_go = (Button) view.findViewById(R.id.search_go_btn);
 
 
@@ -64,8 +64,12 @@ public class TwitterSearchFragment extends BaseFragment {
             public void onClick(View view) {
                 String s = text_search.getText().toString();
                 if (!s.equalsIgnoreCase("")) {
-                    getTweets(accessToken,s);
-                }else {
+                    if (!accessToken.equalsIgnoreCase("")) {
+                        getTweets(accessToken, s);
+                    } else {
+                        shortToast("Unauthorised Access");
+                    }
+                } else {
                     shortToast("Enter Text");
                 }
             }
@@ -86,8 +90,9 @@ public class TwitterSearchFragment extends BaseFragment {
             @Override
             public void onResponse(Call<TwitterTokenType> call, Response<TwitterTokenType> response) {
                 TwitterTokenType twitterTokenType = response.body();
-                Log.i("accestoken", "" + twitterTokenType.getAccessToken());
-                Log.i("accesstype", "" + twitterTokenType.getTokenType());
+                Log.i("accestoken", "" + (twitterTokenType != null ? twitterTokenType.getAccessToken() : ""));
+                accessToken = twitterTokenType != null ? twitterTokenType.getAccessToken() : "";
+                Log.i("accesstype", "" + (twitterTokenType != null ? twitterTokenType.getTokenType() : ""));
 
             }
 
@@ -109,7 +114,7 @@ public class TwitterSearchFragment extends BaseFragment {
                 tweetList = response.body().getTweets();
                 for (int i = 0; i < tweetList.size(); i++) {
                     Tweet tweet = tweetList.get(i);
-                    Log.v("tweet", "" + tweet.toString());
+                    //Log.v("tweet", "" + tweet.toString());
                 }
             }
 

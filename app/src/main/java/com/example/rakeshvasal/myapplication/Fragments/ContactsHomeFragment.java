@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 import com.example.rakeshvasal.myapplication.BaseFragment;
@@ -55,12 +56,10 @@ import static android.content.Context.MODE_PRIVATE;
 public class ContactsHomeFragment extends BaseFragment implements GoogleContactsAdapter.OnShareClickedListener {
 
     final String TAG = getClass().getName();
-
-    private Dialog auth_dialog;
-    private ListView list;
+    TextView tv_count_w_o_no, tv_count_w_no;
     JSONObject jsonObject;
     String accesstoken;
-    List<GPeople> gPeoplelist=new ArrayList<>();
+    List<GPeople> gPeoplelist = new ArrayList<>();
     public static int RC_AUTHORIZE_CONTACTS = 1;
     public static int RC_REAUTHORIZE = 2;
     /**
@@ -71,7 +70,7 @@ public class ContactsHomeFragment extends BaseFragment implements GoogleContacts
      * Global instance of the JSON factory.
      */
     private static final JacksonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-    Activity  activity;
+    Activity activity;
 
 
     public ContactsHomeFragment() {
@@ -87,6 +86,8 @@ public class ContactsHomeFragment extends BaseFragment implements GoogleContacts
         View root = inflater.inflate(R.layout.fragment_contacts_home, container, false);
 
         recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view);
+        tv_count_w_o_no = (TextView) root.findViewById(R.id.count_w_o_no);
+        tv_count_w_no = (TextView) root.findViewById(R.id.count_w_no);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -139,7 +140,7 @@ public class ContactsHomeFragment extends BaseFragment implements GoogleContacts
     private void getContacts() {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(activity);
         if (account != null) {
-           GetContactsTask task = new GetContactsTask(account.getAccount());
+            GetContactsTask task = new GetContactsTask(account.getAccount());
             task.execute();
         }
     }
@@ -194,7 +195,6 @@ public class ContactsHomeFragment extends BaseFragment implements GoogleContacts
                         .execute();
 
 
-
                 result = connectionsResponse.getConnections();
                 Gson gson = new Gson();
                 PeopleJson = gson.toJson(result);
@@ -219,21 +219,29 @@ public class ContactsHomeFragment extends BaseFragment implements GoogleContacts
         @Override
         protected void onPostExecute(List<Person> connections) {
             try {
-
+                int count_w_o_no = 0, count_w_no = 0;
                 logInfo(PeopleJson);
 
                 JSONArray JsonArray = new JSONArray(PeopleJson);
                 Gson gson = new Gson();
                 for (int i = 0; i < JsonArray.length(); i++) {
-                    GPeople gPeople = gson.fromJson(String.valueOf(JsonArray.getJSONObject(i)), GPeople.class);
-                    gPeoplelist.add(gPeople);
+                    JSONObject jsonObject = JsonArray.getJSONObject(i);
+                    logInfo("" + jsonObject);
+                    if (jsonObject.has("names")) {
+                        GPeople gPeople = gson.fromJson(String.valueOf(JsonArray.getJSONObject(i)), GPeople.class);
+                        gPeoplelist.add(gPeople);
+                    } else {
+                        count_w_o_no++;
+                    }
+                    count_w_no = JsonArray.length() - count_w_o_no;
                 }
 
-                GoogleContactsAdapter adapter = new GoogleContactsAdapter(getActivity(),gPeoplelist);
+                GoogleContactsAdapter adapter = new GoogleContactsAdapter(getActivity(), gPeoplelist);
                 adapter.setOnShareClickedListener(ContactsHomeFragment.this);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
-
+                tv_count_w_no.setText("Total Conatacts with Names :" + count_w_no);
+                tv_count_w_o_no.setText("Total Conatacts without Names :" + count_w_o_no);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

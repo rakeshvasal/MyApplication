@@ -1,6 +1,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="@color/login_button" />
+    <solid android:color="@color/white" />
 
     <corners
         android:bottomLeftRadius="10dp"

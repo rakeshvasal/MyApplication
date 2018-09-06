@@ -122,7 +122,7 @@ public class TopMoviesFragment extends BaseFragment implements MovieDBAdapter.On
                 } else {
                     filterlayout.setVisibility(View.GONE);
                     isvisible = false;
-                    filter.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.quantum_ic_keyboard_arrow_down_white_36, 0);
+                    filter.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_keyboard_arrow_right_black_24dp, 0);
                 }
             }
         });

@@ -73,17 +73,17 @@ public class FacebookFragment extends Fragment {
             permissons.add("user_posts");
             permissons.add("user_photos");
             permissons.add("read_custom_friendlists");
-            permissons.add("user_hometown");
+            //permissons.add("user_hometown");
             permissons.add("user_about_me");
             permissons.add("user_birthday");
             permissons.add("user_education_history");
-            permissons.add("user_hometown");
+            //permissons.add("user_hometown");
             permissons.add("user_location");
             permissons.add("user_likes");
             permissons.add("user_tagged_places");
             permissons.add("user_hometown");
-            permissons.add("user_hometown");
-            permissons.add("user_hometown");
+            //permissons.add("user_hometown");
+            //permissons.add("user_hometown");
 
 
 
@@ -194,26 +194,7 @@ public class FacebookFragment extends Fragment {
 
         callbackManager = CallbackManager.Factory.create();
 
-        /*To respond to a login result, you need to register a callback with either LoginManager or LoginButton.
-        If you register the callback with LoginButton, don't need to register the callback on Login manager.*/
 
-       /* LoginManager.getInstance().registerCallback(callbackManager,
-                new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        // App code
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        // App code
-                    }
-
-                    @Override
-                    public void onError(FacebookException exception) {
-                        // App code
-                    }
-                });*/
     }
 
     public boolean isLoggedIn() {

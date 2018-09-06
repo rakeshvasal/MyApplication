@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.rakeshvasal.myapplication.GetterSetter.GPeople;
@@ -20,9 +21,9 @@ import java.util.List;
 
 public class GoogleContactsAdapter extends RecyclerView.Adapter<GoogleContactsAdapter.MyViewHolder> {
 
-    List<GPeople> gPeopleList = new ArrayList<>();
-    Activity activity;
-    OnShareClickedListener mCallback;
+    private List<GPeople> gPeopleList = new ArrayList<>();
+    private Activity activity;
+    private OnShareClickedListener mCallback;
 
     public GoogleContactsAdapter(Activity activity, List<GPeople> gPeopleList) {
         this.activity = activity;
@@ -38,23 +39,31 @@ public class GoogleContactsAdapter extends RecyclerView.Adapter<GoogleContactsAd
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
         if (gPeopleList != null) {
             if (gPeopleList.size() > 0) {
-                GPeople gPeople = gPeopleList.get(position);
+                GPeople gPeople = gPeopleList.get(holder.getAdapterPosition());
                 //Log.e("pos", "" + position);
                 if (gPeople.getNames() != null) {
-                    holder.name.setText(gPeople.getNames().get(0).getDisplayName());
-                }/*else {
-                    holder.name.setText("No Display Name");
-                }*/
+                    holder.name.setText(holder.getAdapterPosition() + 1 + " : " + gPeople.getNames().get(0).getDisplayName());
+
+                } else {
+                    holder.name.setText(R.string.no_value);
+                }
+                if (gPeople.getPhoneNumbers() != null) {
+                    holder.phone_no.setText(gPeople.getPhoneNumbers().get(0).getValue());
+                    holder.phone_no.setTextColor(activity.getResources().getColor(R.color.black));
+                } else {
+                    holder.phone_no.setTextColor(activity.getResources().getColor(R.color.red));
+                    holder.phone_no.setText(R.string.no_value);
+                }
             }
         }
-        holder.name.setOnClickListener(new View.OnClickListener() {
+        holder.ll_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCallback.ShareClicked(position);
+                mCallback.ShareClicked(holder.getAdapterPosition());
             }
         });
     }
@@ -66,22 +75,25 @@ public class GoogleContactsAdapter extends RecyclerView.Adapter<GoogleContactsAd
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView name;
+        TextView name, phone_no;
+        LinearLayout ll_details;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
+            ll_details = (LinearLayout) itemView.findViewById(R.id.ll_details);
             name = (TextView) itemView.findViewById(R.id.name);
+            phone_no = (TextView) itemView.findViewById(R.id.phone_no);
             /*address = (TextView) itemView.findViewById(R.id.address);
             gender = (TextView) itemView.findViewById(R.id.gender);
             birthday = (TextView) itemView.findViewById(R.id.birthday);
-            phone_no = (TextView) itemView.findViewById(R.id.phone_no);*/
+           */
 
         }
     }
 
     public interface OnShareClickedListener {
-        public void ShareClicked(int match_id);
+        void ShareClicked(int match_id);
     }
 
     public void setOnShareClickedListener(OnShareClickedListener mCallback) {

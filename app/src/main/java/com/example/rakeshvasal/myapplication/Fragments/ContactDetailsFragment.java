@@ -42,6 +42,7 @@ public class ContactDetailsFragment extends BaseFragment {
         String image_url = gPeople.getPhotos().get(0).getUrl();
         Log.i("picurl",gPeople.getPhotos().get(0).getUrl());
         profilePicture = (ImageView) view.findViewById(R.id.profilePicture);
+        if (image_url!=null && !image_url.equalsIgnoreCase(""))
         Glide.with(getActivity())
                 .load(image_url)
                 .asBitmap()

@@ -27,7 +27,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 public class UserLocation extends Service implements LocationListener {
 
-
+    private static String LOG_TAG = "UserLocation";
     private final Context mContext;
 
     // flag for GPS status
@@ -47,7 +47,7 @@ public class UserLocation extends Service implements LocationListener {
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
 
     // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 60;//* 1; // 1 minute
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 10; // 10 minutes
 
     // Declaring a Location Manager
     protected LocationManager locationManager;
@@ -71,7 +71,17 @@ public class UserLocation extends Service implements LocationListener {
         return null;
     }
 
+    @Override
+    public void onRebind(Intent intent) {
+        Log.v(LOG_TAG, "in onRebind");
+        super.onRebind(intent);
+    }
 
+    @Override
+    public boolean onUnbind(Intent intent) {
+        Log.v(LOG_TAG, "in onUnbind");
+        return true;
+    }
 
     public double getLatitude() {
         if (location != null) {
@@ -80,6 +90,13 @@ public class UserLocation extends Service implements LocationListener {
 
         // return latitude
         return latitude;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.v(LOG_TAG, "in onDestroy");
+        locationManager.removeUpdates(this);
     }
 
     /**

@@ -14,7 +14,7 @@ public class GPeople
 
     private List<GNames> names;
 
-    private PhoneNumbers[] phoneNumbers;
+    private List<PhoneNumbers> phoneNumbers;
 
     private String resourceName;
 
@@ -48,12 +48,12 @@ public class GPeople
         this.names = names;
     }
 
-    public PhoneNumbers[] getPhoneNumbers ()
+    public List<PhoneNumbers> getPhoneNumbers ()
     {
         return phoneNumbers;
     }
 
-    public void setPhoneNumbers (PhoneNumbers[] phoneNumbers)
+    public void setPhoneNumbers (List<PhoneNumbers> phoneNumbers)
     {
         this.phoneNumbers = phoneNumbers;
     }

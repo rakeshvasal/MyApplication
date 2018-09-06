@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -30,7 +31,7 @@ import android.widget.Toast;
 
 import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.DatabaseHelper.DatabaseHelper;
-import com.example.rakeshvasal.myapplication.Services.UserLocation;
+
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -55,7 +56,8 @@ public class Search_Place_Activity extends BaseActivity implements OnMapReadyCal
     Address address;
     boolean isplaceavailable = false;
     public static int SHOWLIST = 1;
-
+    SharedPreferences preferences;
+    Double latitude,longitude;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,9 +70,14 @@ public class Search_Place_Activity extends BaseActivity implements OnMapReadyCal
         main = (LinearLayout) findViewById(R.id.main);
         search_button = (Button) findViewById(R.id.search_button);
         et_place_name = (EditText) findViewById(R.id.et_place_name);
+        preferences = getSharedPreferences("userLocation", Context.MODE_PRIVATE);
+        latitude = Double.parseDouble(preferences.getString("userlat","0.0"));
+        longitude = Double.parseDouble(preferences.getString("userlng","0.0"));
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(main.getWindowToken(), 0);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(main.getWindowToken(), 0);
+        }
         search_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,7 +107,7 @@ public class Search_Place_Activity extends BaseActivity implements OnMapReadyCal
         location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserLocation userLoc = new UserLocation(Search_Place_Activity.this);
+                //UserLocation userLoc = new UserLocation(Search_Place_Activity.this);
 
                 if (ActivityCompat.checkSelfPermission(Search_Place_Activity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(Search_Place_Activity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
@@ -112,8 +119,9 @@ public class Search_Place_Activity extends BaseActivity implements OnMapReadyCal
                     // for ActivityCompat#requestPermissions for more details.
                     return;
                 }
-                map.setMyLocationEnabled(true);
-                LatLng latLng = new LatLng(userLoc.getLatitude(), userLoc.getLongitude());
+                //map.setMyLocationEnabled(true);
+
+                LatLng latLng = new LatLng(latitude, longitude);
                 map.addMarker(new MarkerOptions().position(latLng).title("You are here"));
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12));
             }
@@ -226,8 +234,7 @@ public class Search_Place_Activity extends BaseActivity implements OnMapReadyCal
             return;
         }
         map.setMyLocationEnabled(true);
-        UserLocation userLoc = new UserLocation(Search_Place_Activity.this);
-        LatLng latLng = new LatLng(userLoc.getLatitude(), userLoc.getLongitude());
+        LatLng latLng = new LatLng(latitude, longitude);
         map.addMarker(new MarkerOptions().position(latLng).title("You are here"));
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12));
 

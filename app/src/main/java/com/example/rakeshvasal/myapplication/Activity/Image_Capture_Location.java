@@ -34,7 +34,7 @@ import com.example.rakeshvasal.myapplication.GetterSetter.Events;
 import com.example.rakeshvasal.myapplication.GetterSetter.Image_Items;
 import com.example.rakeshvasal.myapplication.GetterSetter.User;
 import com.example.rakeshvasal.myapplication.R;
-import com.example.rakeshvasal.myapplication.Services.UserLocation;
+
 import com.example.rakeshvasal.myapplication.URLModifiers;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.google.android.gms.auth.api.Auth;
@@ -248,7 +248,7 @@ public class Image_Capture_Location extends BaseActivity implements URLModifiers
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                    Uri downloadUrl = null;//taskSnapshot.getDownloadUrl();
                     String downloadlink = downloadUrl.toString();
                     URLModifiers modifiers = new URLModifiers(Image_Capture_Location.this);
                     modifiers.setValueListener(Image_Capture_Location.this);

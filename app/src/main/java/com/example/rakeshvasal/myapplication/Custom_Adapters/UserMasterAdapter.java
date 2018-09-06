@@ -22,7 +22,7 @@ import com.example.rakeshvasal.myapplication.GetterSetter.Events;
 import com.example.rakeshvasal.myapplication.GetterSetter.User;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
-import com.google.android.gms.vision.text.Line;
+
 
 import java.util.List;
 

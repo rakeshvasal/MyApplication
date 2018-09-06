@@ -32,17 +32,15 @@ public class FusedLocationService extends Service implements LocationListener, G
     SharedPreferences preferences, userpref;
     GoogleApiClient googleApiClient;
     public Location location = null;
-    Float agentLat, agentLng;
-    String username, userid, createddate, setmethod, result;
-    int startTime, endTime, interval;
+
     LocationManager mlocManager;
     public Double lattitude;
     public Double longitude;
     boolean canGetLocation = false;
     Context mContext;
     private static final String TAG = "LocationService";
-    private static final long INTERVAL = 1000 * 60;
-    private static final long FASTEST_INTERVAL = 1000 * 60;
+    private static final long INTERVAL = 1000 * 60 * 10;
+    private static final long FASTEST_INTERVAL = 1000 * 60 * 10;
 
     IBinder mBinder = new LocalBinder();
 
@@ -69,11 +67,7 @@ public class FusedLocationService extends Service implements LocationListener, G
 
     }
 
-    /*
-        public FusedLocationService(Context context) {
-            this.mContext = context;
-            getlocation();
-        }*/
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -133,22 +127,12 @@ public class FusedLocationService extends Service implements LocationListener, G
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            //
             return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, mLocationRequest, this);
 
-        /*final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                Calendar c = Calendar.getInstance();
-                int hour = c.get(Calendar.HOUR_OF_DAY);
 
-                if (hour > startTime && endTime > hour) {
-                    new SendAgentLocation().execute();
-                }
-                handler.postDelayed(this, 1000 * 60 * interval);
-            }
-        }, 1000 * 60 * interval);*/
     }
 
     @Override
