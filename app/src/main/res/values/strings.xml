@@ -43,7 +43,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <!--<string name="default_web_client_id">823153286753-t1uouilsb2a69t0nsajtqrdq2apgrqra.apps.googleusercontent.com</string>-->
 
     <string name="cricapikey">DfAS5xV7u3RgITe5A2IdA0IXm582</string>
     <string name="censusapikey">21d52e288f02c871563b4fa19b98622f717e508b</string>

@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.widget.Toast;
 
 import com.example.rakeshvasal.myapplication.Activity.Dashboard;
+import com.google.firebase.FirebaseApp;
 
 import clarifai2.api.ClarifaiBuilder;
 import clarifai2.api.ClarifaiClient;
@@ -23,12 +24,13 @@ public class MyApplicationClass extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        FirebaseApp.initializeApp(this);
     }
 
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+
     }
 }
