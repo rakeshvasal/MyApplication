@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -43,6 +44,7 @@ public class ViewImageFragment extends BaseFragment {
     Activity activity;
     BottomNavigationView navigation;
     String image_path;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -62,8 +64,32 @@ public class ViewImageFragment extends BaseFragment {
         imageView = (ImageView) root.findViewById(R.id.image_view);
         try {
             if (image_path != null && !image_path.equalsIgnoreCase("")) {
+                Glide.with(getActivity())
+                        .load(image_path)
+                        .asBitmap()
+                        .placeholder(getResources().getDrawable(R.drawable.ic_outline_cloud_download_24px))
+                        .error(getResources().getDrawable(R.drawable.ic_outline_error_outline_24px))
+                        .into(new SimpleTarget<Bitmap>(600, 400) {
+                            @Override
+                            public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
+                                imageView.setImageBitmap(bitmap);
+                            }
 
-              new DownloadImage(getActivity(),image_path).execute();
+                            @Override
+                            public void onLoadStarted(Drawable placeholder) {
+                                super.onLoadStarted(placeholder);
+                                log("image_loading_started");
+                                imageView.setImageDrawable(placeholder);
+                            }
+
+                            @Override
+                            public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                                super.onLoadFailed(e, errorDrawable);
+                                log("loadimageexception", e);
+                                imageView.setImageDrawable(errorDrawable);
+                            }
+                        });
+                //new DownloadImage(getActivity(),image_path).execute();
             }
 
         } catch (Exception e) {
@@ -104,9 +130,9 @@ public class ViewImageFragment extends BaseFragment {
         String image_url;
         Bitmap img;
 
-        DownloadImage(Context context,String image_url){
-            this.context=context;
-            this.image_url=image_url;
+        DownloadImage(Context context, String image_url) {
+            this.context = context;
+            this.image_url = image_url;
         }
 
         @Override
@@ -136,15 +162,7 @@ public class ViewImageFragment extends BaseFragment {
             byte[] bytes = os.toByteArray();
             String image = Base64.encodeToString(bytes, Base64.DEFAULT);
             byte[] bytesImage = Base64.decode(image, Base64.DEFAULT);
-            Glide.with(getActivity())
-                    .load(image_url)
-                    .asBitmap()
-                    .into(new SimpleTarget<Bitmap>(600, 400) {
-                        @Override
-                        public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
-                            imageView.setImageBitmap(bitmap);
-                        }
-                        });
+
             closeProgressDialog();
         }
     }

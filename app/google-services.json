@@ -15,35 +15,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "823153286753-tm2ha3cokl2s99879l8vs5nso9g99na4.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.rakeshvasal.myapplication",
-            "certificate_hash": "4e259ac719b54640032803744c53eca1f26c96c9"
-          }
-        },
-        {
           "client_id": "823153286753-t1uouilsb2a69t0nsajtqrdq2apgrqra.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "823153286753-bq0covac44es85bhpndsqlq2fscsdb17.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.rakeshvasal.myapplication",
-            "certificate_hash": "f3b41bf9c91b94024251ee272b54a954e5bdd612"
-          }
-        },
-        {
-          "client_id": "823153286753-na69ajekbg9pqdrocd1b08l617h6ci87.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.rakeshvasal.myapplication",
-            "certificate_hash": "0ddce2866be1a13dbfbee2f0b44fd5a79f5001dd"
-          }
-        },
-        {
-          "client_id": "823153286753-hljqdremiuo039qb3ut2act2mt9f9f3d.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -57,13 +29,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "823153286753-t1uouilsb2a69t0nsajtqrdq2apgrqra.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

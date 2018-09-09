@@ -63,10 +63,8 @@ public class CricketMatchesFragment extends BaseFragment implements MatchesAdapt
                 public void onResponse(Call<Matches> call, Response<Matches> response) {
                     closeProgressDialog();
                     matcheslist = response.body().getResults();
-
                     ListtoJson();
                     createlist();
-
                 }
 
                 @Override
@@ -98,7 +96,7 @@ public class CricketMatchesFragment extends BaseFragment implements MatchesAdapt
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         matchdetails.setArguments(arg);
-        transaction.replace(R.id.fragment_container, matchdetails);
+        transaction.add(R.id.fragment_container, matchdetails);
         transaction.addToBackStack(null);
         transaction.commit();
     }

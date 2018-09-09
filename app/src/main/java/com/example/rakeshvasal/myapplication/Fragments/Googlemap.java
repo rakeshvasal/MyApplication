@@ -2,23 +2,22 @@ package com.example.rakeshvasal.myapplication.Fragments;
 
 import android.Manifest;
 import android.app.Fragment;
-import android.content.Intent;
+
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 
 
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.rakeshvasal.myapplication.BaseFragment;
+
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -110,6 +109,21 @@ public class Googlemap extends Fragment implements LocationListener, OnMapReadyC
 
     @Override
     public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
 
     }
 

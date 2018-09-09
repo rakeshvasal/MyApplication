@@ -35,12 +35,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import clarifai2.api.ClarifaiBuilder;
-import clarifai2.api.ClarifaiClient;
-import clarifai2.api.request.model.PredictRequest;
-import clarifai2.dto.input.ClarifaiInput;
-import clarifai2.dto.model.output.ClarifaiOutput;
-import clarifai2.dto.prediction.Concept;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,7 +46,6 @@ public class ImageAnalysisFragment extends BaseFragment {
     private DatabaseReference mDatabase;
     FirebaseDatabase mFirebaseInstance;
     String[] array_image_paths;
-    ClarifaiClient client;
     String output, image_path, resultjson;
     LinearLayout parent;
     RecyclerView recyclerView;
@@ -70,7 +63,6 @@ public class ImageAnalysisFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_image_analysis, container, false);
 
-        client = new ClarifaiBuilder(getResources().getString(R.string.Clairify_API_KEY)).buildSync();
         Button scan = (Button) root.findViewById(R.id.scan);
         Button ocr = (Button) root.findViewById(R.id.ocr);
         recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view);
@@ -86,7 +78,7 @@ public class ImageAnalysisFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 if (image_path != null && !image_path.equalsIgnoreCase("")) {
-                    new StudyImage().execute();
+                    //new StudyImage().execute();
                 }
             }
         });
@@ -104,40 +96,6 @@ public class ImageAnalysisFragment extends BaseFragment {
         return root;
     }
 
-
-    class StudyImage extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showProgressDialog();
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-
-            final PredictRequest<Concept> predictionResults =
-                    client.getDefaultModels().generalModel() // You can also do client.getModelByID("id") to get your custom models
-                            .predict()
-                            .withInputs(
-                                    ClarifaiInput.forImage(image_path));
-
-            List<ClarifaiOutput<Concept>> result = predictionResults.executeSync().get();
-
-            result.get(0);
-            Log.d("Result", "" + result);
-            resultjson = new Gson().toJson(result);
-            Log.d("Resultinjson", "" + resultjson);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            closeProgressDialog();
-            showResults();
-        }
-    }
 
     private void showResults() {
         HashMap<String, Double> hmap = new HashMap<String, Double>();

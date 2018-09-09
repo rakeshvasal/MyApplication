@@ -49,12 +49,9 @@ public class MatchDetailsFragment extends BaseFragment {
 
         match_id = getArguments().getInt("MATCH_ID");
         Log.d("match_id", "" + match_id);
-        apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        //apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         apiInterface = ApiClient.changeBaseURL(Utils.CRIC_INFO_BASE_URL).create(ApiInterface.class);
         content = (TextView) view.findViewById(R.id.content);
-        //Utils.API_KEY = getResources().getString(R.string.cricapikey);
-        // new FetchMatchDetails().execute();
-
         FetchMatchDetails();
 
         return view;
@@ -91,5 +88,4 @@ public class MatchDetailsFragment extends BaseFragment {
             e.printStackTrace();
         }
     }
-
 }
