@@ -46,7 +46,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.google.code.gson:gson:2.8.0'
     implementation 'com.android.support:design:27.1.1'
-    implementation 'com.clarifai.clarifai-api2:core:2.3.0'
     implementation 'com.itextpdf:itextg:5.5.10'
     testCompile 'junit:junit:4.12'
     implementation 'com.google.firebase:firebase-core:16.0.3'
@@ -64,6 +63,8 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.google.android.gms:play-services-auth:16.0.0'
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
+    implementation 'com.google.android.gms:play-services-drive:15.0.1'
+    implementation 'com.google.android.gms:play-services-location:15.0.1'
     implementation 'com.google.firebase:firebase-auth:16.0.3'
 }
 apply plugin: 'com.google.gms.google-services'
