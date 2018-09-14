@@ -13,8 +13,6 @@ import android.widget.Toast;
 import com.example.rakeshvasal.myapplication.Activity.Dashboard;
 import com.google.firebase.FirebaseApp;
 
-import clarifai2.api.ClarifaiBuilder;
-import clarifai2.api.ClarifaiClient;
 
 /**
  * Created by Rakeshvasal on 15-Nov-17.
