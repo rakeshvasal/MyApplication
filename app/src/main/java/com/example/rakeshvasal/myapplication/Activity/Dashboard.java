@@ -8,10 +8,10 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.location.Location;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
@@ -21,10 +21,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rakeshvasal.myapplication.BaseActivity;
-import com.example.rakeshvasal.myapplication.ContactsActivity;
 import com.example.rakeshvasal.myapplication.ErrorHandlingClass;
 import com.example.rakeshvasal.myapplication.R;
-
 import com.example.rakeshvasal.myapplication.Services.FusedLocationService;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.google.android.gms.auth.api.Auth;
@@ -59,7 +57,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
                 .requestEmail()
                 .build();
 
-// [START build_client]
+        // [START build_client]
         // Build a GoogleApiClient with access to the Google Sign-In API and the
         // options specified by gso.
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -174,10 +172,6 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
         create_pdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Dashboard.this, CreatePDFActivity.class);
-
-                startActivity(intent);
-
             }
         });
         TextView tv_fingerprint = (TextView) findViewById(R.id.tv_fingerprint);
@@ -205,19 +199,12 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
         tv_gContacts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Dashboard.this, ImportGmailContactsActivity.class);
-
-                startActivity(intent);
-
             }
         });
         TextView test = (TextView) findViewById(R.id.tv_test);
         test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Dashboard.this, YoutubeTest.class);
-
-                startActivity(intent);
                 //shortToast("No Activity Defined");
 
             }

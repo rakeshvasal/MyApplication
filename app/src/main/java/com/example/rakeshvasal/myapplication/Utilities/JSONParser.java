@@ -7,6 +7,7 @@ package com.example.rakeshvasal.myapplication.Utilities;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 public class JSONParser {
     public static ArrayList<String> favAthletes = new ArrayList<>();

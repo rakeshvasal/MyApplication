@@ -2,14 +2,13 @@ package com.example.rakeshvasal.myapplication.Activity;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.rakeshvasal.myapplication.Fragments.MovieDb_HomeFragment;
-import com.example.rakeshvasal.myapplication.Fragments.SplashScreen;
 import com.example.rakeshvasal.myapplication.R;
 
 public class MovieDBActivity extends AppCompatActivity {

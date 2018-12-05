@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rakeshvasal.myapplication.BaseFragment;
-import com.example.rakeshvasal.myapplication.Custom_Adapters.EventsMasterAdapter;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.MovieDbHomeAdapter;
 import com.example.rakeshvasal.myapplication.GetterSetter.MovieModel;
 import com.example.rakeshvasal.myapplication.R;

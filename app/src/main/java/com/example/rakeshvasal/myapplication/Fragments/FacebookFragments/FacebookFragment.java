@@ -5,7 +5,6 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -69,21 +68,6 @@ public class FacebookFragment extends Fragment {
             ll_user_details = (LinearLayout) v.findViewById(R.id.userDatall);
             getdata = (Button) v.findViewById(R.id.getInterestsButton);
             permissons.add("email");
-            //permissons.add("user_friends");
-            //permissons.add("user_posts");
-            //permissons.add("user_photos");
-            //permissons.add("read_custom_friendlists");
-            //permissons.add("user_hometown");
-            //permissons.add("user_about_me");
-            //permissons.add("user_birthday");
-            //permissons.add("user_education_history");
-            //permissons.add("user_hometown");
-            //permissons.add("user_location");
-            //permissons.add("user_likes");
-           // permissons.add("user_tagged_places");
-            //permissons.add("user_hometown");
-            //permissons.add("user_hometown");
-            //permissons.add("user_hometown");
 
 
 

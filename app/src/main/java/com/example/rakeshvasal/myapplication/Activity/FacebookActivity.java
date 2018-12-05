@@ -33,12 +33,6 @@ public class FacebookActivity extends BaseActivity {
         transaction.add(R.id.fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
-       /* if (fragment == null) {
-            fragment = new FacebookFragment();
-            fm.beginTransaction()
-                    .add(R.id.fragment_container, fragment)
-                    .commit();
-        }*/
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -51,7 +45,6 @@ public class FacebookActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.code:
                 try {
-                    //Utils.openSourceFile(Device_Info.this, "Device_Info", "java");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

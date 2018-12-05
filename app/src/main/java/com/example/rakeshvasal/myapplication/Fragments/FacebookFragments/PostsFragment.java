@@ -4,7 +4,6 @@ package com.example.rakeshvasal.myapplication.Fragments.FacebookFragments;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,8 +15,8 @@ import android.widget.TextView;
 
 import com.example.rakeshvasal.myapplication.Activity.PosterActivity;
 import com.example.rakeshvasal.myapplication.BaseFragment;
-import com.example.rakeshvasal.myapplication.Custom_Adapters.FBPhotoCustomAdapter;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.FBFeedsCustomAdapter;
+import com.example.rakeshvasal.myapplication.Custom_Adapters.FBPhotoCustomAdapter;
 import com.example.rakeshvasal.myapplication.GetterSetter.FBFeeds;
 import com.example.rakeshvasal.myapplication.GetterSetter.FBPhotos;
 import com.example.rakeshvasal.myapplication.R;
@@ -26,7 +25,6 @@ import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
-
 
 import org.json.JSONArray;
 import org.json.JSONException;

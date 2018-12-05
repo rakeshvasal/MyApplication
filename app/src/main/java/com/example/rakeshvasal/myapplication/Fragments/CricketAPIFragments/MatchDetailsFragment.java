@@ -1,30 +1,20 @@
 package com.example.rakeshvasal.myapplication.Fragments.CricketAPIFragments;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.rakeshvasal.myapplication.ApiClient;
 import com.example.rakeshvasal.myapplication.BaseFragment;
-
 import com.example.rakeshvasal.myapplication.GetterSetter.MatchDetails;
-import com.example.rakeshvasal.myapplication.GetterSetter.Matches;
 import com.example.rakeshvasal.myapplication.Interface.ApiInterface;
 import com.example.rakeshvasal.myapplication.R;
-
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
-
-import java.util.List;
-
 
 import retrofit2.Call;
 import retrofit2.Callback;

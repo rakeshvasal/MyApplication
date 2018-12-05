@@ -1,9 +1,7 @@
 package com.example.rakeshvasal.myapplication.GetterSetter;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Rakeshvasal on 28-Oct-17.

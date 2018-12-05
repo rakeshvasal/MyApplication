@@ -3,12 +3,10 @@ package com.example.rakeshvasal.myapplication.Fragments.FacebookFragments;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -16,10 +14,7 @@ import android.widget.TextView;
 
 import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.GetterSetter.FBFreinds;
-import com.example.rakeshvasal.myapplication.GetterSetter.FBPhotos;
 import com.example.rakeshvasal.myapplication.R;
-import com.example.rakeshvasal.myapplication.ServiceCalls.MakeServiceCall;
-import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.example.rakeshvasal.myapplication.Utilities.makeServiceCall;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -30,7 +25,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

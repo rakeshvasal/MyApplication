@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.rakeshvasal.myapplication.GetterSetter.FBFeeds;
-
 import com.example.rakeshvasal.myapplication.R;
 
 import java.util.List;

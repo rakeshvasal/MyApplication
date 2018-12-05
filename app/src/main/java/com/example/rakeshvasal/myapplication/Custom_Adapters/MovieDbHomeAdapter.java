@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.rakeshvasal.myapplication.Fragments.TopTVShowsFragment;
-import com.example.rakeshvasal.myapplication.Fragments.PopularStarsFragment;
-import com.example.rakeshvasal.myapplication.Fragments.SearchMovieFragment;
 import com.example.rakeshvasal.myapplication.Fragments.TopMoviesFragment;
+import com.example.rakeshvasal.myapplication.Fragments.TopTVShowsFragment;
 import com.example.rakeshvasal.myapplication.GetterSetter.MovieModel;
 import com.example.rakeshvasal.myapplication.R;
 
@@ -78,17 +75,11 @@ public class MovieDbHomeAdapter extends RecyclerView.Adapter<MovieDbHomeAdapter.
 
    private  void clickListeners(String s){
        if (s.equalsIgnoreCase("Search Movie")){
-           FragmentTransaction transaction = fm.beginTransaction();
-           Fragment fragment = new SearchMovieFragment();
-           transaction.replace(R.id.fragment_container, fragment);
-           transaction.commit();
+
        }else if (s.equalsIgnoreCase("Search Movie Star")){
 
        }else if (s.equalsIgnoreCase("Popular People")){
-           FragmentTransaction transaction = fm.beginTransaction();
-           Fragment fragment = new PopularStarsFragment();
-           transaction.replace(R.id.fragment_container, fragment);
-           transaction.commit();
+
        }else if (s.equalsIgnoreCase("Top Movies")){
            FragmentTransaction transaction = fm.beginTransaction();
            Fragment fragment = new TopMoviesFragment();

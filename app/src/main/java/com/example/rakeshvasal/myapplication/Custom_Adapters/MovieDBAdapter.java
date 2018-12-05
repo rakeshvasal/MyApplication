@@ -1,9 +1,6 @@
 package com.example.rakeshvasal.myapplication.Custom_Adapters;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -13,14 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.example.rakeshvasal.myapplication.GetterSetter.MovieDataSet;
 import com.example.rakeshvasal.myapplication.R;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 /**
  * Created by Axisvation on 12/2/2017.

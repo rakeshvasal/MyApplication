@@ -2,17 +2,14 @@ package com.example.rakeshvasal.myapplication.Activity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.Fragments.CricketAPIFragments.CricAPIHome;
-import com.example.rakeshvasal.myapplication.Fragments.CricketAPIFragments.CricketMatchesFragment;
 import com.example.rakeshvasal.myapplication.R;
 
 public class MatchDetailsActivity extends BaseActivity {

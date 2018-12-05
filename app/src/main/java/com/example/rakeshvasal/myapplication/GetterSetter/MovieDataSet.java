@@ -2,7 +2,6 @@ package com.example.rakeshvasal.myapplication.GetterSetter;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
 
 /**
  * Created by Axisvation on 12/2/2017.

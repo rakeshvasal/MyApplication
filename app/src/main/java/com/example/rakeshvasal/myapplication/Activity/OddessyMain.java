@@ -2,15 +2,12 @@ package com.example.rakeshvasal.myapplication.Activity;
 
 
 import android.app.Fragment;
-
-
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
 
 import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.Fragments.HomeFragment;

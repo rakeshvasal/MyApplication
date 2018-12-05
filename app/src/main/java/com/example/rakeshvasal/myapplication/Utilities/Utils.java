@@ -19,7 +19,6 @@ import android.os.Environment;
 import android.os.StatFs;
 import android.provider.Settings;
 import android.util.Base64;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +28,7 @@ import android.widget.Toast;
 
 import com.example.rakeshvasal.myapplication.Activity.Dashboard;
 import com.example.rakeshvasal.myapplication.Activity.MainActivity;
-import com.example.rakeshvasal.myapplication.R;
 import com.google.gson.Gson;
-
-import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -66,12 +62,6 @@ public class Utils {
     public static ArrayList<String> Images_url_Array_List = new ArrayList<>();
     public static ArrayList<String> eventselected = new ArrayList<>();
     public static ArrayList<String> eventselectedamounts = new ArrayList<>();
-    public static ArrayList<String> step2_spinner_position_database_insert_update_value = new ArrayList<>();
-    public static ArrayList<String> step2_photo_category_id = new ArrayList<>();
-    public static ArrayList<String> json_city_id = new ArrayList<>();
-    public static ArrayList<String> vehicle_model_name_array_list = new ArrayList<>();
-    public static ArrayList<String> json_model_id = new ArrayList<>();
-    public static ArrayList<String> chk_value_lead_id = new ArrayList<>();
     public static String API_KEY = "";
     public static String MOVIEDB_BASE_URL = "https://api.themoviedb.org/3/";
     public static String CRIC_INFO_BASE_URL = "http://cricapi.com/api/";

@@ -11,24 +11,6 @@ public class User {
     public User(){
 
     }
-
-
-
-
-    /*public User(String user_name, String user_email, String user_id, String photourl, String contact_no, String branch, String course_year, String password, String googleid) {
-
-        this.user_name = user_name;
-        this.user_email = user_email;
-        this.user_id = user_id;
-        this.photourl = photourl;
-        this.contact_no = contact_no;
-        this.branch = branch;
-        this.course_year = course_year;
-        this.password = password;
-        this.googleid=googleid;
-
-    }*/
-
     public void setUser_name(String user_name) {
         this.user_name = user_name;
     }

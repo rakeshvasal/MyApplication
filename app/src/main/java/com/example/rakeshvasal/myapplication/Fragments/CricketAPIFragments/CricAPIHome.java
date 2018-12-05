@@ -3,7 +3,6 @@ package com.example.rakeshvasal.myapplication.Fragments.CricketAPIFragments;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,8 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.rakeshvasal.myapplication.Activity.Dashboard;
-import com.example.rakeshvasal.myapplication.Activity.FacebookActivity;
 import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.R;
 
@@ -78,12 +75,6 @@ public class CricAPIHome extends BaseFragment {
         Old_Matches.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OldMatchesFragment cricfrag = new OldMatchesFragment();
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction transaction = fm.beginTransaction();
-                transaction.replace(R.id.fragment_container, cricfrag);
-                transaction.addToBackStack(null);
-                transaction.commit();
             }
         });
 

@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +18,8 @@ import com.example.rakeshvasal.myapplication.Activity.SelectSearchPopup;
 import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.Search_Custom_Adapter;
 import com.example.rakeshvasal.myapplication.DatabaseHelper.DatabaseHelper;
-import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.GetterSetter.Search_Row_Item;
+import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
 
 import java.util.ArrayList;

@@ -1,8 +1,6 @@
 package com.example.rakeshvasal.myapplication.Fragments;
 
 
-import android.app.FragmentTransaction;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -19,19 +17,12 @@ import android.widget.ListView;
 
 import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.R;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.gson.Gson;
-
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -40,12 +31,6 @@ import java.util.Set;
  * A simple {@link Fragment} subclass.
  */
 public class ImageAnalysisFragment extends BaseFragment {
-
-    FirebaseStorage storage;
-    StorageReference storageRef;
-    private DatabaseReference mDatabase;
-    FirebaseDatabase mFirebaseInstance;
-    String[] array_image_paths;
     String output, image_path, resultjson;
     LinearLayout parent;
     RecyclerView recyclerView;
@@ -86,10 +71,6 @@ public class ImageAnalysisFragment extends BaseFragment {
         ocr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                android.app.Fragment fragment = new CharacterRecognitionFragment();
-                transaction.replace(R.id.fragment_container, fragment);
-                transaction.commit();
                 //new CharacterRecognitionFragment(getActivity());
             }
         });

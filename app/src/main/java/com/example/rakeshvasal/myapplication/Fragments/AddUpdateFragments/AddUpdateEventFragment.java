@@ -2,8 +2,6 @@ package com.example.rakeshvasal.myapplication.Fragments.AddUpdateFragments;
 
 
 import android.os.Bundle;
-
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,14 +13,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.rakeshvasal.myapplication.BaseFragment;
-
 import com.example.rakeshvasal.myapplication.GetterSetter.ComitteeMembers;
 import com.example.rakeshvasal.myapplication.GetterSetter.Events;
 import com.example.rakeshvasal.myapplication.GetterSetter.Locations;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.DatePickerClass;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

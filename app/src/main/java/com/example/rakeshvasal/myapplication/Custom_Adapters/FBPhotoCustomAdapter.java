@@ -14,9 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
-import com.example.rakeshvasal.myapplication.Activity.PosterActivity;
 import com.example.rakeshvasal.myapplication.GetterSetter.FBPhotos;
-import com.example.rakeshvasal.myapplication.GetterSetter.MovieDataSet;
 import com.example.rakeshvasal.myapplication.R;
 
 import java.util.List;

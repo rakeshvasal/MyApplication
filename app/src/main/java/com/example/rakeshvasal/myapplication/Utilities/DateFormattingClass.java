@@ -1,6 +1,5 @@
 package com.example.rakeshvasal.myapplication.Utilities;
 
-import android.app.Activity;
 import android.content.Context;
 
 import java.text.ParseException;

@@ -1,22 +1,13 @@
 package com.example.rakeshvasal.myapplication.Interface;
 
-
-
 import com.example.rakeshvasal.myapplication.GetterSetter.Matches;
-import com.example.rakeshvasal.myapplication.GetterSetter.MovieDataSet;
 import com.example.rakeshvasal.myapplication.GetterSetter.MovieListObject;
 import com.example.rakeshvasal.myapplication.GetterSetter.TweetList;
 import com.example.rakeshvasal.myapplication.GetterSetter.TwitterTokenType;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.google.gson.JsonObject;
 
-import org.json.JSONObject;
-
-import java.util.List;
-import java.util.Map;
-
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -26,7 +17,6 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import retrofit2.http.QueryMap;
 
 /**
  * Created by Rakeshvasal on 26-Oct-17.
