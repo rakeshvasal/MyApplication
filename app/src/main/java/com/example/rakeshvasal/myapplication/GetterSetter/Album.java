@@ -1,7 +1,5 @@
 package com.example.rakeshvasal.myapplication.GetterSetter;
 
-import android.graphics.Bitmap;
-
 /**
  * Created by Rakeshvasal on 23-Oct-17.
  */

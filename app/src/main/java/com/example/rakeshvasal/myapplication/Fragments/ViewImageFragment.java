@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.util.Base64;
 import android.util.Log;
@@ -19,8 +20,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.R;
 
@@ -54,18 +56,19 @@ public class ViewImageFragment extends BaseFragment {
 
         navigation = (BottomNavigationView) root.findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.drawable.album1);
+        requestOptions.error(R.drawable.album1);
         imageView = (ImageView) root.findViewById(R.id.image_view);
         try {
             if (image_path != null && !image_path.equalsIgnoreCase("")) {
                 Glide.with(getActivity())
-                        .load(image_path)
                         .asBitmap()
-                        .placeholder(getResources().getDrawable(R.drawable.ic_outline_cloud_download_24px))
-                        .error(getResources().getDrawable(R.drawable.ic_outline_error_outline_24px))
+                        .load(image_path)
+                        .apply(requestOptions)
                         .into(new SimpleTarget<Bitmap>(600, 400) {
                             @Override
-                            public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
+                            public void onResourceReady(Bitmap bitmap, Transition anim) {
                                 imageView.setImageBitmap(bitmap);
                             }
 
@@ -77,9 +80,8 @@ public class ViewImageFragment extends BaseFragment {
                             }
 
                             @Override
-                            public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                                super.onLoadFailed(e, errorDrawable);
-                                log("loadimageexception", e);
+                            public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                                super.onLoadFailed(errorDrawable);
                                 imageView.setImageDrawable(errorDrawable);
                             }
                         });

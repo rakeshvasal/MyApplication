@@ -10,8 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.rakeshvasal.myapplication.GetterSetter.Album;
 import com.example.rakeshvasal.myapplication.R;
 
@@ -23,14 +24,15 @@ import java.util.List;
  * Created by Rakeshvasal on 22-Oct-17.
  */
 
-public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHolder>  {
+public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHolder> {
 
     private Context mContext;
     private List<Album> albumList;
     FileInputStream fs = null;
     Bitmap bm;
     BitmapFactory.Options bfOptions;
-    int i=0;
+    int i = 0;
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
 
@@ -40,9 +42,8 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
             super(view);
 
             thumbnail = (ImageView) view.findViewById(R.id.card_imageview);
-           // overflow = (ImageView) view.findViewById(R.id.overflow);
+            // overflow = (ImageView) view.findViewById(R.id.overflow);
         }
-
 
 
     }
@@ -51,9 +52,10 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
         this.mContext = mContext;
         this.albumList = albumList;
         bfOptions = new BitmapFactory.Options();
-        bfOptions.inJustDecodeBounds=false;
+        bfOptions.inJustDecodeBounds = false;
         bfOptions.inSampleSize = 32;
     }
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -63,13 +65,14 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
     }
 
 
-
     @Override
     public void onBindViewHolder(final GalleryAdapter.MyViewHolder holder, int position) {
         Album album = albumList.get(position);
         //holder.title.setText(album.getName());
-       // holder.count.setText(album.getNumOfSongs() + " songs");
-
+        // holder.count.setText(album.getNumOfSongs() + " songs");
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.drawable.album1);
+        requestOptions.error(R.drawable.album1);
         // loading album cover using Glide library
         String photopath = album.getThumbnail();
         try {
@@ -77,65 +80,24 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             //bm.compress(Bitmap.CompressFormat.PNG, 10, stream);
             Glide.with(mContext)
-                    .load(photopath)
                     .asBitmap()
-                    .placeholder(R.drawable.album1)
-                    .error(R.drawable.album1)
+                    .load(photopath)
+                    .apply(requestOptions)
                     .into(new SimpleTarget<Bitmap>(100, 100) {
                         @Override
-                        public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
+                        public void onResourceReady(Bitmap bitmap, Transition anim) {
 
                             holder.thumbnail.setImageBitmap(bitmap);
                         }
                     });
-            if(i%10==0){
+            if (i % 10 == 0) {
                 //Toast.makeText(mContext,""+i,Toast.LENGTH_SHORT).show();
             }
             i++;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-       /* holder.overflow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               // showPopupMenu(holder.overflow);
-            }
-        });*/
     }
-
-    /*private void showPopupMenu(View view) {
-        // inflate menu
-        PopupMenu popup = new PopupMenu(mContext, view);
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.menu_album, popup.getMenu());
-        popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
-        popup.show();
-    }
-
-    class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
-
-        public MyMenuItemClickListener() {
-        }
-
-        @Override
-        public boolean onMenuItemClick(MenuItem menuItem) {
-            switch (menuItem.getItemId()) {
-                case R.id.action_add_favourite:
-                    Toast.makeText(mContext, "Add to favourite", Toast.LENGTH_SHORT).show();
-                    return true;
-                case R.id.action_play_next:
-                    Toast.makeText(mContext, "Play next", Toast.LENGTH_SHORT).show();
-                    return true;
-                default:
-            }
-            return false;
-        }
-    }
-
-    */
-
-
-
 
     @Override
     public int getItemCount() {

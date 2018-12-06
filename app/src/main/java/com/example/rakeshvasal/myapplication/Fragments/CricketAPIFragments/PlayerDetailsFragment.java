@@ -1,6 +1,6 @@
 package com.example.rakeshvasal.myapplication.Fragments.CricketAPIFragments;
 
-import android.animation.ObjectAnimator;
+
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,9 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.animation.ViewPropertyAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.rakeshvasal.myapplication.ApiClient;
 import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.GetterSetter.Player;
@@ -93,29 +92,15 @@ public class PlayerDetailsFragment extends BaseFragment {
         country.setText(player.getCountry());
         birthdate.setText(player.getBorn());
         Glide.with(getActivity())
-                .load(player.getImageURL())
                 .asBitmap()
-                .animate(animationObject)
+                .load(player.getImageURL())
                 .into(new SimpleTarget<Bitmap>(100, 100) {
                     @Override
-                    public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
+                    public void onResourceReady(Bitmap bitmap, Transition anim) {
 
                         profile_img.setImageBitmap(bitmap);
                     }
                 });
     }
-    ViewPropertyAnimation.Animator animationObject = new ViewPropertyAnimation.Animator() {
-        @Override
-        public void animate(View view) {
-            // if it's a custom view class, cast it here
-            // then find subviews and do the animations
-            // here, we just use the entire view for the fade animation
-            view.setAlpha(0f);
-
-            ObjectAnimator fadeAnim = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f);
-            fadeAnim.setDuration(2500);
-            fadeAnim.start();
-        }
-    };
 
 }

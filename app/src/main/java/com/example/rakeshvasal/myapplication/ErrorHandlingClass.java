@@ -4,13 +4,13 @@ package com.example.rakeshvasal.myapplication;
  * Created by Rakeshvasal on 01-Jan-18.
  */
 
+import android.app.Activity;
+import android.util.Log;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.Thread.UncaughtExceptionHandler;
-
-import android.app.Activity;
-import android.util.Log;
 
 public class ErrorHandlingClass implements UncaughtExceptionHandler {
     private UncaughtExceptionHandler defaultHandler;

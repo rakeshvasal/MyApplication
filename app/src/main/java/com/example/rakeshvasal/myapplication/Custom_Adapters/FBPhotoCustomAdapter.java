@@ -11,9 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.rakeshvasal.myapplication.GetterSetter.FBPhotos;
 import com.example.rakeshvasal.myapplication.R;
 
@@ -52,11 +52,11 @@ public class FBPhotoCustomAdapter extends RecyclerView.Adapter<FBPhotoCustomAdap
             holder.photourl.setText(Html.fromHtml(htmlString));
 
             Glide.with(context)
-                    .load(fbPhotos.getPictureurl())
                     .asBitmap()
+                    .load(fbPhotos.getPictureurl())
                     .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                         @Override
-                        public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
+                        public void onResourceReady(Bitmap bitmap, Transition anim) {
 
                             holder.bit_img.setImageBitmap(bitmap);
                         }

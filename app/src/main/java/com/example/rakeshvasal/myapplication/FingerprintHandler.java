@@ -1,6 +1,5 @@
 package com.example.rakeshvasal.myapplication;
 
-import android.*;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;

@@ -14,10 +14,10 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.rakeshvasal.myapplication.Fragments.RestaurantInfo;
 import com.example.rakeshvasal.myapplication.DatabaseHelper.DatabaseHelper;
-import com.example.rakeshvasal.myapplication.R;
+import com.example.rakeshvasal.myapplication.Fragments.RestaurantInfo;
 import com.example.rakeshvasal.myapplication.GetterSetter.Search_Row_Item;
+import com.example.rakeshvasal.myapplication.R;
 
 import java.util.List;
 

@@ -2,8 +2,6 @@ package com.example.rakeshvasal.myapplication;
 
 import android.util.Log;
 
-import com.google.api.client.http.HttpResponse;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;

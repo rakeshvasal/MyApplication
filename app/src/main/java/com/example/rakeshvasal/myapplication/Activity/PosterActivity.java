@@ -1,27 +1,18 @@
 package com.example.rakeshvasal.myapplication.Activity;
 
-import android.animation.ObjectAnimator;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Adapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.animation.ViewPropertyAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
@@ -30,11 +21,6 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 
-import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.util.List;
 import java.util.Set;
 
 public class PosterActivity extends BaseActivity {
@@ -61,12 +47,11 @@ public class PosterActivity extends BaseActivity {
             id = bundle.getString("photo_id");
         }
         Glide.with(PosterActivity.this)
-                .load(image_url)
                 .asBitmap()
-                .animate(animationObject)
+                .load(image_url)
                 .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                     @Override
-                    public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
+                    public void onResourceReady(Bitmap bitmap, Transition anim) {
 
                         imageView.setImageBitmap(bitmap);
                     }
@@ -88,21 +73,6 @@ public class PosterActivity extends BaseActivity {
             ).executeAsync();
         }
     }
-
-    ViewPropertyAnimation.Animator animationObject = new ViewPropertyAnimation.Animator() {
-        @Override
-        public void animate(View view) {
-            // if it's a custom view class, cast it here
-            // then find subviews and do the animations
-            // here, we just use the entire view for the fade animation
-            view.setAlpha(0f);
-
-            ObjectAnimator fadeAnim = ObjectAnimator.ofFloat(view, "alpha", 0f, 1f);
-            fadeAnim.setDuration(2500);
-            fadeAnim.start();
-        }
-    };
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

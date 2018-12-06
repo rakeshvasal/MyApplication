@@ -3,13 +3,9 @@ package com.example.rakeshvasal.myapplication;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
-import com.example.rakeshvasal.myapplication.Custom_Adapters.FBFeedsCustomAdapter;
-import com.example.rakeshvasal.myapplication.Fragments.FacebookFragments.PostsFragment;
 import com.example.rakeshvasal.myapplication.ServiceCalls.MakeServiceCall;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;

@@ -1,7 +1,5 @@
 package com.example.rakeshvasal.myapplication;
 
-import retrofit2.Response;
-
 public class ErrorHelper {
 
     /**

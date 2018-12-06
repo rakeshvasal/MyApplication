@@ -17,8 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.rakeshvasal.myapplication.Activity.ImageActivity;
 import com.example.rakeshvasal.myapplication.Activity.Image_Capture_Location;
 import com.example.rakeshvasal.myapplication.GetterSetter.Image_Items;
@@ -98,11 +98,11 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
             String url = Utils.Images_url_Array_List.get(position);
             if (!url.equalsIgnoreCase("")) {
                 Glide.with(context)
-                        .load(url)
                         .asBitmap()
+                        .load(url)
                         .into(new SimpleTarget<Bitmap>(100, 100) {
                             @Override
-                            public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
+                            public void onResourceReady(Bitmap bitmap, Transition anim) {
                                 holder.thumbnail.setImageBitmap(bitmap);
                             }
                         });
