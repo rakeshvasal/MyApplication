@@ -10,8 +10,7 @@
 /*.class
 .idea/vcs.xml
 app/libs/
-*.xml
-*.xml
 .idea/runConfigurations.xml
 .idea/modules.xml
 .idea/gradle.xml
+.idea
