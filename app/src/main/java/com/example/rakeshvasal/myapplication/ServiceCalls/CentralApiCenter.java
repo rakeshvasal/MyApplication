@@ -1,5 +1,6 @@
 package com.example.rakeshvasal.myapplication.ServiceCalls;
 
+import com.example.rakeshvasal.myapplication.Interface.CentralCallbacks;
 import com.example.rakeshvasal.myapplication.UIError;
 
 public class CentralApiCenter {
@@ -28,6 +29,21 @@ public class CentralApiCenter {
         void onSuccess(T response);
 
         void onFailure(UIError error);
+    }
+
+    public void getAllUsers(final CentralCallbacks centralCallbacks) {
+        FirebaseCalls firebaseCalls = new FirebaseCalls();
+        firebaseCalls.getAllUsers(new CentralCallbacks() {
+            @Override
+            public void onSuccess(Object response) {
+                centralCallbacks.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(UIError error) {
+                centralCallbacks.onFailure(error);
+            }
+        });
     }
 
 }

@@ -19,7 +19,10 @@ import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.UserMasterAdapter;
 import com.example.rakeshvasal.myapplication.Fragments.AddUpdateFragments.AddUpdateUserFragment;
 import com.example.rakeshvasal.myapplication.GetterSetter.User;
+import com.example.rakeshvasal.myapplication.Interface.CentralCallbacks;
 import com.example.rakeshvasal.myapplication.R;
+import com.example.rakeshvasal.myapplication.ServiceCalls.CentralApiCenter;
+import com.example.rakeshvasal.myapplication.UIError;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -34,7 +37,7 @@ import java.util.List;
 
 public class UserMasterFragment extends BaseFragment {
 
-    private DatabaseReference mUserDatabase, userref,ref,childref;
+    private DatabaseReference mUserDatabase, userref, ref, childref;
     FirebaseDatabase mFirebaseInstance;
     RecyclerView recyclerView;
     EditText search_text;
@@ -82,16 +85,14 @@ public class UserMasterFragment extends BaseFragment {
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // showProgressDialog();
+                // showProgressDialog();
                 if (search_text.getText().toString().equalsIgnoreCase("")) {
                     fetchallusers();
-                }else {
+                } else {
                     fetchDetailsfromUserName(search_text.getText().toString());
                 }
             }
         });
-
-
 
 
         return rootview;
@@ -99,9 +100,25 @@ public class UserMasterFragment extends BaseFragment {
 
     private void fetchallusers() {
         showProgressDialog();
-        final List<User> mUserEntries = new ArrayList<>();
+
         try {
-            userref.addValueEventListener(new ValueEventListener() {
+            CentralApiCenter.getInstance().getAllUsers(new CentralCallbacks() {
+                @Override
+                public void onSuccess(Object response) {
+                    List<User> mUserEntries = new ArrayList<>();
+                    mUserEntries = (List<User>) response;
+                    closeProgressDialog();
+                    UserMasterAdapter adapter = new UserMasterAdapter(getActivity(), mUserEntries, fm);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onFailure(UIError error) {
+                    closeProgressDialog();
+                }
+            });
+           /* userref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot eventsnapshot : dataSnapshot.getChildren()) {
@@ -111,7 +128,7 @@ public class UserMasterFragment extends BaseFragment {
 
                     }
                     closeProgressDialog();
-                    UserMasterAdapter adapter = new UserMasterAdapter(getActivity(), mUserEntries,fm);
+                    UserMasterAdapter adapter = new UserMasterAdapter(getActivity(), mUserEntries, fm);
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 }
@@ -121,7 +138,7 @@ public class UserMasterFragment extends BaseFragment {
                     closeProgressDialog();
                     Log.d("usermasterdatabaseerror", databaseError.getMessage());
                 }
-            });
+            });*/
 
 
         } catch (Exception e) {
@@ -143,15 +160,15 @@ public class UserMasterFragment extends BaseFragment {
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
                     for (DataSnapshot eventsnapshot : dataSnapshot.getChildren()) {
-                        Log.d("eventsnapshot", ""+eventsnapshot);
+                        Log.d("eventsnapshot", "" + eventsnapshot);
                         User user = eventsnapshot.getValue(User.class);
                         String user_name = user.getUser_name();
-                        Log.d("user_name", ""+user_name);
-                        if (user_name.contains(str_user_name)){
+                        Log.d("user_name", "" + user_name);
+                        if (user_name.contains(str_user_name)) {
                             mUserEntries.add(user);
                         }
                     }
-                    UserMasterAdapter adapter = new UserMasterAdapter(getActivity(), mUserEntries,fm);
+                    UserMasterAdapter adapter = new UserMasterAdapter(getActivity(), mUserEntries, fm);
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                     closeProgressDialog();
@@ -172,7 +189,7 @@ public class UserMasterFragment extends BaseFragment {
         }
     }
 
-    private void readData(String parameter,String searchtext) {
+    private void readData(String parameter, String searchtext) {
         showProgressDialog();
         final List<User> mEventsEntries = new ArrayList<>();
         userref.orderByChild(parameter).startAt(searchtext).addChildEventListener(new ChildEventListener() {
@@ -181,7 +198,7 @@ public class UserMasterFragment extends BaseFragment {
                 User events = dataSnapshot.getValue(User.class);
                 mEventsEntries.add(events);
                 closeProgressDialog();
-                UserMasterAdapter adapter = new UserMasterAdapter(getActivity(), mEventsEntries,fm);
+                UserMasterAdapter adapter = new UserMasterAdapter(getActivity(), mEventsEntries, fm);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
