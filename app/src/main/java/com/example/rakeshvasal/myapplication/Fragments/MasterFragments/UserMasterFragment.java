@@ -153,7 +153,30 @@ public class UserMasterFragment extends BaseFragment {
         ref = userref.child(str_user_name);
 
         childref = ref.getRef();
-        final List<User> mUserEntries = new ArrayList<>();
+
+        try {
+            CentralApiCenter.getInstance().getUserDetails(str_user_name, new CentralCallbacks() {
+                @Override
+                public void onSuccess(Object response) {
+                    List<User> mUserEntries = (List<User>) response;
+                    UserMasterAdapter adapter = new UserMasterAdapter(getActivity(), mUserEntries, fm);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    closeProgressDialog();
+                }
+
+                @Override
+                public void onFailure(UIError error) {
+                    closeProgressDialog();
+                }
+            });
+
+        } catch (Exception e) {
+            closeProgressDialog();
+            e.printStackTrace();
+        }
+
+        /*final List<User> mUserEntries = new ArrayList<>();
         try {
             userref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -186,7 +209,7 @@ public class UserMasterFragment extends BaseFragment {
         } catch (Exception e) {
             closeProgressDialog();
             e.printStackTrace();
-        }
+        }*/
     }
 
     private void readData(String parameter, String searchtext) {

@@ -46,4 +46,21 @@ public class CentralApiCenter {
         });
     }
 
+    public void getUserDetails(String userName, final CentralCallbacks centralCallbacks) {
+        FirebaseCalls firebaseCalls = new FirebaseCalls();
+        firebaseCalls.getUserDetails(userName, new CentralCallbacks() {
+            @Override
+            public void onSuccess(Object response) {
+                centralCallbacks.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(UIError error) {
+                centralCallbacks.onFailure(error);
+            }
+        });
+
+
+    }
+
 }

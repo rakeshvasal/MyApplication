@@ -21,6 +21,17 @@ public class ApiClient {
         return retrofit;
     }
 
+    public static Retrofit getInstancewithUrl(String url) {
+        if (retrofit != null) {
+            retrofit = null;
+            retrofit = new Retrofit.Builder().baseUrl(url).addConverterFactory(GsonConverterFactory.create()).build();
+        } else {
+            retrofit = new Retrofit.Builder().baseUrl(url).addConverterFactory(GsonConverterFactory.create()).build();
+        }
+        return retrofit;
+
+    }
+
     public static Retrofit changeBaseURL(String newBaseURL) {
         {
             if (retrofit != null) {

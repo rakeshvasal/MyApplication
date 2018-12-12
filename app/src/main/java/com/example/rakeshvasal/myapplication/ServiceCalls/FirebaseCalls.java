@@ -52,6 +52,34 @@ public class FirebaseCalls {
         }
     }
 
+    public void getUserDetails(final String username, final CentralCallbacks centralCallbacks){
+        try {
+            final List<User> mUserEntries = new ArrayList<>();
+            userDbReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot eventsnapshot : dataSnapshot.getChildren()) {
+                        User user = eventsnapshot.getValue(User.class);
+                        String user_name = user.getUser_name();
+                        Log.d("user_name", "" + user_name);
+                        if (user_name.contains(username)) {
+                            mUserEntries.add(user);
+                        }
+                    }
+                    centralCallbacks.onSuccess(mUserEntries);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.d("usermasterdatabaseerror", databaseError.getMessage());
+                    centralCallbacks.onFailure(databaseError);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            centralCallbacks.onFailure(e);
+        }
+    }
 
     public interface OnServerCallsResponse<T> {
         void onSuccess(T response);
