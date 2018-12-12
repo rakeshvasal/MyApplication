@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.example.rakeshvasal.myapplication.R;
 
+import java.util.List;
+
 /**
  * Created by Axisvation on 11/24/2017.
  */
@@ -16,9 +18,9 @@ import com.example.rakeshvasal.myapplication.R;
 public class LocationMasterAdapter extends RecyclerView.Adapter<LocationMasterAdapter.MyViewHolder> {
 
     Activity activity;
-    String[] name;
+    List<String> name;
 
-    public LocationMasterAdapter(Activity activity, String[] name) {
+    public LocationMasterAdapter(Activity activity, List<String> name) {
         this.activity = activity;
         this.name = name;
     }
@@ -43,14 +45,14 @@ public class LocationMasterAdapter extends RecyclerView.Adapter<LocationMasterAd
     public void onBindViewHolder(LocationMasterAdapter.MyViewHolder holder, int position) {
 
         if (name != null) {
-            holder.tvname.setText(name[position]);
+            holder.tvname.setText(name.get(position));
         }
 
     }
 
     @Override
     public int getItemCount() {
-        return name.length;
+        return name.size();
     }
 
 

@@ -19,7 +19,10 @@ import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.EventsMasterAdapter;
 import com.example.rakeshvasal.myapplication.Fragments.AddUpdateFragments.AddUpdateEventFragment;
 import com.example.rakeshvasal.myapplication.GetterSetter.Events;
+import com.example.rakeshvasal.myapplication.Interface.CentralCallbacks;
 import com.example.rakeshvasal.myapplication.R;
+import com.example.rakeshvasal.myapplication.ServiceCalls.CentralApiCenter;
+import com.example.rakeshvasal.myapplication.UIError;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -36,13 +39,14 @@ import java.util.List;
  */
 public class EventsMasterFragment extends BaseFragment {
 
-    Button add_event,search_event;
+    Button add_event, search_event;
     EditText search_text;
     RecyclerView recyclerView;
     private DatabaseReference mEventsDatabase;
     FirebaseDatabase mFirebaseInstance;
-    DatabaseReference ref,eventref;
+    DatabaseReference ref, eventref;
     FragmentManager fm;
+
     public EventsMasterFragment() {
 
     }
@@ -89,7 +93,7 @@ public class EventsMasterFragment extends BaseFragment {
                 if (search_text.getText().toString().equalsIgnoreCase("")) {
                     fetchallevents();
                 } else {
-                    readData("eventName",search_text.getText().toString());
+                    readData("eventName", search_text.getText().toString());
                     //fetchDetailsfromeventName(search_text.getText().toString());
                 }
             }
@@ -103,6 +107,22 @@ public class EventsMasterFragment extends BaseFragment {
 
         final List<Events> mEventsEntries = new ArrayList<>();
         try {
+
+            CentralApiCenter.getInstance().getAllEvents(new CentralCallbacks() {
+                @Override
+                public void onSuccess(Object response) {
+                    EventsMasterAdapter adapter = new EventsMasterAdapter(getActivity(), mEventsEntries, fm);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onFailure(UIError error) {
+
+                }
+            });
+
+            /////
             ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -111,7 +131,7 @@ public class EventsMasterFragment extends BaseFragment {
                         mEventsEntries.add(events);
 
                     }
-                    EventsMasterAdapter adapter = new EventsMasterAdapter(getActivity(),mEventsEntries,fm);
+                    EventsMasterAdapter adapter = new EventsMasterAdapter(getActivity(), mEventsEntries, fm);
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 }
@@ -123,16 +143,16 @@ public class EventsMasterFragment extends BaseFragment {
             });
 
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
 
     }
 
-    private void readData(String parameter,String searchtext) {
+    private void readData(String parameter, String searchtext) {
 
-        String substring = searchtext.replace(" ","");
+        String substring = searchtext.replace(" ", "");
 
         final List<Events> mEventsEntries = new ArrayList<>();
         ref.orderByChild(parameter).startAt(substring.toLowerCase()).addChildEventListener(new ChildEventListener() {
@@ -141,7 +161,7 @@ public class EventsMasterFragment extends BaseFragment {
                 Events events = dataSnapshot.getValue(Events.class);
                 mEventsEntries.add(events);
 
-                EventsMasterAdapter adapter = new EventsMasterAdapter(getActivity(), mEventsEntries,fm);
+                EventsMasterAdapter adapter = new EventsMasterAdapter(getActivity(), mEventsEntries, fm);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 closeProgressDialog();
@@ -171,28 +191,40 @@ public class EventsMasterFragment extends BaseFragment {
     }
 
     private void fetchDetailsfromeventName(final String str_user_name) {
-        //showProgressDialog();
-
-        //ref = eventref.child(str_user_name);
-        eventref =ref.getRef();
-        //childref = ref.getRef();
         final List<Events> mEventEntries = new ArrayList<>();
         try {
+            CentralApiCenter.getInstance().getEventDetails(str_user_name, new CentralCallbacks() {
+                @Override
+                public void onSuccess(Object response) {
+                    EventsMasterAdapter adapter = new EventsMasterAdapter(getActivity(), mEventEntries, fm);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    closeProgressDialog();
+                }
+
+                @Override
+                public void onFailure(UIError error) {
+
+                }
+            });
+
+
+            //////
             eventref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
                     for (DataSnapshot eventsnapshot : dataSnapshot.getChildren()) {
-                        Log.d("eventsnapshot", ""+eventsnapshot);
+                        Log.d("eventsnapshot", "" + eventsnapshot);
                         Events events = eventsnapshot.getValue(Events.class);
                         String eventName = events.getEventName();
-                        Log.d("eventName", ""+eventName);
-                        eventName=eventName.toLowerCase();
-                        if (eventName.contains(str_user_name.toLowerCase())){
+                        Log.d("eventName", "" + eventName);
+                        eventName = eventName.toLowerCase();
+                        if (eventName.contains(str_user_name.toLowerCase())) {
                             mEventEntries.add(events);
                         }
                     }
-                    EventsMasterAdapter adapter = new EventsMasterAdapter(getActivity(), mEventEntries,fm);
+                    EventsMasterAdapter adapter = new EventsMasterAdapter(getActivity(), mEventEntries, fm);
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                     closeProgressDialog();
@@ -205,7 +237,7 @@ public class EventsMasterFragment extends BaseFragment {
                     Log.d("eventmasterdbaseerror", databaseError.getMessage());
                 }
             });
-                closeProgressDialog();
+            closeProgressDialog();
 
         } catch (Exception e) {
             closeProgressDialog();

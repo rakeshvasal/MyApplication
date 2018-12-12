@@ -59,8 +59,50 @@ public class CentralApiCenter {
                 centralCallbacks.onFailure(error);
             }
         });
-
-
     }
 
+    public void getAllEvents(final CentralCallbacks centralCallbacks) {
+        FirebaseCalls firebaseCalls = new FirebaseCalls();
+        firebaseCalls.getAllEvents(new CentralCallbacks() {
+            @Override
+            public void onSuccess(Object response) {
+                centralCallbacks.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(UIError error) {
+                centralCallbacks.onFailure(error);
+            }
+        });
+    }
+
+    public void getEventDetails(String evemtname, final CentralCallbacks centralCallbacks) {
+        FirebaseCalls firebaseCalls = new FirebaseCalls();
+        firebaseCalls.getEventDetailsOnName(evemtname, new CentralCallbacks() {
+            @Override
+            public void onSuccess(Object response) {
+                centralCallbacks.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(UIError error) {
+                centralCallbacks.onFailure(error);
+            }
+        });
+    }
+
+    public void getAllLocationsList(final CentralCallbacks centralCallbacks){
+        FirebaseCalls firebaseCalls = new FirebaseCalls();
+        firebaseCalls.getAllLocations(new CentralCallbacks() {
+            @Override
+            public void onSuccess(Object response) {
+                centralCallbacks.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(UIError error) {
+                centralCallbacks.onFailure(error);
+            }
+        });
+    }
 }

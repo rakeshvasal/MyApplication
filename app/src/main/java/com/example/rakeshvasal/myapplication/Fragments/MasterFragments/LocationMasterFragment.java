@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,23 +15,26 @@ import android.widget.EditText;
 import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.LocationMasterAdapter;
 import com.example.rakeshvasal.myapplication.Fragments.AddUpdateFragments.AddUpdateLocationFragment;
+import com.example.rakeshvasal.myapplication.Interface.CentralCallbacks;
 import com.example.rakeshvasal.myapplication.R;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.example.rakeshvasal.myapplication.ServiceCalls.CentralApiCenter;
+import com.example.rakeshvasal.myapplication.UIError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 
 
 public class LocationMasterFragment extends BaseFragment {
 
-    Button add,search;
+    Button add, search;
     EditText search_text;
     RecyclerView recyclerView;
     String[] name;
     FirebaseDatabase mFirebaseInstance;
     DatabaseReference ref;
-    int i=0;
+    int i = 0;
+
     public LocationMasterFragment() {
         // Required empty public constructor
     }
@@ -79,7 +81,25 @@ public class LocationMasterFragment extends BaseFragment {
         showProgressDialog();
 
         try {
-            ref.addValueEventListener(new ValueEventListener() {
+
+            CentralApiCenter.getInstance().getAllLocationsList(new CentralCallbacks() {
+                @Override
+                public void onSuccess(Object response) {
+                    List<String> locationsList = (List<String>) response;
+                    LocationMasterAdapter adapter = new LocationMasterAdapter(getActivity(), locationsList);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onFailure(UIError error) {
+                    closeProgressDialog();
+                }
+            });
+
+
+            //////
+           /* ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     int size = (int) dataSnapshot.getChildrenCount();
@@ -88,12 +108,12 @@ public class LocationMasterFragment extends BaseFragment {
 
 
                         name[i] = (String) eventsnapshot.child("name").getValue();
-                        Log.d("results",eventsnapshot.toString());
+                        Log.d("results", eventsnapshot.toString());
                         i++;
 
 
                     }
-                    i=0;
+                    i = 0;
                     closeProgressDialog();
                     LocationMasterAdapter adapter = new LocationMasterAdapter(getActivity(), name);
                     recyclerView.setAdapter(adapter);
@@ -105,7 +125,7 @@ public class LocationMasterFragment extends BaseFragment {
                     closeProgressDialog();
                     Log.d("usermasterdatabaseerror", databaseError.getMessage());
                 }
-            });
+            });*/
 
 
         } catch (Exception e) {
