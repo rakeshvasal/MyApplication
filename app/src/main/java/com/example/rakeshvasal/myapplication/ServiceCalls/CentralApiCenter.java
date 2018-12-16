@@ -105,4 +105,9 @@ public class CentralApiCenter {
             }
         });
     }
+
+    public void getRestaurantFromText(String url){
+
+
+    }
 }
