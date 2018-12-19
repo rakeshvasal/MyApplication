@@ -2,6 +2,7 @@ package com.example.rakeshvasal.myapplication.ServiceCalls;
 
 import android.util.Log;
 
+import com.example.rakeshvasal.myapplication.GetterSetter.ComitteeMembers;
 import com.example.rakeshvasal.myapplication.GetterSetter.Events;
 import com.example.rakeshvasal.myapplication.GetterSetter.Locations;
 import com.example.rakeshvasal.myapplication.GetterSetter.User;
@@ -26,6 +27,7 @@ public class FirebaseCalls {
     private DatabaseReference userDbReference = dBRootReference.child("users");
     private DatabaseReference eventsDbReference = dBRootReference.child("events");
     private DatabaseReference locationDbReference = dBRootReference.child("locations");
+    private DatabaseReference committeeMembersDbReference = dBRootReference.child("committee_members");
 
     public void getAllUsers(final CentralCallbacks centralCallbacks) {
 
@@ -163,6 +165,19 @@ public class FirebaseCalls {
             centralCallbacks.onFailure(e);
             e.printStackTrace();
         }
+    }
+
+    public void addCommiteeMember(ComitteeMembers members, final CentralCallbacks centralCallbacks) {
+        try {
+            String userId = committeeMembersDbReference.push().getKey();
+            members.setMemberID(userId);
+            committeeMembersDbReference.child(userId).setValue(members);
+            centralCallbacks.onSuccess(members);
+        } catch (Exception e) {
+            centralCallbacks.onFailure(e);
+        }
+
+
     }
 
     public interface OnServerCallsResponse<T> {

@@ -11,7 +11,10 @@ import android.widget.EditText;
 
 import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.GetterSetter.ComitteeMembers;
+import com.example.rakeshvasal.myapplication.Interface.CentralCallbacks;
 import com.example.rakeshvasal.myapplication.R;
+import com.example.rakeshvasal.myapplication.ServiceCalls.CentralApiCenter;
+import com.example.rakeshvasal.myapplication.UIError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -63,11 +66,21 @@ public class AddUpdateCommiteeMember extends BaseFragment {
 
     private void AddUpdate(ComitteeMembers members) {
         try {
-            String userId = mDatabase.push().getKey();
-            members.setMemberID(userId);
-            mDatabase.child(userId).setValue(members);
-            et_contact_no.setText("");
-            et_name.setText("");
+            CentralApiCenter.getInstance().addCommiteeMember(members, new CentralCallbacks() {
+                @Override
+                public void onSuccess(Object response) {
+                    if (response != null) {
+                        et_contact_no.setText("");
+                        et_name.setText("");
+                    }
+                }
+
+                @Override
+                public void onFailure(UIError error) {
+
+                }
+            });
+
         } catch (Exception e) {
             e.printStackTrace();
         }
