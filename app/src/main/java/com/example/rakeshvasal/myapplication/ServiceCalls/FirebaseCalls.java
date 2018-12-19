@@ -47,12 +47,12 @@ public class FirebaseCalls {
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                     Log.d("usermasterdatabaseerror", databaseError.getMessage());
-                    centralCallbacks.onFailure(databaseError);
+                    //centralCallbacks.onFailure(databaseError);
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            centralCallbacks.onFailure(e);
+            //centralCallbacks.onFailure(e);
         }
     }
 
@@ -76,12 +76,12 @@ public class FirebaseCalls {
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                     Log.d("usermasterdatabaseerror", databaseError.getMessage());
-                    centralCallbacks.onFailure(databaseError);
+                    //centralCallbacks.onFailure(databaseError);
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            centralCallbacks.onFailure(e);
+            //centralCallbacks.onFailure(e);
         }
     }
 
@@ -101,12 +101,12 @@ public class FirebaseCalls {
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                     Log.d("eventsdatabaseerror", databaseError.getMessage());
-                    centralCallbacks.onFailure(databaseError);
+                    //centralCallbacks.onFailure(databaseError);
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            centralCallbacks.onFailure(e);
+            //centralCallbacks.onFailure(e);
         }
     }
 
@@ -129,12 +129,12 @@ public class FirebaseCalls {
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                     Log.d("eventsdatabaseerror", databaseError.getMessage());
-                    centralCallbacks.onFailure(databaseError);
+                    //centralCallbacks.onFailure(databaseError);
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            centralCallbacks.onFailure(e);
+            //centralCallbacks.onFailure(e);
         }
     }
 
@@ -157,12 +157,12 @@ public class FirebaseCalls {
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    centralCallbacks.onFailure(databaseError);
+                    //centralCallbacks.onFailure(databaseError);
                     Log.d("usermasterdatabaseerror", databaseError.getMessage());
                 }
             });
         } catch (Exception e) {
-            centralCallbacks.onFailure(e);
+            //centralCallbacks.onFailure(e);
             e.printStackTrace();
         }
     }

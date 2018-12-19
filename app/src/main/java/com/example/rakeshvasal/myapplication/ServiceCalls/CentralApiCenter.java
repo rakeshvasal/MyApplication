@@ -107,18 +107,4 @@ public class CentralApiCenter {
         });
     }
 
-    public void addCommiteeMember(ComitteeMembers comitteeMembers, final CentralCallbacks centralCallbacks) {
-        FirebaseCalls firebaseCalls = new FirebaseCalls();
-        firebaseCalls.addCommiteeMember(comitteeMembers, new CentralCallbacks() {
-            @Override
-            public void onSuccess(Object response) {
-                centralCallbacks.onSuccess(response);
-            }
 
-            @Override
-            public void onFailure(UIError error) {
-                centralCallbacks.onSuccess(error);
-            }
-        });
-    }
-}

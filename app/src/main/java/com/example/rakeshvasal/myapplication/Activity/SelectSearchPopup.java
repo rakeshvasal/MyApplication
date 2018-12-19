@@ -19,7 +19,9 @@ import com.example.rakeshvasal.myapplication.Custom_Adapters.Select_restaurant_n
 import com.example.rakeshvasal.myapplication.DatabaseHelper.DatabaseHelper;
 import com.example.rakeshvasal.myapplication.GetterSetter.Select_restaurant_name_popup_RowItem;
 import com.example.rakeshvasal.myapplication.R;
+import com.example.rakeshvasal.myapplication.ServiceCalls.CentralApiCenter;
 import com.example.rakeshvasal.myapplication.ServiceCalls.MakeServiceCall;
+import com.example.rakeshvasal.myapplication.UIError;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -96,6 +98,18 @@ public class SelectSearchPopup extends Activity implements AdapterView.OnItemCli
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            CentralApiCenter.getInstance().getRestaurantFromText(url);
+            CentralApiCenter.getInstance().setListener(new CentralApiCenter.OnCentralApiCenterResponse() {
+                @Override
+                public void onSuccess(Object response) {
+
+                }
+
+                @Override
+                public void onFailure(UIError error) {
+
+                }
+            });
             try {
                 Data = new MakeServiceCall().makeServiceCall(url);
                 isOkay = true;
