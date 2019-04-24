@@ -98,7 +98,7 @@ public class SelectSearchPopup extends Activity implements AdapterView.OnItemCli
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            CentralApiCenter.getInstance().getRestaurantFromText(url);
+            /*CentralApiCenter.getInstance().getRestaurantFromText(url);
             CentralApiCenter.getInstance().setListener(new CentralApiCenter.OnCentralApiCenterResponse() {
                 @Override
                 public void onSuccess(Object response) {
@@ -116,7 +116,7 @@ public class SelectSearchPopup extends Activity implements AdapterView.OnItemCli
             } catch (IOException e) {
                 e.printStackTrace();
                 isOkay = false;
-            }
+            }*/
             return Data;
         }
 

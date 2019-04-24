@@ -174,7 +174,7 @@ public class FirebaseCalls {
             committeeMembersDbReference.child(userId).setValue(members);
             centralCallbacks.onSuccess(members);
         } catch (Exception e) {
-            centralCallbacks.onFailure(e);
+            //centralCallbacks.onFailure(e);
         }
 
 

@@ -65,7 +65,7 @@ public class AddUpdateCommiteeMember extends BaseFragment {
     }
 
     private void AddUpdate(ComitteeMembers members) {
-        try {
+        /*try {
             CentralApiCenter.getInstance().addCommiteeMember(members, new CentralCallbacks() {
                 @Override
                 public void onSuccess(Object response) {
@@ -83,6 +83,6 @@ public class AddUpdateCommiteeMember extends BaseFragment {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }
