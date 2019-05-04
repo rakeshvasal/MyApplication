@@ -8,17 +8,17 @@ public class Image_Items {
     private String name;
     private String time;
     private String download_url;
-    private double latitude,longitude;
+    private double latitude, longitude;
     private int numOfImages;
-    private int thumbnail;
+    private boolean isUploadComplete;
 
-    public Image_Items(String name, String time, String download_url, double latitude, double longitude) {
+    public Image_Items(String name, String time, String download_url, double latitude, double longitude, boolean isUploadComplete) {
         this.name = name;
         this.time = time;
         this.download_url = download_url;
         this.latitude = latitude;
         this.longitude = longitude;
-
+        this.isUploadComplete = isUploadComplete;
     }
 
     public Image_Items(String name, String time, double latitude, double longitude) {
@@ -29,15 +29,15 @@ public class Image_Items {
         this.longitude = longitude;
     }
 
-    public Image_Items (String name,double latitude,double longitude/*, int numOfImages*/) {
+    public Image_Items(String name, double latitude, double longitude/*, int numOfImages*/) {
         this.name = name;
-        this.latitude=latitude;
+        this.latitude = latitude;
         this.longitude = longitude;
         this.numOfImages = numOfImages;
 
     }
 
-    public Image_Items(){
+    public Image_Items() {
 
     }
 
@@ -49,12 +49,12 @@ public class Image_Items {
         this.time = time;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public void setName(String name){
-        this.name=name;
+    public void setName(String name) {
+        this.name = name;
     }
 
    /* public int getNumOfImages(){
@@ -65,20 +65,20 @@ public class Image_Items {
         this.numOfImages=numOfImages;
     }*/
 
-    public double getLatitude(){
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude){
-        this.latitude=latitude;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
-    public double getLongitude(){
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude){
-        this.longitude=longitude;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public String getDownload_url() {
@@ -87,5 +87,21 @@ public class Image_Items {
 
     public void setDownload_url(String download_url) {
         this.download_url = download_url;
+    }
+
+    public int getNumOfImages() {
+        return numOfImages;
+    }
+
+    public void setNumOfImages(int numOfImages) {
+        this.numOfImages = numOfImages;
+    }
+
+    public boolean isUploadComplete() {
+        return isUploadComplete;
+    }
+
+    public void setUploadComplete(boolean uploadComplete) {
+        isUploadComplete = uploadComplete;
     }
 }

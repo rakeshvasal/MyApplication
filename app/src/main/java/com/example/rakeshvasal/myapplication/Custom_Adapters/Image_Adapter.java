@@ -1,5 +1,6 @@
 package com.example.rakeshvasal.myapplication.Custom_Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,7 +21,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.rakeshvasal.myapplication.Activity.ImageActivity;
-import com.example.rakeshvasal.myapplication.Activity.Image_Capture_Location;
 import com.example.rakeshvasal.myapplication.GetterSetter.Image_Items;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
@@ -35,7 +35,7 @@ import java.util.List;
 
 public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHolder> {
 
-    ArrayList<Image_Items> Images;
+    ArrayList<Image_Items> imagesList;
     Context context;
     List<String> images_path;
     BitmapFactory.Options bfOptions;
@@ -43,26 +43,17 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
     private static LayoutInflater inflater = null;
     Bitmap bm;
 
-    public Image_Adapter(Image_Capture_Location activity, List<String> images_path) {
-        // TODO Auto-generated constructor stub
-        this.images_path = images_path;
-        this.context = activity;
-        bfOptions = new BitmapFactory.Options();
-       /* bfOptions.inPurgeable=true;
-        bfOptions.inJustDecodeBounds = true;*/
-        bfOptions.inJustDecodeBounds = false;
-        bfOptions.inSampleSize = 32;
-        inflater = (LayoutInflater) context.
-                getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
 
-    public Image_Adapter(Context context) {
-        this.context = context;
+
+
+    public Image_Adapter(Activity activity, ArrayList<Image_Items> mImageEntries) {
+        this.imagesList = mImageEntries;
+        this.context = activity;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, longitude, latitude;
-        public ImageView thumbnail;
+        ImageView thumbnail, upload_image;
         CardView cv;
         LinearLayout card_item;
 
@@ -74,6 +65,7 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
             longitude = (TextView) view.findViewById(R.id.longitude);
             card_item = (LinearLayout) view.findViewById(R.id.card_item);
             thumbnail = (ImageView) view.findViewById(R.id.list_image);
+            upload_image = (ImageView) view.findViewById(R.id.upload_image);
         }
     }
 
@@ -88,14 +80,15 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void onBindViewHolder(final Image_Adapter.MyViewHolder holder,int position) {
+    public void onBindViewHolder(final Image_Adapter.MyViewHolder holder, int position) {
 
-        final int pos=position;
+        final int pos = position;
         try {
-            holder.title.setText("Name " + Utils.Images_name_Array_List.get(position));
-            holder.latitude.setText("Lat " + Utils.Images_latitude_Array_List.get(position));
-            holder.longitude.setText("Long " + Utils.Images_longitude_Array_List.get(position));
-            String url = Utils.Images_url_Array_List.get(position);
+            Image_Items items = imagesList.get(pos);
+            holder.title.setText("Name " + items.getName());
+            holder.latitude.setText("Lat " + items.getLatitude());
+            holder.longitude.setText("Long " + items.getLongitude());
+            String url = items.getDownload_url();
             if (!url.equalsIgnoreCase("")) {
                 Glide.with(context)
                         .asBitmap()
@@ -106,11 +99,12 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
                                 holder.thumbnail.setImageBitmap(bitmap);
                             }
                         });
-            }else{
-                holder.thumbnail.setImageDrawable(context.getDrawable(R.drawable.locations));
+            } else {
+                holder.thumbnail.setImageDrawable(context.getDrawable(R.drawable.placeholder));
             }
         } catch (Exception e) {
             e.printStackTrace();
+            holder.thumbnail.setImageDrawable(context.getDrawable(R.drawable.placeholder));
         }
 
         holder.card_item.setOnClickListener(new View.OnClickListener() {
@@ -122,8 +116,8 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
                     intent.putExtra("source", "googleurl");
                     intent.putExtra("image_path", url);
                     context.startActivity(intent);
-                }else {
-                    Toast.makeText(context,"No Url",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "No Url", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -138,9 +132,8 @@ public class Image_Adapter extends RecyclerView.Adapter<Image_Adapter.MyViewHold
 
     @Override
     public int getItemCount() {
+        return imagesList.size();
 
-        return Utils.Images_latitude_Array_List.size();
-        //return images_path.size();
     }
 
 

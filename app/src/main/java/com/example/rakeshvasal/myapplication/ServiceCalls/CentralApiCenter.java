@@ -1,6 +1,5 @@
 package com.example.rakeshvasal.myapplication.ServiceCalls;
 
-import com.example.rakeshvasal.myapplication.GetterSetter.ComitteeMembers;
 import com.example.rakeshvasal.myapplication.Interface.CentralCallbacks;
 import com.example.rakeshvasal.myapplication.UIError;
 
@@ -106,5 +105,6 @@ public class CentralApiCenter {
             }
         });
     }
+}
 
 

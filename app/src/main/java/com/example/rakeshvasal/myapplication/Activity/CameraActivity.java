@@ -5,9 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -43,14 +41,8 @@ import java.util.List;
 public class CameraActivity extends BaseActivity {
     private Camera mCamera;
     private CameraPreview mCameraPreview;
-    static String assembly, image_path;
     CheckBox flashcheck;
     Camera.Parameters params;
-    String filepath = "https://github.com/rakeshvasal/MyApplication/blob/master/app/src/main/java/com/example/rakeshvasal/myapplication/Fragments/Comments.java";
-    SQLiteDatabase db;
-    SharedPreferences preferences;
-
-
 
     /**
      * Called when the activity is first created.
@@ -70,7 +62,7 @@ public class CameraActivity extends BaseActivity {
         flashcheck = (CheckBox) findViewById(R.id.flash_check);
         boolean camera = checkCameraHardware(CameraActivity.this);
         if (camera) {
-            // mCamera.release();
+
             mCamera = getCameraInstance();
             params = mCamera.getParameters();
             setParameters();
@@ -101,7 +93,12 @@ public class CameraActivity extends BaseActivity {
         flashcheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                setParameters();
+                if (isChecked) {
+                    setParameters();
+                } else {
+                    setParameters();
+                }
+
             }
         });
     }
@@ -120,7 +117,7 @@ public class CameraActivity extends BaseActivity {
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     Bundle arg = new Bundle();
                     //arg.putString("file_type", "java");
-                    arg.putString("file_name","CameraActivity");
+                    arg.putString("file_name", "CameraActivity");
                     Fragment fragment = new OpenSourceCodeFragment();
                     transaction.add(R.id.fragment_container, fragment);
                     fragment.setArguments(arg);
@@ -160,9 +157,8 @@ public class CameraActivity extends BaseActivity {
         }
         List<Camera.Size> sizes = params.getSupportedPictureSizes();
         Camera.Size size = sizes.get(0);
-        for(int i=0;i<sizes.size();i++)
-        {
-            if(sizes.get(i).width > size.width)
+        for (int i = 0; i < sizes.size(); i++) {
+            if (sizes.get(i).width > size.width)
                 size = sizes.get(i);
         }
         params.setPictureSize(size.width, size.height);
@@ -204,10 +200,18 @@ public class CameraActivity extends BaseActivity {
         int degrees = 0;
 
         switch (rotation) {
-            case Surface.ROTATION_0: degrees = 0; break;
-            case Surface.ROTATION_90: degrees = 90; break;
-            case Surface.ROTATION_180: degrees = 180; break;
-            case Surface.ROTATION_270: degrees = 270; break;
+            case Surface.ROTATION_0:
+                degrees = 0;
+                break;
+            case Surface.ROTATION_90:
+                degrees = 90;
+                break;
+            case Surface.ROTATION_180:
+                degrees = 180;
+                break;
+            case Surface.ROTATION_270:
+                degrees = 270;
+                break;
         }
 
         int result;
@@ -221,8 +225,6 @@ public class CameraActivity extends BaseActivity {
     }
 
     /**
-     *
-     *
      * Helper method to access the camera returns null if it cannot get the
      * camera or does not exist
      *
@@ -269,7 +271,7 @@ public class CameraActivity extends BaseActivity {
                 Intent intent = new Intent();
                 String image_name = pictureFile.getName();
                 String image_path = pictureFile.getPath();
-                intent.putExtra("imagename",image_name );
+                intent.putExtra("imagename", image_name);
                 intent.putExtra("image_path", image_path);
                 setResult(-1, intent);
                 releaseCameraAndPreview();

@@ -65,13 +65,7 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         String scopes = "https://www.googleapis.com/auth/calendar https://mail.google.com/";
 
-        /*GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .requestProfile()
-                .requestScopes(new Scope(Scopes.DRIVE_APPFOLDER))
-                .requestIdToken(serverClientId)
-                .requestServerAuthCode(serverClientId, false)
-                .build();*/
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -79,10 +73,6 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
                 .requestProfile()
                 .build();
 
-        /*mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this *//* FragmentActivity *//*, this *//* OnConnectionFailedListener *//*)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();*/
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         // [END build_client]
@@ -106,8 +96,6 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
                     // now subscribe to `global` topic to receive app wide notifications
                     FirebaseMessaging.getInstance().subscribeToTopic(Config.TOPIC_GLOBAL);
 
-                    //displayFirebaseRegId();
-
                 } else if (intent.getAction().equals(Config.PUSH_NOTIFICATION)) {
                     // new push notification is received
 
@@ -116,18 +104,11 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
                     Toast.makeText(getApplicationContext(), "Push notification: " + message, Toast.LENGTH_LONG).show();
 
                     Log.d("pushmessage", message);
-                    //txtMessage.setText(message);
+
                 }
             }
         };
 
-
-        /*if (!Utils.isServiceRunning(MainActivity.this, "FusedLocationService")) {
-            Intent intent = new Intent(MainActivity.this, FusedLocationService.class);
-            startService(intent);
-        }*/
-
-        //displayFirebaseRegId();
     }
 
     private void displayFirebaseRegId() {
@@ -144,12 +125,8 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
                 signIn();
                 break;
             case R.id.sign_out:
-
                 revokeAccess();//signOut();
                 break;
-            /*case R.id.disconnect_button:
-                revokeAccess();
-                break;*/
         }
     }
 
@@ -170,7 +147,6 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
         super.onActivityResult(requestCode, resultCode, data);
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-            closeProgressDialog();
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 // Google Sign In was successful, authenticate with Firebase
@@ -186,24 +162,8 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
         }
     }
 
-    private void handleSignInResult(Task<GoogleSignInAccount> result) {
-        try {
-            GoogleSignInAccount account = result.getResult(ApiException.class);
-            Log.d(TAG, "handleSignInResult:" + account.getEmail());
-        } catch (ApiException e) {
-            e.printStackTrace();
-        }
-        //Log.d(TAG, "handleSignInResult:" + result.isSuccess());
-        if (result.isSuccessful()) {
-            // Signed in successfully, show authenticated UI.
-
-        } else {
-
-        }
-    }
-
     private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+        Log.d(TAG, "fireBaseAuthWithGoogle:" + acct.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
@@ -220,7 +180,6 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
                                 if (token != null) {
                                     Log.d("google_token", token);
                                 }
-                                Toast.makeText(MainActivity.this, "Welcome " + acct.getDisplayName(), Toast.LENGTH_SHORT).show();
                                 String personName = acct.getDisplayName();
                                 String personGivenName = acct.getGivenName();
                                 String personFamilyName = acct.getFamilyName();
@@ -236,7 +195,6 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
                                 jsonObject.put("personPhoto", personPhoto);
                                 jsonObject.put("google_token", token);
                                 jsonObject.put("google_code", code);
-
                                 SharedPreferences preferences = getSharedPreferences(Utils.GOOGLE_LOGIN_DATA, MODE_PRIVATE);
                                 preferences.edit().putString("isGoogleSignedIn", "true").apply();
                                 preferences.edit().putString("GoogleAccountDetails", "" + jsonObject).apply();
@@ -245,6 +203,7 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
                             }
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            closeProgressDialog();
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -263,7 +222,9 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        if (currentUser != null) {
+            updateUI(currentUser);
+        }
     }
 
     @Override

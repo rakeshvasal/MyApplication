@@ -3,10 +3,6 @@ package com.example.rakeshvasal.myapplication.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,7 +12,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,8 +24,9 @@ import com.example.rakeshvasal.myapplication.GetterSetter.Image_Items;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.URLModifiers;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,9 +36,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,8 +48,8 @@ public class Image_Capture_Location extends BaseActivity implements URLModifiers
 
     private List<String> listOfImagesPath;
     private RecyclerView recyclerView;
-    private Image_Adapter adapter;
-    private List<Image_Items> albumList;
+    private Image_Adapter imageAdapter;
+    ArrayList<Image_Items> mImageEntries = new ArrayList<>();
     String ImagePath = Environment.getExternalStorageDirectory() + "/ImageFolder/";
     private static final int CAMERA_CUSTOM_CAPTURE = 1;
     SharedPreferences preferences;
@@ -70,7 +64,6 @@ public class Image_Capture_Location extends BaseActivity implements URLModifiers
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image__capture__location);
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         preferences = getSharedPreferences("userLocation", Context.MODE_PRIVATE);
@@ -84,21 +77,19 @@ public class Image_Capture_Location extends BaseActivity implements URLModifiers
         recyclerView = (RecyclerView) findViewById(R.id.image_list);
         listOfImagesPath = new Utils().RetriveCapturedImagePath(ImagePath);
 
-        //albumList = new ArrayList<>();
-        adapter = new Image_Adapter(this, listOfImagesPath);
+        imageAdapter = new Image_Adapter(Image_Capture_Location.this, mImageEntries);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(mLayoutManager);
-        //recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(imageAdapter);
 
         TextView page_title = (TextView) findViewById(R.id.page_title);
         page_title.setText(R.string.Dashboard);
         count = (TextView) findViewById(R.id.image_count);
 
         ImageView click = (ImageView) findViewById(R.id.click);
-        ImageView upload = (ImageView) findViewById(R.id.upload);
+
         Utils.Images_name_Array_List.clear();
         Utils.Images_latitude_Array_List.clear();
         Utils.Images_longitude_Array_List.clear();
@@ -113,26 +104,11 @@ public class Image_Capture_Location extends BaseActivity implements URLModifiers
                 if (Utils.isConnectedToGps(Image_Capture_Location.this)) {
                     Intent intent = new Intent(Image_Capture_Location.this, CameraActivity.class);
                     startActivityForResult(intent, CAMERA_CUSTOM_CAPTURE);
-                }else {
+                } else {
                     Utils.showSettingsAlert(Image_Capture_Location.this);
                 }
             }
         });
-
-
-
-        upload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int index = Utils.Images_time_arraylist.size()-1;
-                String time = Utils.Images_time_arraylist.get(index);
-                Double latitude = Utils.Images_latitude_Array_List.get(index);
-                Double longitude = Utils.Images_longitude_Array_List.get(index);
-                String name = Utils.Images_name_Array_List.get(index);
-                AddtoFirebase(latitude, longitude, name, time);
-            }
-        });
-
     }
 
     @Override
@@ -155,8 +131,6 @@ public class Image_Capture_Location extends BaseActivity implements URLModifiers
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
 
 
     @Override
@@ -187,14 +161,10 @@ public class Image_Capture_Location extends BaseActivity implements URLModifiers
                 Utils.Images_longitude_Array_List.add(longitude);
                 Utils.Images_name_Array_List.add(image_name);
                 Utils.Images_time_arraylist.add(timeStamp1);
-                //AddtoFirebase(latitude,longitude,image_name,timeStamp1);
+                AddtoFirebase(latitude, longitude, image_name, timeStamp1);
 
                 listOfImagesPath = null;
                 listOfImagesPath = new Utils().RetriveCapturedImagePath(ImagePath);
-                /*if (listOfImagesPath != null) {
-                    adapter = new Image_Adapter(this, listOfImagesPath);
-                    recyclerView.setAdapter(adapter);
-                }*/
             } else {
                 shortToast("Error while Image Capture See Logs");
             }
@@ -205,59 +175,53 @@ public class Image_Capture_Location extends BaseActivity implements URLModifiers
 
         showProgressDialog("Uploading Image Please Wait");
         //used to store in the folder that u define directory
-        StorageReference ImagesRef = storageRef.child("images/" + name);
+        final StorageReference ImagesRef = storageRef.child("images/" + name);
         listOfImagesPath = new Utils().RetriveCapturedImagePath(ImagePath);
         int size = listOfImagesPath.size();
-        String path = listOfImagesPath.get(size-1);
-
+        String path = listOfImagesPath.get(size - 1);
+        File imageFile = new File(path);
         try {
-            //InputStream stream = new FileInputStream(new File(path));
-            Bitmap bmp = BitmapFactory.decodeFile(path);
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.JPEG, 70, bos);
-            InputStream in = new ByteArrayInputStream(bos.toByteArray());
-            //ContentBody foto = new InputStreamBody(in, "image/jpeg", "filename");
-            UploadTask uploadTask = ImagesRef.putStream(in);
-            uploadTask.addOnFailureListener(new OnFailureListener() {
+            UploadTask uploadTask = ImagesRef.putFile(Uri.fromFile(imageFile));
+            uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle unsuccessful uploads
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                    Uri downloadUrl = null;//taskSnapshot.getDownloadUrl();
-                    String downloadlink = downloadUrl.toString();
-                    URLModifiers modifiers = new URLModifiers(Image_Capture_Location.this);
-                    modifiers.setValueListener(Image_Capture_Location.this);
-                    modifiers.shortenUrl(downloadlink);
-                    try {
-                        Image_Items image_items = new Image_Items(name, time, downloadlink, lat, longt);
-
-                        String userId = mDatabase.push().getKey();
-
-                        mDatabase.child(userId).setValue(image_items);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        shortToast("Exception while Uploading");
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
                         closeProgressDialog();
+                        throw task.getException();
                     }
-                    Log.d("url", downloadUrl.toString());
-                    closeProgressDialog();
+
+                    // Continue with the task to get the download URL
+                    return ImagesRef.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        closeProgressDialog();
+                        String downloadUri = task.getResult().toString();
+                        Image_Items image_items = new Image_Items(name, time, downloadUri, lat, longt, true);
+                        String userId = mDatabase.push().getKey();
+                        mDatabase.child(userId).setValue(image_items);
+                    } else {
+                        closeProgressDialog();
+                        Image_Items image_items = new Image_Items(name, time, "", lat, longt, false);
+                        String userId = mDatabase.push().getKey();
+                        mDatabase.child(userId).setValue(image_items);
+                    }
                 }
             });
         } catch (Exception e) {
-            shortToast("File not Found " + e.getMessage());
+            e.printStackTrace();
+            shortToast("Exception while Uploading");
             closeProgressDialog();
         }
+
+
     }
 
     private void FetchAllImageDetails() {
         showProgressDialog();
-        final List<Image_Items> mImageEntries = new ArrayList<>();
-
+        mImageEntries.clear();
         try {
             mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -265,27 +229,25 @@ public class Image_Capture_Location extends BaseActivity implements URLModifiers
                     for (DataSnapshot eventsnapshot : dataSnapshot.getChildren()) {
                         //closeProgressDialog();
                         Image_Items image_items = eventsnapshot.getValue(Image_Items.class);
-                        String key  = eventsnapshot.getKey();
+                        String key = eventsnapshot.getKey();
                         Utils.Images_name_Array_List.add(image_items.getName());
                         Utils.Images_latitude_Array_List.add(image_items.getLatitude());
                         Utils.Images_longitude_Array_List.add(image_items.getLongitude());
                         Utils.Images_time_arraylist.add(image_items.getTime());
                         String img_url = image_items.getDownload_url();
-                        if (img_url==null || img_url.equalsIgnoreCase(" ")) {
+                        if (img_url == null || img_url.equalsIgnoreCase(" ")) {
                             Utils.Images_url_Array_List.add("");
-                        }else {
+                        } else {
                             Utils.Images_url_Array_List.add(image_items.getDownload_url());
                         }
 
                         mImageEntries.add(image_items);
 
                     }
-                    int size = Utils.Images_latitude_Array_List.size();
+                    int size = mImageEntries.size();
                     count.setText("Total Images :" + size);
                     closeProgressDialog();
-                    Image_Adapter adapter = new Image_Adapter(Image_Capture_Location.this);
-                    recyclerView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
+                    imageAdapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -303,52 +265,9 @@ public class Image_Capture_Location extends BaseActivity implements URLModifiers
         }
     }
 
-
-    private int dpToPx(int dp) {
-        Resources r = getResources();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
-    }
-
-
-
     @Override
     public void setData(String data) {
-        logInfo("img_shot_links "+data);
-    }
-
-    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
-
-        private int spanCount;
-        private int spacing;
-        private boolean includeEdge;
-
-        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
-            this.spanCount = spanCount;
-            this.spacing = spacing;
-            this.includeEdge = includeEdge;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            int position = parent.getChildAdapterPosition(view); // item position
-            int column = position % spanCount; // item column
-
-            if (includeEdge) {
-                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
-                outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
-
-                if (position < spanCount) { // top edge
-                    outRect.top = spacing;
-                }
-                outRect.bottom = spacing; // item bottom
-            } else {
-                outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
-                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
-                if (position >= spanCount) {
-                    outRect.top = spacing; // item top
-                }
-            }
-        }
+        logInfo("img_shot_links " + data);
     }
 
     @Override
