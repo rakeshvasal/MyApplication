@@ -22,22 +22,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return sInstance;
     }
 
-    public static String IMAGE_NAME = "image_name";
-    public static String IMAGE_PATH = "image_path";
-    public static String IMAGE_LAT = "image_lat";
-    public static String IMAGE_LONG = "image_long";
-    public static String IMAGE_TABLE = "image_table";
-    public static String IMAGE_ID = "image_id";
-
-    public static String Create_Image_Table = " CREATE TABLE " + IMAGE_TABLE + " ( " +
-            IMAGE_ID + " integer primary key autoincrement, " +
-            IMAGE_NAME + " text not null, " +
-            IMAGE_PATH + " text not null, " +
-            IMAGE_LAT + " text, " +
-            IMAGE_LONG + " text " + " ) ";
-
-    public static String DROP_IMAGE_TABLE = "Drop Table IF EXISTS " + IMAGE_TABLE;
-
     public static String LOCATION_NAME = "location_name";
     public static String LOCATION_LAT = "location_lat";
     public static String LOCATION_LATLNG = "location_latlng";
@@ -111,7 +95,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(Create_Image_Table);
         db.execSQL(Create_Location_Table);
         db.execSQL(Create_Restaurant_Table);
         db.execSQL(Create_Comments_Table);
@@ -119,7 +102,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(DROP_IMAGE_TABLE);
         db.execSQL(DROP_LOCATION_TABLE);
         db.execSQL(Drop_Restaurant_Table);
         db.execSQL(Drop_Comments_Table);
