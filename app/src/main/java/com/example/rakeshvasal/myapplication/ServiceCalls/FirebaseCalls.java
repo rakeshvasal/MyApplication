@@ -168,14 +168,14 @@ public class FirebaseCalls {
     }
 
     public void addCommiteeMember(ComitteeMembers members, final CentralCallbacks centralCallbacks) {
-        try {
+        /*try {
             String userId = committeeMembersDbReference.push().getKey();
             members.setMemberID(userId);
             committeeMembersDbReference.child(userId).setValue(members);
             centralCallbacks.onSuccess(members);
         } catch (Exception e) {
-            //centralCallbacks.onFailure(e);
-        }
+            centralCallbacks.onFailure(e);
+        }*/
 
 
     }

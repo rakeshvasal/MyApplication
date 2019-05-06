@@ -1,19 +1,10 @@
 package com.example.rakeshvasal.myapplication.Activity;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.util.Base64;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,26 +22,25 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleApiClient mGoogleApiClient;
-    Location location;
-    public static int MY_PERMISSIONS_REQUEST_LOCATION = 1;
-    final int REQUEST_ID_MULTIPLE_PERMISSIONS = 2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(!(Thread.getDefaultUncaughtExceptionHandler() instanceof ErrorHandlingClass)) {
+        if (!(Thread.getDefaultUncaughtExceptionHandler() instanceof ErrorHandlingClass)) {
             Thread.setDefaultUncaughtExceptionHandler(new ErrorHandlingClass(this));
         }
         setContentView(R.layout.activity_dashboard);
+        boolean serviceState = isMyServiceRunning(FusedLocationService.class);
+        if (!serviceState) {
+            Intent intent1 = new Intent(Dashboard.this, FusedLocationService.class);
+            startService(intent1);
+        }
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -68,13 +58,12 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
         // Here, thisActivity is the current activity
 
 
-
-        TextView page_title = (TextView) findViewById(R.id.page_title);
-        TextView nested_scroll_view = (TextView) findViewById(R.id.nested_scroll_view);
+        TextView page_title = findViewById(R.id.page_title);
+        TextView nested_scroll_view = findViewById(R.id.nested_scroll_view);
 
         page_title.setText(R.string.Dashboard);
-        ImageView sign_out = (ImageView) findViewById(R.id.sign_out);
-        TextView photo_location = (TextView) findViewById(R.id.image_capture);
+        ImageView sign_out = findViewById(R.id.sign_out);
+        TextView photo_location = findViewById(R.id.image_capture);
         photo_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,7 +72,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
 
             }
         });
-        TextView location_search = (TextView) findViewById(R.id.location);
+        TextView location_search = findViewById(R.id.location);
         location_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,7 +85,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
                 }
             }
         });
-        TextView zomato = (TextView) findViewById(R.id.zomato);
+        TextView zomato = findViewById(R.id.zomato);
         zomato.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,7 +95,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
             }
         });
 
-        TextView college_fest = (TextView) findViewById(R.id.fest);
+        TextView college_fest = findViewById(R.id.fest);
         college_fest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,7 +103,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
                 startActivity(intent);
             }
         });
-        TextView Device_Info = (TextView) findViewById(R.id.phone_info);
+        TextView Device_Info = findViewById(R.id.phone_info);
         Device_Info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,7 +111,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
                 startActivity(intent);
             }
         });
-        TextView Facebook = (TextView) findViewById(R.id.facebook);
+        TextView Facebook = findViewById(R.id.facebook);
         Facebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,7 +120,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
             }
         });
 
-        TextView cricketAPI = (TextView) findViewById(R.id.cricketAPI);
+        TextView cricketAPI = findViewById(R.id.cricketAPI);
         cricketAPI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,7 +129,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
             }
         });
 
-        TextView imagescan = (TextView) findViewById(R.id.imagescan);
+        TextView imagescan = findViewById(R.id.imagescan);
         imagescan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,7 +148,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
             }
         });
 
-        TextView movieDb = (TextView) findViewById(R.id.movieDb);
+        TextView movieDb = findViewById(R.id.movieDb);
         movieDb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,13 +157,13 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
 
             }
         });
-        TextView create_pdf = (TextView) findViewById(R.id.create_pdf);
+        TextView create_pdf = findViewById(R.id.create_pdf);
         create_pdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
             }
         });
-        TextView tv_fingerprint = (TextView) findViewById(R.id.tv_fingerprint);
+        TextView tv_fingerprint = findViewById(R.id.tv_fingerprint);
         tv_fingerprint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,7 +174,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
             }
         });
 
-        TextView tv_twitter = (TextView) findViewById(R.id.tv_twitter);
+        TextView tv_twitter = findViewById(R.id.tv_twitter);
         tv_twitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -195,13 +184,13 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
 
             }
         });
-        TextView tv_gContacts = (TextView) findViewById(R.id.tv_gContacts);
+        TextView tv_gContacts = findViewById(R.id.tv_gContacts);
         tv_gContacts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
             }
         });
-        TextView test = (TextView) findViewById(R.id.tv_test);
+        TextView test = findViewById(R.id.tv_test);
         test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -218,71 +207,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
             }
         });
 
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.example.rakeshvasal.myapplication",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                String s = Base64.encodeToString(md.digest(), Base64.DEFAULT);
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         checkAndRequestPermissions();
-    }
-
-    private boolean checkAndRequestPermissions() {
-        int camera = ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA);
-        int storage = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        int loc = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION);
-        int loc2 = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
-        int call_phone = ContextCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE);
-        int read_contacts = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
-        int write_contacts = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CONTACTS);
-        int sms = ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);
-        int phone_state = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
-        int finger_print = ContextCompat.checkSelfPermission(this, Manifest.permission.USE_FINGERPRINT);
-        List<String> listPermissionsNeeded = new ArrayList<>();
-
-        if (camera != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(android.Manifest.permission.CAMERA);
-        }
-        if (storage != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
-        if (loc2 != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
-        }
-        if (loc != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(android.Manifest.permission.ACCESS_COARSE_LOCATION);
-        }
-        if (read_contacts != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(android.Manifest.permission.READ_CONTACTS);
-        }
-        if (write_contacts != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(android.Manifest.permission.WRITE_CONTACTS);
-        }
-        if (call_phone != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(android.Manifest.permission.CALL_PHONE);
-        }
-        if (sms != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(android.Manifest.permission.SEND_SMS);
-        }
-        if (phone_state != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(Manifest.permission.READ_PHONE_STATE);
-        }
-        if (finger_print != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(Manifest.permission.USE_FINGERPRINT);
-        }
-        if (!listPermissionsNeeded.isEmpty()) {
-            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray
-                    (new String[listPermissionsNeeded.size()]), REQUEST_ID_MULTIPLE_PERMISSIONS);
-            return false;
-        }
-        return true;
     }
 
 
@@ -292,6 +217,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
                     @Override
                     public void onResult(@NonNull Status status) {
                         // [START_EXCLUDE]
+                        FirebaseAuth.getInstance().signOut();
                         updateUI(false);
                         // [END_EXCLUDE]
                     }
@@ -301,11 +227,9 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
 
     private void updateUI(boolean signedIn) {
         if (signedIn) {
-
             Intent intent = new Intent(this, Dashboard.class);
             startActivity(intent);
             finish();
-            //findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
         } else {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
@@ -328,8 +252,6 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
             public void onClick(DialogInterface dialog, int which) {
                 //if user inout is positive close the dialog box and close the application
                 dialog.dismiss();
-//
-
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 intent.addCategory(Intent.CATEGORY_HOME);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -351,22 +273,6 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
         alertDialog.show();
     }
 
-    private void FacebookKeyHash() {
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.example.rakeshvasal.myapplication",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -379,7 +285,6 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
         switch (item.getItemId()) {
             case R.id.code:
                 try {
-                    //Utils.openSourceFile(Device_Info.this, "Device_Info", "java");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -393,8 +298,6 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
     @Override
     protected void onDestroy() {
         super.onDestroy();
-       /* Intent intent1 = new Intent(Dashboard.this, FusedLocationService.class);
-        stopService(intent1);*/
     }
 }
 

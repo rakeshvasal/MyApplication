@@ -114,15 +114,14 @@ public class TwitterSearchFragment extends BaseFragment {
                 tweetList = response.body().getTweets();
                 for (int i = 0; i < tweetList.size(); i++) {
                     Tweet tweet = tweetList.get(i);
-                    //Log.v("tweet", "" + tweet.toString());
+                    log(tweet.text);
                 }
             }
 
             @Override
             public void onFailure(Call<TweetList> call, Throwable t) {
-
+                log("exception message in twitter search" ,t);
             }
         });
     }
-
 }

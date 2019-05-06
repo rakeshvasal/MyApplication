@@ -68,11 +68,11 @@ public class FusedLocationService extends Service implements com.google.android.
         getlocation();
     }
 
-    /* public Location getcurrentLocation(){
+    public Location getcurrentLocation() {
 
-         return location;
-     }
- */
+        return location;
+    }
+
     private void getlocation() {
 
 
@@ -107,9 +107,9 @@ public class FusedLocationService extends Service implements com.google.android.
     public void onConnected(Bundle bundle) {
         //Toast.makeText(getApplicationContext(),"Fused api connected",Toast.LENGTH_SHORT).show();
         LocationRequest mLocationRequest = new LocationRequest();
-         mLocationRequest.setInterval(INTERVAL);
-         mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
-         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(INTERVAL);
+        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
