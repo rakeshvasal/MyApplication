@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 
-import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.Fragments.TwitterSearchFragment;
 import com.example.rakeshvasal.myapplication.R;
 

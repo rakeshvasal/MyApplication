@@ -22,7 +22,6 @@ import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.Fragments.OpenSourceCodeFragment;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.View.CameraPreview;

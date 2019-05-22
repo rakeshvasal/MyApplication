@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
-import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.facebook.AccessToken;

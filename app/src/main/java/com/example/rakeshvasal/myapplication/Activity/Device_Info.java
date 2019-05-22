@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
 import com.google.android.gms.auth.api.Auth;

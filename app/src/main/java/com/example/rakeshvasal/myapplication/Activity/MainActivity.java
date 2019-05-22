@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.ErrorHandlingClass;
 import com.example.rakeshvasal.myapplication.FirebaseCloudMessaging.Config;
 import com.example.rakeshvasal.myapplication.R;

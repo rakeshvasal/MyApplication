@@ -1,4 +1,4 @@
-package com.example.rakeshvasal.myapplication;
+package com.example.rakeshvasal.myapplication.Activity;
 
 import android.Manifest;
 import android.app.ActivityManager;
@@ -18,6 +18,8 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import com.example.rakeshvasal.myapplication.R;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

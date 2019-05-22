@@ -18,7 +18,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.Image_Adapter;
 import com.example.rakeshvasal.myapplication.GetterSetter.Image_Items;
 import com.example.rakeshvasal.myapplication.R;

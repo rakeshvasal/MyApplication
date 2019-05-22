@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.ErrorHandlingClass;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Services.FusedLocationService;

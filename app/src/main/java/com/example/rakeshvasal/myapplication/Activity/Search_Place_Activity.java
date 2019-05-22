@@ -24,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.DatabaseHelper.DatabaseHelper;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;

@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.Fragments.CricketAPIFragments.CricAPIHome;
 import com.example.rakeshvasal.myapplication.R;
 

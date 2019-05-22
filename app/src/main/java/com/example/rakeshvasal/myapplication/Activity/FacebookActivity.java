@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.rakeshvasal.myapplication.BaseActivity;
 import com.example.rakeshvasal.myapplication.Fragments.FacebookFragments.FacebookFragment;
 import com.example.rakeshvasal.myapplication.R;
 import com.facebook.FacebookSdk;
