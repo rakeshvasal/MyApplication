@@ -114,7 +114,7 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
         Facebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Dashboard.this, FacebookActivity.class);
+                Intent intent = new Intent(Dashboard.this, FacebookSdkActivity.class);
                 startActivity(intent);
             }
         });
@@ -193,6 +193,9 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
         test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(Dashboard.this, TwitterAPIActivity.class);
+
+                startActivity(intent);
                 //shortToast("No Activity Defined");
 
             }

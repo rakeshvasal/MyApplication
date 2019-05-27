@@ -16,7 +16,7 @@ import com.facebook.FacebookSdk;
  * Created by Rakeshvasal on 02-Apr-17.
  */
 
-public class FacebookActivity extends BaseActivity {
+public class FacebookSdkActivity extends BaseActivity {
 
 
     @Override
