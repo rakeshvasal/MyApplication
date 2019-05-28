@@ -1,4 +1,4 @@
-package com.example.rakeshvasal.myapplication;
+package com.example.rakeshvasal.myapplication.Fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.rakeshvasal.myapplication.R;
 
 import java.text.SimpleDateFormat;
 

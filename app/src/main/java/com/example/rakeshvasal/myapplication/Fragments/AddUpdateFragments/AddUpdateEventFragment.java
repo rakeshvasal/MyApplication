@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.rakeshvasal.myapplication.BaseFragment;
+import com.example.rakeshvasal.myapplication.Fragments.BaseFragment;
 import com.example.rakeshvasal.myapplication.GetterSetter.ComitteeMembers;
 import com.example.rakeshvasal.myapplication.GetterSetter.Events;
 import com.example.rakeshvasal.myapplication.GetterSetter.Locations;

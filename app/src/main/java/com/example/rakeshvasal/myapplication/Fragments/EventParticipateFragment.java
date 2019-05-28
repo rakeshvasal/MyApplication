@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.EventSelectAdapter;
 import com.example.rakeshvasal.myapplication.GetterSetter.EventUserMap;
 import com.example.rakeshvasal.myapplication.GetterSetter.Events;

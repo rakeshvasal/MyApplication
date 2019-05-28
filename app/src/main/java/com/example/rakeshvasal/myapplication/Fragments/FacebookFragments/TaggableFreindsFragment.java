@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.rakeshvasal.myapplication.BaseFragment;
+import com.example.rakeshvasal.myapplication.Fragments.BaseFragment;
 import com.example.rakeshvasal.myapplication.GetterSetter.FBFreinds;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.makeServiceCall;

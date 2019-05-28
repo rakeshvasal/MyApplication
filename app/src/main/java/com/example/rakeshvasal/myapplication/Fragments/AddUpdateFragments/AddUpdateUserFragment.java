@@ -16,9 +16,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.rakeshvasal.myapplication.AppExecutors;
-import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.DatabaseHelper.RoomDbClass;
-import com.example.rakeshvasal.myapplication.DbUser;
+import com.example.rakeshvasal.myapplication.Fragments.BaseFragment;
 import com.example.rakeshvasal.myapplication.GetterSetter.User;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
@@ -35,7 +34,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.rakeshvasal.myapplication.BaseFragment;
+import com.example.rakeshvasal.myapplication.Fragments.BaseFragment;
 import com.example.rakeshvasal.myapplication.GetterSetter.ComitteeMembers;
 import com.example.rakeshvasal.myapplication.R;
 import com.google.firebase.database.DatabaseReference;

@@ -15,7 +15,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.rakeshvasal.myapplication.Activity.SelectSearchPopup;
-import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.Search_Custom_Adapter;
 import com.example.rakeshvasal.myapplication.DatabaseHelper.DatabaseHelper;
 import com.example.rakeshvasal.myapplication.GetterSetter.Search_Row_Item;

@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.rakeshvasal.myapplication.BaseFragment;
+import com.example.rakeshvasal.myapplication.Fragments.BaseFragment;
 import com.example.rakeshvasal.myapplication.R;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;

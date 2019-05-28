@@ -30,17 +30,17 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name=".Activity.MainActivity">
-
-        </activity>
-        <activity
-            android:name=".Activity.Dashboard"
-            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activity.Dashboard"
+            android:screenOrientation="portrait">
+
         </activity>
         <activity
             android:name=".Activity.Image_Capture_Location"

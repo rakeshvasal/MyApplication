@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import com.example.rakeshvasal.myapplication.Activity.PosterActivity;
 import com.example.rakeshvasal.myapplication.ApiClient;
-import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.MovieDBAdapter;
 import com.example.rakeshvasal.myapplication.GetterSetter.MovieDataSet;
 import com.example.rakeshvasal.myapplication.GetterSetter.MovieListObject;

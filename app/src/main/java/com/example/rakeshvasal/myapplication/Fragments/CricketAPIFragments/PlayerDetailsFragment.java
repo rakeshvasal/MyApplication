@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.rakeshvasal.myapplication.ApiClient;
-import com.example.rakeshvasal.myapplication.BaseFragment;
+import com.example.rakeshvasal.myapplication.Fragments.BaseFragment;
 import com.example.rakeshvasal.myapplication.GetterSetter.Player;
 import com.example.rakeshvasal.myapplication.Interface.ApiInterface;
 import com.example.rakeshvasal.myapplication.R;

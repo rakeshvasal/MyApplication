@@ -14,9 +14,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.rakeshvasal.myapplication.Activity.PosterActivity;
-import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.FBFeedsCustomAdapter;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.FBPhotoCustomAdapter;
+import com.example.rakeshvasal.myapplication.Fragments.BaseFragment;
 import com.example.rakeshvasal.myapplication.GetterSetter.FBFeeds;
 import com.example.rakeshvasal.myapplication.GetterSetter.FBPhotos;
 import com.example.rakeshvasal.myapplication.R;

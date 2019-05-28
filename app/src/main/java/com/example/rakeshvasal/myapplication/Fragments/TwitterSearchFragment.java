@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.rakeshvasal.myapplication.ApiClient;
-import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.GetterSetter.Tweet;
 import com.example.rakeshvasal.myapplication.GetterSetter.TweetList;
 import com.example.rakeshvasal.myapplication.GetterSetter.TwitterTokenType;

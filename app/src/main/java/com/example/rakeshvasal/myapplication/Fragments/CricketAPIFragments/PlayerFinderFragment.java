@@ -15,8 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.rakeshvasal.myapplication.ApiClient;
-import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.FindPlayerAdapter;
+import com.example.rakeshvasal.myapplication.Fragments.BaseFragment;
 import com.example.rakeshvasal.myapplication.GetterSetter.Player;
 import com.example.rakeshvasal.myapplication.Interface.ApiInterface;
 import com.example.rakeshvasal.myapplication.R;
