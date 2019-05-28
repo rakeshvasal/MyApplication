@@ -30,15 +30,18 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name=".Activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity
             android:name=".Activity.Dashboard"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Activity.Image_Capture_Location"
             android:screenOrientation="portrait" />
@@ -72,8 +75,7 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            tools:replace="android:theme"
-            />
+            tools:replace="android:theme" />
 
         <activity
             android:name=".Activity.GalleryActivity"
@@ -98,8 +100,7 @@
             android:screenOrientation="portrait" />
         <activity android:name=".Activity.TwitterAPIActivity" />
 
-        <activity android:name=".Activity.MultiThreadingTestActiivity">
-        </activity>
+        <activity android:name=".Activity.MultiThreadingTestActiivity"></activity>
 
         <service
             android:name=".Services.FusedLocationService"
@@ -115,8 +116,7 @@
             </intent-filter>
         </service>
 
-        <service
-            android:name=".Services.FetchIntentService" >
+        <service android:name=".Services.FetchIntentService">
 
         </service>
 

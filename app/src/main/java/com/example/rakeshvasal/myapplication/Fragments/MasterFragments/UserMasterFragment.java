@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 
 import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.UserMasterAdapter;
+import com.example.rakeshvasal.myapplication.DatabaseHelper.RoomDbClass;
 import com.example.rakeshvasal.myapplication.Fragments.AddUpdateFragments.AddUpdateUserFragment;
 import com.example.rakeshvasal.myapplication.GetterSetter.User;
 import com.example.rakeshvasal.myapplication.Interface.CentralCallbacks;
@@ -100,22 +102,29 @@ public class UserMasterFragment extends BaseFragment {
         showProgressDialog();
 
         try {
-            CentralApiCenter.getInstance().getAllUsers(new CentralCallbacks() {
+            RoomDbClass dbClass = RoomDbClass.getRoomDbInstance(getActivity());
+
+            List<User> mUserEntries = new ArrayList<>();
+            mUserEntries = dbClass.userDao().getAllUsers();
+            UserMasterAdapter adapter = new UserMasterAdapter(getActivity(), mUserEntries, fm);
+            recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+           /* CentralApiCenter.getInstance().getAllUsers(new CentralCallbacks() {
                 @Override
                 public void onSuccess(Object response) {
-                    List<User> mUserEntries = new ArrayList<>();
+                   *//* List<User> mUserEntries = new ArrayList<>();
                     mUserEntries = (List<User>) response;
                     closeProgressDialog();
                     UserMasterAdapter adapter = new UserMasterAdapter(getActivity(), mUserEntries, fm);
                     recyclerView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
+                    adapter.notifyDataSetChanged();*//*
                 }
 
                 @Override
                 public void onFailure(UIError error) {
                     closeProgressDialog();
                 }
-            });
+            });*/
            /* userref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {

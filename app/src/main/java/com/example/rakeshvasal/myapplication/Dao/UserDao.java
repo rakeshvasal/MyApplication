@@ -1,24 +1,22 @@
 package com.example.rakeshvasal.myapplication.Dao;
 
-import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Ignore;
-import androidx.room.Insert;
-import androidx.room.Query;
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.Query;
 
-import com.example.rakeshvasal.myapplication.DbUser;
+
 import com.example.rakeshvasal.myapplication.GetterSetter.User;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Dao
 public interface UserDao {
 
     @Query("Select * from users")
-    ArrayList<DbUser> getAllUsers();
+    List<User> getAllUsers();
 
     @Insert
-    void addUser(DbUser user);
+    void addUser(User user);
 
     @Query("Select * from users where user_id = :id")
     User getUserById(String id);
@@ -27,8 +25,8 @@ public interface UserDao {
     User getUserByName(String name);
 
     @Query("DELETE from users")
-    User DeleteAllUsers();
+    void DeleteAllUsers();
 
     @Query("DELETE from users where user_id = :id")
-    User DeleteUserById(String id);
+    void DeleteUserById(String id);
 }

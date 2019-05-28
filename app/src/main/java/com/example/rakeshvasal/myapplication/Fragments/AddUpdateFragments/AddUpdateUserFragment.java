@@ -16,6 +16,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.rakeshvasal.myapplication.BaseFragment;
+import com.example.rakeshvasal.myapplication.DatabaseHelper.RoomDbClass;
+import com.example.rakeshvasal.myapplication.DbUser;
 import com.example.rakeshvasal.myapplication.GetterSetter.User;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Utilities.Utils;
@@ -39,9 +41,9 @@ public class AddUpdateUserFragment extends BaseFragment {
 
     EditText et_name, et_contact_no, email_id, et_branch, course_year, et_password, et_conf_password;
     Button submit;
-    String photourl, googleid, user_id="", task,pass;
+    String photourl, googleid, user_id = "", task, pass;
     SharedPreferences sharedPreferences;
-    private DatabaseReference mDatabase, ref, childref,member_ref;
+    private DatabaseReference mDatabase, ref, childref, member_ref;
     FirebaseDatabase mFirebaseInstance;
     RadioGroup role_group;
     RadioButton rb_stu, rb_admin;
@@ -126,7 +128,9 @@ public class AddUpdateUserFragment extends BaseFragment {
 
 
                 User user = new User(name, email, user_id, photourl, contact, branch, courseyear, password, googleid, role);
-                AddUpdateUser(user/*,param,value*/);
+                RoomDbClass dbClass = RoomDbClass.getRoomDbInstance(getActivity());
+                dbClass.userDao().addUser(user);
+                //AddUpdateUser(user/*,param,value*/);
             }
         });
 
@@ -141,7 +145,7 @@ public class AddUpdateUserFragment extends BaseFragment {
             user.setUser_id(userid);
             mDatabase.child(userid).setValue(user);
 
-           // childref = ref.getRef();
+            // childref = ref.getRef();
         } else {
             try {
                 String userid = mDatabase.push().getKey();
@@ -241,7 +245,7 @@ public class AddUpdateUserFragment extends BaseFragment {
         Gson gson = new Gson();
         User object = gson.fromJson(mJson, User.class);
         String role = object.getRole();
-        if (role.equalsIgnoreCase("Student")){
+        if (role.equalsIgnoreCase("Student")) {
             ll_role.setVisibility(View.GONE);
         }
         et_name.setText(object.getUser_name());
@@ -251,8 +255,8 @@ public class AddUpdateUserFragment extends BaseFragment {
         et_branch.setText(object.getBranch());
         ll_pass.setVisibility(View.GONE);
         ll_conf_pass.setVisibility(View.GONE);
-        photourl=object.getPhotourl();
-        pass=object.getPassword();
+        photourl = object.getPhotourl();
+        pass = object.getPassword();
 
 
     }

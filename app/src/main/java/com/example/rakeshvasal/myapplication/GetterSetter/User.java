@@ -1,13 +1,22 @@
 package com.example.rakeshvasal.myapplication.GetterSetter;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
+import java.io.Serializable;
+
 /**
  * Created by Rakeshvasal on 06-Nov-17.
  */
+@Entity(tableName = "users")
+public class User implements Serializable {
+    public @PrimaryKey @NonNull
+    String user_id;
+    String user_name,user_email,photourl,contact_no,branch,course_year,password,googleid,role;
 
-public class User {
-
-    String user_name,user_email,user_id,photourl,contact_no,branch,course_year,password,googleid,role;
-
+    @Ignore
     public User(){
 
     }
