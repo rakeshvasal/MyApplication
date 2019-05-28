@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.UiThread;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.rakeshvasal.myapplication.AppExecutors;
 import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.Custom_Adapters.UserMasterAdapter;
 import com.example.rakeshvasal.myapplication.DatabaseHelper.RoomDbClass;
@@ -43,7 +45,7 @@ public class UserMasterFragment extends BaseFragment {
     EditText search_text;
     Button btn_search, btn_add;
     FragmentManager fm;
-
+    List<User> mUserEntries = new ArrayList<>();
     public UserMasterFragment() {
         // Required empty public constructor
     }
@@ -99,16 +101,29 @@ public class UserMasterFragment extends BaseFragment {
     }
 
     private void fetchallusers() {
-        showProgressDialog();
+        //showProgressDialog();
 
         try {
-            RoomDbClass dbClass = RoomDbClass.getRoomDbInstance(getActivity());
 
-            List<User> mUserEntries = new ArrayList<>();
-            mUserEntries = dbClass.userDao().getAllUsers();
-            UserMasterAdapter adapter = new UserMasterAdapter(getActivity(), mUserEntries, fm);
-            recyclerView.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
+
+            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    final RoomDbClass dbClass = RoomDbClass.getRoomDbInstance(getActivity());
+                    mUserEntries = dbClass.userDao().getAllUsers();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            UserMasterAdapter adapter = new UserMasterAdapter(getActivity(), mUserEntries, fm);
+                            recyclerView.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+
+                }
+            });
+
+
            /* CentralApiCenter.getInstance().getAllUsers(new CentralCallbacks() {
                 @Override
                 public void onSuccess(Object response) {

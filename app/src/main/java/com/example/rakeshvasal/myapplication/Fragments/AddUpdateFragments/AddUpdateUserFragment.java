@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.example.rakeshvasal.myapplication.AppExecutors;
 import com.example.rakeshvasal.myapplication.BaseFragment;
 import com.example.rakeshvasal.myapplication.DatabaseHelper.RoomDbClass;
 import com.example.rakeshvasal.myapplication.DbUser;
@@ -34,8 +35,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class AddUpdateUserFragment extends BaseFragment {
 
@@ -105,12 +108,12 @@ public class AddUpdateUserFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
 
-                String name = et_name.getText().toString();
-                String contact = et_contact_no.getText().toString();
-                String email = email_id.getText().toString();
-                String branch = et_branch.getText().toString();
-                String courseyear = course_year.getText().toString();
-                String password = et_password.getText().toString();
+                final String name = et_name.getText().toString();
+                final String contact = et_contact_no.getText().toString();
+                final String email = email_id.getText().toString();
+                final String branch = et_branch.getText().toString();
+                final String courseyear = course_year.getText().toString();
+                final String password = et_password.getText().toString();
 
                 if (googleid == null || googleid.equalsIgnoreCase("")) {
                     int id = (int) System.currentTimeMillis();
@@ -124,12 +127,21 @@ public class AddUpdateUserFragment extends BaseFragment {
                 }
                 int id = role_group.getCheckedRadioButtonId();
                 RadioButton radioButton = (RadioButton) view1.findViewById(id);
-                String role = radioButton.getText().toString();
+                final String role = radioButton.getText().toString();
+                if (user_id == null) {
+                    Random random = new Random();
+                    user_id = "" + random.nextLong();
+                }
+                final User user = new User(name, email, user_id, photourl, contact, branch, courseyear, password, googleid, role);
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
 
+                        RoomDbClass dbClass = RoomDbClass.getRoomDbInstance(getActivity());
+                        dbClass.userDao().addUser(user);
+                    }
+                });
 
-                User user = new User(name, email, user_id, photourl, contact, branch, courseyear, password, googleid, role);
-                RoomDbClass dbClass = RoomDbClass.getRoomDbInstance(getActivity());
-                dbClass.userDao().addUser(user);
                 //AddUpdateUser(user/*,param,value*/);
             }
         });
