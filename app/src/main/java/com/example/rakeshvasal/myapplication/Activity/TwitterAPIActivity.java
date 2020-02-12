@@ -13,8 +13,6 @@ import com.example.rakeshvasal.myapplication.R;
 
 public class TwitterAPIActivity extends BaseActivity {
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -1,6 +1,7 @@
 package com.example.rakeshvasal.myapplication.Activity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,8 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.rakeshvasal.myapplication.Activity.RemindersPackage.RemindersActivity;
 import com.example.rakeshvasal.myapplication.ErrorHandlingClass;
 import com.example.rakeshvasal.myapplication.R;
 import com.example.rakeshvasal.myapplication.Services.FusedLocationService;
@@ -26,7 +30,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleApiClient mGoogleApiClient;
-
+    private Context mContext = Dashboard.this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,9 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
             Intent intent1 = new Intent(Dashboard.this, FusedLocationService.class);
             startService(intent1);
         }
+
+        LinearLayout linearContainer = findViewById(R.id.linearContainer);
+
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -178,7 +185,6 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Dashboard.this, TwitterAPIActivity.class);
-
                 startActivity(intent);
 
             }
@@ -187,16 +193,24 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
         tv_gContacts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                shortToast("No Activity Defined");
             }
         });
+
+        TextView tv_reminders = findViewById(R.id.tv_reminders);
+        tv_reminders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Dashboard.this, RemindersActivity.class);
+                startActivity(intent);
+            }
+        });
+
         TextView test = findViewById(R.id.tv_test);
         test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Dashboard.this, TwitterAPIActivity.class);
-
-                startActivity(intent);
-                //shortToast("No Activity Defined");
+                shortToast("No Activity Defined");
 
             }
         });
@@ -300,6 +314,19 @@ public class Dashboard extends BaseActivity implements GoogleApiClient.OnConnect
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    private TextView createTextView(){
+        TextView tv = new TextView(mContext);
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT, // Width of TextView
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        tv.setLayoutParams(lp);
+        tv.setTextSize(16);
+        tv.setText("Demo");
+        tv.setTextAppearance(mContext,R.style.MyLinearayoutStyle);
+
+        return tv;
     }
 }
 

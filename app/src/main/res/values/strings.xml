@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">RV_MyApplication</string>
 
     <string name="loading">Please Wait....</string>
     <string name="Dashboard">Dashboard</string>
@@ -77,4 +77,8 @@
     <string name="MovieDB_Read_Access_Token">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1MWM2NjA2ZGVkNDIxNTgyMjU1OWE0ZmFhNWNjOGE4NCIsInN1YiI6IjVhMWZiNWJhMGUwYTI2NGNjODA4ZGU4YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.44KImEQBt60I6tPALiNkztCwjppnHg7RajkqSZvXDZo</string>
     <string name="Online_Convert_Api_Key">4a3ee30840d00efd2ccb9d6bd12c1ba7</string>
     <string name="Zamzar_Api_Key">ca219890dc4f332207a4cc3e399b2c1d2b2f4061</string>
+    <string name="date_place_holder">DD/MM/YYYY</string>
+    <string name="added_for">Added For</string>
+    <string name="add_event_hint">Write Event Here</string>
+    <string name="btn_add_event">Add Event</string>
 </resources>

@@ -19,5 +19,5 @@
     <color name="yellow">#FFEB3B</color>
     <color name="background_indigo">#7986CB</color>
     <color name="errorText">#ff7878</color>
-    <color name="blur_background_1">#ECEFF1</color>
+    <color name="blur_background_1">#EEEEEE</color>
 </resources>
