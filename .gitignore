@@ -16,3 +16,6 @@ app/libs/
 .idea
 public/404.html
 public/index.html
+.idea/modules.xml
+.idea/misc.xml
+.idea/gradle.xml
