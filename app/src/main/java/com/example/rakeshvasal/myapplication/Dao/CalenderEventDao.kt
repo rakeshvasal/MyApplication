@@ -18,6 +18,6 @@ interface CalenderEventDao {
     @Delete
     fun delete(user: CalenderEvent)
 
-    @Query("")
-    fun findByName(first: String, last: String): CalenderEvent
+    /*@Query("SELECT * FROM calenderevent")
+    fun findByName(first: String, last: String): CalenderEvent*/
 }

@@ -1,9 +1,11 @@
 package com.example.rakeshvasal.myapplication.GetterSetter;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
+
+
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
@@ -12,7 +14,8 @@ import java.io.Serializable;
  */
 @Entity(tableName = "users")
 public class User implements Serializable {
-    public @PrimaryKey @NonNull
+    public @PrimaryKey
+    @NonNull
     String user_id;
     String user_name,user_email,photourl,contact_no,branch,course_year,password,googleid,role;
 

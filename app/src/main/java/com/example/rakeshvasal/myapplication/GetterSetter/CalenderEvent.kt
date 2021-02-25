@@ -5,7 +5,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
-import java.util.*
+
 
 @Entity
 class CalenderEvent : Serializable {
@@ -13,33 +13,33 @@ class CalenderEvent : Serializable {
     var id: Long=0
     @ColumnInfo(name = "serverId")
     var serverId: String? = null
-    @ColumnInfo(name = "first_name")
+    @ColumnInfo(name = "type")
     var type = 0
-    @ColumnInfo(name = "first_name")
+    @ColumnInfo(name = "eventDescription")
     var eventDescription: String? = null
-    @ColumnInfo(name = "first_name")
-    var eventDateTime: Date? = null
-    @ColumnInfo(name = "first_name")
+    @ColumnInfo(name = "eventStringTime")
+    var eventStringTime: String? = null
+    @ColumnInfo(name = "contactName")
     var contactName: String? = null
-    @ColumnInfo(name = "first_name")
-    var relatedEntities: List<String>? = null
-    @ColumnInfo(name = "first_name")
-    var createdOn: Date? = null
-    @ColumnInfo(name = "first_name")
-    var modifiedOn: Date? = null
-    @ColumnInfo(name = "first_name")
+    /*@ColumnInfo(name = "relatedEntities")
+    var relatedEntities: List<String>? = null*/
+    @ColumnInfo(name = "createdOn")
+    var createdOn: String? = null
+    @ColumnInfo(name = "modifiedOn")
+    var modifiedOn: String? = null
+    @ColumnInfo(name = "createdBy")
     var createdBy: String? = null
-    @ColumnInfo(name = "first_name")
+    @ColumnInfo(name = "modifiedBy")
     var modifiedBy: String? = null
-    @ColumnInfo(name = "first_name")
+    @ColumnInfo(name = "eventTenureType")
     var eventTenureType = 0
 
-    override fun toString(): String {
+    /*override fun toString(): String {
         return "CalenderEvent{" +
                 "id=" + id +
                 ", type=" + type +
                 ", eventDescription='" + eventDescription + '\'' +
-                ", eventDateTime=" + eventDateTime +
+                ", eventStringTime=" + eventStringTime +
                 ", contactName='" + contactName + '\'' +
                 ", relatedEntities=" + relatedEntities +
                 ", createdOn=" + createdOn +
@@ -48,5 +48,5 @@ class CalenderEvent : Serializable {
                 ", modifiedBy='" + modifiedBy + '\'' +
                 ", eventTenureType=" + eventTenureType +
                 '}'
-    }
+    }*/
 }

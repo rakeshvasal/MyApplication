@@ -44,7 +44,6 @@ public interface ApiInterface {
             @Query("order") String order,
     );*/
 
-
     @POST("cricketScore/")
     Call<JsonObject> getScore(@Query ("apikey") String apiKey, @Query ("unique_id") String unique_id);
 
@@ -62,7 +61,6 @@ public interface ApiInterface {
 
     @POST("playerStats/")
     Call<JsonObject> getPlayerDetails(@Query ("apikey") String apikey, @Query ("pid") String pid);
-
 
     @GET(Utils.TWITTER_HASHTAG_SEARCH_CODE )
     Call<TweetList> getTweetList(

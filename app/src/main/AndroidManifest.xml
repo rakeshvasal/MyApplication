@@ -118,7 +118,7 @@
             android:authorities="com.facebook.app.FacebookContentProvider148851038810437"
             android:exported="true" />
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">

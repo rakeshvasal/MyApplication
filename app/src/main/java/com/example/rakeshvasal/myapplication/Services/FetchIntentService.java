@@ -3,8 +3,10 @@ package com.example.rakeshvasal.myapplication.Services;
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.SystemClock;
-import android.support.v4.content.LocalBroadcastManager;
+
 import android.util.Log;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.rakeshvasal.myapplication.Activity.MultiThreadingTestActiivity;
 import com.example.rakeshvasal.myapplication.ApiClient;

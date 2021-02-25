@@ -2,9 +2,12 @@ package com.example.rakeshvasal.myapplication.Activity;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -27,7 +30,7 @@ public class FacebookSdkActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FragmentManager fm = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
+        FragmentTransaction transaction = fm.beginTransaction();
         Fragment fragment = new FacebookFragment();
         transaction.add(R.id.fragment_container, fragment);
         transaction.addToBackStack(null);

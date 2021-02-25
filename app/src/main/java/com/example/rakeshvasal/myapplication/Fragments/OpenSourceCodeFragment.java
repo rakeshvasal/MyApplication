@@ -5,10 +5,12 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebView;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.example.rakeshvasal.myapplication.R;
 
